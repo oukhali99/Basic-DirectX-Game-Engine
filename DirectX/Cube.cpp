@@ -8,9 +8,6 @@ Cube::Cube(ID3D11Device& pDevice, ID3D11DeviceContext& pContext, Transform trans
 }
 
 Cube::~Cube() {
-    // Unmap from the resources
-    pContext.Unmap(pCTransformationBuffer, 0u);
-
     pVBuffer->Release();
     pIBuffer->Release();
     pCTransformationBuffer->Release();
@@ -100,10 +97,6 @@ void Cube::InitGraphics() {
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
     GFX_THROW_INFO(pDevice.CreateBuffer(&bd, &rd, &pIBuffer));
 
-    // Map the constant buffer onto our mapped constant buffer
-    ZeroMemory(&mCBuffer, sizeof(D3D11_MAPPED_SUBRESOURCE));
-    pContext.Map(pCTransformationBuffer, 0u, D3D11_MAP_WRITE_DISCARD, 0u, &mCBuffer);
-
     // select which primtive type we are using
     pContext.IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
@@ -132,8 +125,15 @@ void Cube::RenderFrame() {
         )
     };
 
+    // Map the constant buffer onto our mapped constant buffer
+    ZeroMemory(&mCBuffer, sizeof(D3D11_MAPPED_SUBRESOURCE));
+    pContext.Map(pCTransformationBuffer, 0u, D3D11_MAP_WRITE_DISCARD, 0u, &mCBuffer);
+
     // Copy the data onto the map
     memcpy(mCBuffer.pData, &cb, sizeof(cb));
+
+    // Unmap from the resources
+    pContext.Unmap(pCTransformationBuffer, 0u);
 
     // draw the vertex buffer to the back buffer
     pContext.DrawIndexed(36u, 0u, 0u);

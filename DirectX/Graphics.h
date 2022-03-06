@@ -38,11 +38,12 @@ private:
     ID3D11VertexShader* pVS;                    // the vertex shader
     ID3D11PixelShader* pPS;                     // the pixel shader
     ID3D11InputLayout* pLayout;                 // global
-    unsigned short* indices;
-    unsigned short indexCount;
+    ID3D11DepthStencilView* pDSView;
+
     std::vector<Shape*> shapes;
 
     void InitD3D();
     void InitPipeline();
+    void InitGraphics();
     void HandleError(HRESULT hr, const char* file, const long long line);
 };

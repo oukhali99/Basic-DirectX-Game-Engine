@@ -2,13 +2,12 @@
 #include "Mouse.h"
 
 Graphics::Graphics(HWND hWnd)
-    : 
-    indices(indices),
-    indexCount(indexCount),
+    :
     hWnd(hWnd)
 {
     InitD3D();
     InitPipeline();
+    InitGraphics();
 }
 
 Graphics::~Graphics() {
@@ -21,6 +20,7 @@ Graphics::~Graphics() {
     backbuffer->Release();
     pVS->Release();
     pPS->Release();
+    pDSView->Release();
 }
 
 
@@ -46,22 +46,23 @@ void Graphics::InitD3D()
     ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
 
     // fill the swap chain description struct
-    scd.BufferCount = 1;                                    // one back buffer
+    scd.BufferCount = 1u;                                   // one back buffer
     scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;     // use 32-bit color
     scd.BufferDesc.Width = SCREEN_WIDTH;                    // set the back buffer width
     scd.BufferDesc.Height = SCREEN_HEIGHT;                  // set the back buffer height
     scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;      // how swap chain is to be used
     scd.OutputWindow = hWnd;                                // the window to be used
-    scd.SampleDesc.Count = 4;                               // how many multisamples
+    scd.SampleDesc.Count = 4u;                              // how many multisamples
     scd.Windowed = TRUE;                                    // windowed/full-screen mode
     scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;     // allow full-screen switching
+    scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
     // create a device, device context and swap chain using the information in the scd struct
     GFX_THROW_INFO(D3D11CreateDeviceAndSwapChain(
         NULL,
         D3D_DRIVER_TYPE_HARDWARE,
         NULL,
-        NULL,
+        D3D11_CREATE_DEVICE_DEBUG,
         NULL,
         NULL,
         D3D11_SDK_VERSION,
@@ -79,9 +80,6 @@ void Graphics::InitD3D()
     // use the back buffer address to create the render target
     GFX_THROW_INFO(pDevice->CreateRenderTargetView(pBackBuffer, NULL, &backbuffer));
     pBackBuffer->Release();
-
-    // set the render target as the back buffer
-    pContext->OMSetRenderTargets(1, &backbuffer, NULL);
 
     // Create the viewport
     D3D11_VIEWPORT viewport;
@@ -122,12 +120,50 @@ void Graphics::InitPipeline() {
     pContext->IASetInputLayout(pLayout);    
 }
 
+void Graphics::InitGraphics() {
+    // Create the depth stencil state
+    ID3D11DepthStencilState* pDSState;
+    D3D11_DEPTH_STENCIL_DESC dsd;
+    ZeroMemory(&dsd, sizeof(dsd));
+    dsd.DepthEnable = true;
+    dsd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+    dsd.DepthFunc = D3D11_COMPARISON_LESS;
+    GFX_THROW_INFO(pDevice->CreateDepthStencilState(&dsd, &pDSState));
+    pContext->OMSetDepthStencilState(pDSState, 1u);
+
+    // Create the depth stencil texture
+    ID3D11Texture2D* pDepthStencilTexture;
+    D3D11_TEXTURE2D_DESC td;
+    ZeroMemory(&td, sizeof(td));
+    td.Width = SCREEN_WIDTH;
+    td.Height = SCREEN_HEIGHT;
+    td.MipLevels = 1u;
+    td.ArraySize = 1u;
+    td.Format = DXGI_FORMAT_D32_FLOAT;                      // Shape::Transform.z is a float (32bit)
+    td.SampleDesc.Count = 4u;
+    td.SampleDesc.Quality = 0u;
+    td.Usage = D3D11_USAGE_DEFAULT;
+    td.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+    GFX_THROW_INFO(pDevice->CreateTexture2D(&td, NULL, &pDepthStencilTexture));
+
+    // Create the depth stencil view
+    D3D11_DEPTH_STENCIL_VIEW_DESC dsvd;
+    ZeroMemory(&dsvd, sizeof(dsvd));
+    dsvd.Format = DXGI_FORMAT_D32_FLOAT;
+    dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
+    dsvd.Texture2D.MipSlice = 0u;
+    GFX_THROW_INFO(pDevice->CreateDepthStencilView(pDepthStencilTexture, &dsvd, &pDSView));
+
+    pContext->OMSetRenderTargets(1u, &backbuffer, pDSView);
+}
+
 // this is the function used to render a single frame
 void Graphics::RenderFrame()
 {
     // clear the back buffer to a deep blue
     float color[4] = { 0.3f, 0.1f, 1.0f, 1.0f };
     pContext->ClearRenderTargetView(backbuffer, color);
+    pContext->ClearDepthStencilView(pDSView, D3D11_CLEAR_DEPTH, 1.0f, 0u);
 
     // Render all the shapes
     for (Shape* shape : shapes) {
