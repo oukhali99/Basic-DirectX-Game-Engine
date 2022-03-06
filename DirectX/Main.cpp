@@ -2,6 +2,7 @@
 #include "Main.h"
 #include "Cube.h"
 #include "Clock.h"
+#include "Mouse.h"
 
 Graphics* gfx;
 
@@ -59,23 +60,25 @@ int WINAPI WinMain(
         gfx = new Graphics(hWnd);
 
         Shape::Transform cube1Transform;
-        cube1Transform.x = -2.0f;
+        cube1Transform.x = 0.0f;
         cube1Transform.y = 0.0f;
         cube1Transform.z = 6.0f; 
-        cube1Transform.xRot = 0.0f;
+        cube1Transform.xRot = 2.0f;
         cube1Transform.yRot = 3.0f;
-        cube1Transform.zRot = 0.0f;
+        cube1Transform.zRot = 1.0f;
         Shape* cube1 = new Cube(*gfx->GetPDevice(), *gfx->GetPContext(), cube1Transform);
-        gfx->AddShape(cube1);
+        cube1->followMouse = true;
 
-        cube1Transform.x = 2.0f;
+        cube1Transform.x = 0.0f;
         cube1Transform.y = 0.0f;
         cube1Transform.z = 6.0f;
         cube1Transform.xRot = 3.0f;
         cube1Transform.yRot = 0.0f;
         cube1Transform.zRot = 0.0f;
         Shape* cube2 = new Cube(*gfx->GetPDevice(), *gfx->GetPContext(), cube1Transform);
+
         gfx->AddShape(cube2);
+        gfx->AddShape(cube1);
 
         // this struct holds Windows event messages
         MSG msg = { 0 };
@@ -93,8 +96,12 @@ int WINAPI WinMain(
             }
             else {
                 const float t = Clock::GetSingleton().GetTimeSinceStart();
+
+                const Mouse::Position mp = Mouse::GetSingleton(hWnd).GetPosition();
+
                 std::ostringstream oss;
-                oss << "Time elapsed: " << std::fixed << t << "s";
+                //oss << "Time elapsed: " << std::fixed << t << "s";
+                oss << "Mouse Position: " << std::fixed << "(" << mp.x << ", " << mp.y << ")";
                 SetWindowTextA(hWnd, oss.str().c_str());
 
                 gfx->RenderFrame();

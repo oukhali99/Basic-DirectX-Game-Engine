@@ -1,14 +1,18 @@
 #include "Main.h"
 #include "Shape.h"
 #include "Clock.h"
+#include "Mouse.h"
 
 class Cube : public Shape {
 public:
 	Cube(ID3D11Device& pDevice, ID3D11DeviceContext& pContext, Transform transform);
     ~Cube();
 
+    bool followMouse;
+
     void RenderFrame() override;
-    void ButtonPressed(WPARAM wParam) override;
+    void OnButtonPressed(WPARAM wParam) override;
+    void OnMouseMovedTo(Mouse::Position position) override;
 private:
     struct ConstantBuffer {
         dx::XMMATRIX transformation;

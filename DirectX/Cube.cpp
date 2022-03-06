@@ -128,7 +128,7 @@ void Cube::RenderFrame() {
             dx::XMMatrixRotationY(transform.yRot * t) *
             dx::XMMatrixRotationZ(transform.zRot * t) *
             dx::XMMatrixTranslation(transform.x, transform.y, transform.z) *
-            dx::XMMatrixPerspectiveLH(1.0f, squeeze, 0.5f, 10.0f)
+            dx::XMMatrixPerspectiveLH(1.0f, squeeze, 0.5f, 20.0f)
         )
     };
 
@@ -139,7 +139,7 @@ void Cube::RenderFrame() {
     pContext.DrawIndexed(36u, 0u, 0u);
 }
 
-void Cube::ButtonPressed(WPARAM wParam) {
+void Cube::OnButtonPressed(WPARAM wParam) {
     float increment = 0.1f;
 
     if (wParam == 'w') {
@@ -154,4 +154,9 @@ void Cube::ButtonPressed(WPARAM wParam) {
     else if (wParam == 'a') {
         transform.x -= increment;
     }
+}
+
+void Cube::OnMouseMovedTo(Mouse::Position position) {
+    transform.x = 6 * position.x;
+    transform.z = 20 * position.y;
 }

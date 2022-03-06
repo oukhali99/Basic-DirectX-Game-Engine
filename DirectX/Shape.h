@@ -2,6 +2,7 @@
 #define SHAPE_H
 
 #include "Main.h"
+#include "Mouse.h"
 
 class Shape {
 public:
@@ -14,8 +15,13 @@ public:
 		float x, y, z;
 	};
 
+	bool followMouse;
+
 	virtual void RenderFrame() = 0;
-	virtual void ButtonPressed(WPARAM wParam) = 0;
+	virtual void OnButtonPressed(WPARAM wParam) = 0;
+	virtual void OnMouseMovedTo(Mouse::Position position) = 0;
+
+	void MouseMovedTo(Mouse::Position position);
 protected:
 	Shape(ID3D11Device& pDevice, ID3D11DeviceContext& pContext, Transform transform);
 	~Shape();

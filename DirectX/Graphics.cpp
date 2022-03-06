@@ -1,4 +1,5 @@
 #include "Graphics.h"
+#include "Mouse.h"
 
 Graphics::Graphics(HWND hWnd)
     : 
@@ -89,7 +90,6 @@ void Graphics::InitD3D()
     viewport.TopLeftY = 0;
     viewport.Width = SCREEN_WIDTH;
     viewport.Height = SCREEN_HEIGHT;
-
     // Set the viewport
     pContext->RSSetViewports(1, &viewport);
 }
@@ -131,6 +131,11 @@ void Graphics::RenderFrame()
 
     // Render all the shapes
     for (Shape* shape : shapes) {
+        // Get the mouse position
+        Mouse::Position mousePosition = Mouse::GetSingleton(hWnd).GetPosition();
+
+        shape->MouseMovedTo(mousePosition);
+
         shape->RenderFrame();
     }
 
@@ -140,7 +145,7 @@ void Graphics::RenderFrame()
 
 void Graphics::ButtonPressed(WPARAM wParam) {
     for (Shape* shape : shapes) {
-        shape->ButtonPressed(wParam);
+        shape->OnButtonPressed(wParam);
     }
 }
 
