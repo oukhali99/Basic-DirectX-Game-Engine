@@ -1,17 +1,13 @@
 #include "Graphics.h"
 
-Graphics::Graphics(HWND hWnd, unsigned short* indices, unsigned short indexCount)
+Graphics::Graphics(HWND hWnd)
     : 
     indices(indices),
     indexCount(indexCount),
-    cube1(0),
-    cube2(0)
+    hWnd(hWnd)
 {
-    InitD3D(hWnd);
+    InitD3D();
     InitPipeline();
-
-    cube1 = new Cube(pDevice, pContext);
-    cube2 = new Cube(pDevice, pContext);
 }
 
 Graphics::~Graphics() {
@@ -24,13 +20,25 @@ Graphics::~Graphics() {
     backbuffer->Release();
     pVS->Release();
     pPS->Release();
-
-    delete cube1;
-    delete cube2;
 }
 
+
+ID3D11Device* Graphics::GetPDevice() {
+    return pDevice;
+}
+
+ID3D11DeviceContext* Graphics::GetPContext() {
+    return pContext;
+}
+
+
+void Graphics::AddShape(Shape* shape) {
+    shapes.push_back(shape);
+}
+
+
 // this function initializes and prepares Direct3D for use
-void Graphics::InitD3D(HWND hWnd)
+void Graphics::InitD3D()
 {
     // create a struct to hold information about the swap chain
     DXGI_SWAP_CHAIN_DESC scd;
@@ -115,17 +123,25 @@ void Graphics::InitPipeline() {
 }
 
 // this is the function used to render a single frame
-void Graphics::RenderFrame(float angle, float xTranslation, float yTranslation)
+void Graphics::RenderFrame()
 {
     // clear the back buffer to a deep blue
     float color[4] = { 0.3f, 0.1f, 1.0f, 1.0f };
     pContext->ClearRenderTargetView(backbuffer, color);
 
-    cube1->RenderFrame(angle, -xTranslation, -yTranslation, 2, 3, 1);
-    cube2->RenderFrame(angle, xTranslation, yTranslation, 1, 2, 3);
+    // Render all the shapes
+    for (Shape* shape : shapes) {
+        shape->RenderFrame();
+    }
 
     // switch the back buffer and the front buffer
     GFX_THROW_INFO(swapchain->Present(0u, 0u));
+}
+
+void Graphics::ButtonPressed(WPARAM wParam) {
+    for (Shape* shape : shapes) {
+        shape->ButtonPressed(wParam);
+    }
 }
 
 void Graphics::HandleError(HRESULT hr, const char* file, const long long line) {

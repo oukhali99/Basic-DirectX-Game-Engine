@@ -1,9 +1,15 @@
+#include <vector>
+#include <cmath>
+#include <exception>
+#include <stdexcept>
+#include <comdef.h>
+#include <string>
+#include <chrono>
+#include <sstream>
 #include <Windows.h>
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
-#include <string>
-#include <sstream>
 
 namespace dx = DirectX;
 

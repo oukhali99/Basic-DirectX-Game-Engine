@@ -1,20 +1,9 @@
-#include <Windows.h>
-#include <d3d11.h>
-#include <d3dcompiler.h>
-#include <cmath>
-#include <exception>
-#include <stdexcept>
-#include <comdef.h>
-#include <atlstr.h>
-#include <string>
-#include <chrono>
-#include <sstream>
-
 #include "Graphics.h"
 #include "Main.h"
+#include "Cube.h"
+#include "Clock.h"
 
-// global declarations
-float xTranslation, yTranslation;
+Graphics* gfx;
 
 // function prototypes
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -66,23 +55,32 @@ int WINAPI WinMain(
         // display the window on the screen
         ShowWindow(hWnd, nCmdShow);
 
-        unsigned short indices[] = {
-            0, 1, 2, 3, 0, 2,
-            4, 6, 5, 6, 4, 7,
-            0, 4, 1, 1, 4, 5,
-            3, 6, 7, 3, 2, 6,
-            3, 7, 0, 0, 7, 4,
-            2, 5, 6, 1, 5, 2,
-        };
-
         // set up and initialize Direct3D
-        Graphics gfx(hWnd, indices, sizeof(indices) / sizeof(unsigned short));
+        gfx = new Graphics(hWnd);
+
+        Shape::Transform cube1Transform;
+        cube1Transform.x = -2.0f;
+        cube1Transform.y = 0.0f;
+        cube1Transform.z = 6.0f; 
+        cube1Transform.xRot = 0.0f;
+        cube1Transform.yRot = 3.0f;
+        cube1Transform.zRot = 0.0f;
+        Shape* cube1 = new Cube(*gfx->GetPDevice(), *gfx->GetPContext(), cube1Transform);
+        gfx->AddShape(cube1);
+
+        cube1Transform.x = 2.0f;
+        cube1Transform.y = 0.0f;
+        cube1Transform.z = 6.0f;
+        cube1Transform.xRot = 3.0f;
+        cube1Transform.yRot = 0.0f;
+        cube1Transform.zRot = 0.0f;
+        Shape* cube2 = new Cube(*gfx->GetPDevice(), *gfx->GetPContext(), cube1Transform);
+        gfx->AddShape(cube2);
 
         // this struct holds Windows event messages
         MSG msg = { 0 };
 
         // wait for the next message in the queue, store the result in 'msg'
-        auto startTime = std::chrono::steady_clock::now();
         while (true)
         {
             if (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE)) {
@@ -94,14 +92,16 @@ int WINAPI WinMain(
                 }
             }
             else {
-                const float t = std::chrono::duration<float>(std::chrono::steady_clock::now() - startTime).count();
+                const float t = Clock::GetSingleton().GetTimeSinceStart();
                 std::ostringstream oss;
                 oss << "Time elapsed: " << std::fixed << t << "s";
                 SetWindowTextA(hWnd, oss.str().c_str());
 
-                gfx.RenderFrame(t, xTranslation, yTranslation);
+                gfx->RenderFrame();
             }
         }
+
+        delete gfx;
 
         if (msg.wParam < 0) {
             throw new std::exception((const char*)GetLastError());
@@ -128,18 +128,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
         PostQuitMessage(0);
         break;
     case WM_CHAR:
-        if (wParam == 'w') {
-            yTranslation += 1.0f / 5.0f;
-        }
-        else if (wParam == 's') {
-            yTranslation -= 1.0f / 5.0f;
-        }
-        else if (wParam == 'a') {
-            xTranslation -= 1.0f / 5.0f;
-        }
-        else if (wParam == 'd') {
-            xTranslation += 1.0f / 5.0f;
-        }
+        gfx->ButtonPressed(wParam);
     }
 
     // Handle any messages the switch statement didn't

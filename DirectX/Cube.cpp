@@ -1,16 +1,15 @@
 #include "Cube.h"
 
-Cube::Cube(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+Cube::Cube(ID3D11Device& pDevice, ID3D11DeviceContext& pContext, Transform transform)
     :
-    pDevice(pDevice),
-    pContext(pContext)
+    Shape(pDevice, pContext, transform)
 {
-	InitGraphics();
+    InitGraphics();
 }
 
 Cube::~Cube() {
     // Unmap from the resources
-    pContext->Unmap(pCTransformationBuffer, 0u);
+    pContext.Unmap(pCTransformationBuffer, 0u);
 
     pVBuffer->Release();
     pIBuffer->Release();
@@ -21,22 +20,6 @@ Cube::~Cube() {
 void Cube::InitGraphics() {
     // Create a resource for the vertices
     const VERTEX OurVertices[] = {
-        // PYRAMID VERTICES
-        /*
-        {0.0f, 1.0f, 0.0f,
-        255u, 0u, 0u, 255u},
-
-        {0.5f, -0.5, 0.0f,
-        0u, 255u, 0u, 255u},
-
-        {-0.5f, -0.5f, 0.0f,
-        0u, 0u, 255u, 255u},
-
-        {0.0f, 0.0f, 0.6f,
-        255u, 255u, 255u, 255u},
-        */
-
-        // CUBE VERTICES
         {1.0f, 1.0f, -1.0f},
 
         {1.0f, -1.0f, -1.0f},
@@ -64,7 +47,7 @@ void Cube::InitGraphics() {
     bd.ByteWidth = sizeof(OurVertices);             // size is the VERTEX struct * 3
     bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
-    GFX_THROW_INFO(pDevice->CreateBuffer(&bd, &rd, &pVBuffer));       // create the buffer
+    GFX_THROW_INFO(pDevice.CreateBuffer(&bd, &rd, &pVBuffer));       // create the buffer
 
     // Create the rotation constant buffer
     ZeroMemory(&bd, sizeof(bd));
@@ -72,7 +55,7 @@ void Cube::InitGraphics() {
     bd.Usage = D3D11_USAGE_DYNAMIC;
     bd.ByteWidth = sizeof(ConstantBuffer);
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    GFX_THROW_INFO(pDevice->CreateBuffer(&bd, NULL, &pCTransformationBuffer));
+    GFX_THROW_INFO(pDevice.CreateBuffer(&bd, NULL, &pCTransformationBuffer));
 
     // Create the face color resource
     FaceColors fc = {
@@ -94,16 +77,10 @@ void Cube::InitGraphics() {
     bd.Usage = D3D11_USAGE_DYNAMIC;
     bd.ByteWidth = sizeof(FaceColors);
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    GFX_THROW_INFO(pDevice->CreateBuffer(&bd, &rd, &pCFaceColorBuffer));
+    GFX_THROW_INFO(pDevice.CreateBuffer(&bd, &rd, &pCFaceColorBuffer));
 
     // Create index resource
     unsigned short indices[] = {
-            0, 1, 2, 3, 0, 2,
-            4, 6, 5, 6, 4, 7,
-            0, 4, 1, 1, 4, 5,
-            3, 6, 7, 3, 2, 6,
-            3, 7, 0, 0, 7, 4,
-            2, 5, 6, 1, 5, 2,
             0, 1, 2, 3, 0, 2,
             4, 6, 5, 6, 4, 7,
             0, 4, 1, 1, 4, 5,
@@ -121,33 +98,36 @@ void Cube::InitGraphics() {
     bd.StructureByteStride = sizeof(unsigned short);
     bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    GFX_THROW_INFO(pDevice->CreateBuffer(&bd, &rd, &pIBuffer));
+    GFX_THROW_INFO(pDevice.CreateBuffer(&bd, &rd, &pIBuffer));
 
     // Map the constant buffer onto our mapped constant buffer
     ZeroMemory(&mCBuffer, sizeof(D3D11_MAPPED_SUBRESOURCE));
-    pContext->Map(pCTransformationBuffer, 0u, D3D11_MAP_WRITE_DISCARD, 0u, &mCBuffer);
+    pContext.Map(pCTransformationBuffer, 0u, D3D11_MAP_WRITE_DISCARD, 0u, &mCBuffer);
 
     // select which primtive type we are using
-    pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    pContext.IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
-void Cube::RenderFrame(float angle, float xTranslation, float yTranslation, float xRot, float yRot, float zRot) {
+void Cube::RenderFrame() {
+    // Get the time
+    float t = Clock::GetSingleton().GetTimeSinceStart();
+
     // select which buffers to use
     UINT stride = sizeof(VERTEX);
     UINT offset = 0u;
-    pContext->IASetVertexBuffers(0, 1u, &pVBuffer, &stride, &offset);
-    pContext->IASetIndexBuffer(pIBuffer, DXGI_FORMAT_R16_UINT, 0u);
-    pContext->VSSetConstantBuffers(0, 1u, &pCTransformationBuffer);
-    pContext->PSSetConstantBuffers(0, 1u, &pCFaceColorBuffer);
+    pContext.IASetVertexBuffers(0, 1u, &pVBuffer, &stride, &offset);
+    pContext.IASetIndexBuffer(pIBuffer, DXGI_FORMAT_R16_UINT, 0u);
+    pContext.VSSetConstantBuffers(0, 1u, &pCTransformationBuffer);
+    pContext.PSSetConstantBuffers(0, 1u, &pCFaceColorBuffer);
 
     // Create the rotation constant
     float squeeze = (float)SCREEN_HEIGHT / (float)SCREEN_WIDTH;
     const ConstantBuffer cb = {
         dx::XMMatrixTranspose(
-            dx::XMMatrixRotationX(xRot * angle) *
-            dx::XMMatrixRotationY(yRot * angle) *
-            dx::XMMatrixRotationZ(zRot * angle) *
-            dx::XMMatrixTranslation(xTranslation, yTranslation, 7.0f) *
+            dx::XMMatrixRotationX(transform.xRot * t) *
+            dx::XMMatrixRotationY(transform.yRot * t) *
+            dx::XMMatrixRotationZ(transform.zRot * t) *
+            dx::XMMatrixTranslation(transform.x, transform.y, transform.z) *
             dx::XMMatrixPerspectiveLH(1.0f, squeeze, 0.5f, 10.0f)
         )
     };
@@ -156,34 +136,22 @@ void Cube::RenderFrame(float angle, float xTranslation, float yTranslation, floa
     memcpy(mCBuffer.pData, &cb, sizeof(cb));
 
     // draw the vertex buffer to the back buffer
-    pContext->DrawIndexed(36u, 0u, 0u);
+    pContext.DrawIndexed(36u, 0u, 0u);
 }
 
-void Cube::HandleError(HRESULT hr, const char* file, const long long line) {
-    std::stringstream ss;
+void Cube::ButtonPressed(WPARAM wParam) {
+    float increment = 0.1f;
 
-    // Exception line
-    ss << "Exception on line " << line << std::endl;
-
-    // Exception file
-    ss << "File: " << file << std::endl;
-
-    // Error code
-    ss << "Error code: " << "0x" << std::hex << hr << std::endl;
-
-    // Error description
-    char errorMessage[50];
-    FormatMessageA(
-        FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-        NULL,
-        hr,
-        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-        errorMessage,
-        sizeof(errorMessage) / sizeof(errorMessage[0]),
-        NULL
-    );
-
-    ss << "Description: " << errorMessage << std::endl;
-
-    throw new std::exception(ss.str().c_str());
+    if (wParam == 'w') {
+        transform.y += increment;
+    }
+    else if (wParam == 's') {
+        transform.y -= increment;
+    }
+    else if (wParam == 'd') {
+        transform.x += increment;
+    }
+    else if (wParam == 'a') {
+        transform.x -= increment;
+    }
 }
