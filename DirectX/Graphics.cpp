@@ -88,6 +88,8 @@ void Graphics::InitD3D()
     viewport.TopLeftY = 0;
     viewport.Width = SCREEN_WIDTH;
     viewport.Height = SCREEN_HEIGHT;
+    viewport.MaxDepth = 1.0f;
+    viewport.MinDepth = 0.0f;
     // Set the viewport
     pContext->RSSetViewports(1, &viewport);
 }
