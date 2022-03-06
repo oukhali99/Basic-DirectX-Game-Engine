@@ -73,12 +73,6 @@ int WINAPI WinMain(
             3, 6, 7, 3, 2, 6,
             3, 7, 0, 0, 7, 4,
             2, 5, 6, 1, 5, 2,
-            0, 1, 2, 3, 0, 2,
-            4, 6, 5, 6, 4, 7,
-            0, 4, 1, 1, 4, 5,
-            3, 6, 7, 3, 2, 6,
-            3, 7, 0, 0, 7, 4,
-            2, 5, 6, 1, 5, 2
         };
 
         // set up and initialize Direct3D
@@ -108,8 +102,6 @@ int WINAPI WinMain(
                 gfx.RenderFrame(t, xTranslation, yTranslation);
             }
         }
-
-        gfx.CleanD3D();
 
         if (msg.wParam < 0) {
             throw new std::exception((const char*)GetLastError());
