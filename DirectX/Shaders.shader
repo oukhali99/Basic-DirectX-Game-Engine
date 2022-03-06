@@ -9,7 +9,7 @@ float4 VShader(float4 position : POSITION) : SV_POSITION
 
 
 cbuffer CBuf {
-    float4 faceColors[6];
+    float4 faceColors[12];
 };
 
 float4 PShader(uint tid: SV_PrimitiveID) : SV_TARGET
