@@ -34,16 +34,6 @@ void Cube::InitGraphics() {
         {-1.0f, 1.0f, 1.0f},
     };
 
-    VertexBuffer* vb = new VertexBuffer(&pContext, &pDevice, OurVertices, sizeof(OurVertices));
-    bindables.push_back(vb);
-
-    TransformConstantBuffer* tcb = new TransformConstantBuffer(&pContext, &pDevice);
-    bindables.push_back(tcb);
-
-    // Create the rotation constant buffer
-    D3D11_BUFFER_DESC bd;
-    
-
     // Create the face color resource
     FaceColors fc = {
         {
@@ -55,19 +45,7 @@ void Cube::InitGraphics() {
             { 1.0f, 1.0f, 0.0f, 1.0f },
         }
     };
-    D3D11_SUBRESOURCE_DATA rd;
-    ZeroMemory(&rd, sizeof(rd));
-    rd.pSysMem = &fc;
 
-    // Create the face color buffer
-    ZeroMemory(&bd, sizeof(bd));
-    bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-    bd.Usage = D3D11_USAGE_DYNAMIC;
-    bd.ByteWidth = sizeof(FaceColors);
-    bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    GFX_THROW_INFO(pDevice.CreateBuffer(&bd, &rd, &pCFaceColorBuffer));
-
-    // Create index resource
     unsigned short indices[] = {
             0, 1, 2, 3, 0, 2,
             4, 6, 5, 6, 4, 7,
@@ -76,17 +54,18 @@ void Cube::InitGraphics() {
             3, 7, 0, 0, 7, 4,
             2, 5, 6, 1, 5, 2,
     };
-    ZeroMemory(&rd, sizeof(rd));
-    rd.pSysMem = indices;
 
-    // Create the index buffer
-    ZeroMemory(&bd, sizeof(bd));
-    bd.Usage = D3D11_USAGE_DYNAMIC;
-    bd.ByteWidth = sizeof(indices);
-    bd.StructureByteStride = sizeof(unsigned short);
-    bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-    bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    GFX_THROW_INFO(pDevice.CreateBuffer(&bd, &rd, &pIBuffer));
+    VertexBuffer* vb = new VertexBuffer(&pContext, &pDevice, OurVertices, sizeof(OurVertices));
+    bindables.push_back(vb);
+
+    TransformConstantBuffer* tcb = new TransformConstantBuffer(&pContext, &pDevice);
+    bindables.push_back(tcb);
+
+    ColorConstantBuffer* ccb = new ColorConstantBuffer(&pContext, &pDevice, fc);
+    bindables.push_back(ccb);
+
+    IndexBuffer* ib = new IndexBuffer(&pContext, &pDevice, indices, sizeof(indices));
+    bindables.push_back(ib);
 
     // select which primtive type we are using
     pContext.IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -102,12 +81,6 @@ void Cube::RenderFrame() {
     for (Bindable* bindable : bindables) {
         bindable->Bind(transform);
     }
-
-    // select which buffers to use
-    UINT stride = sizeof(VERTEX);
-    UINT offset = 0u;
-    pContext.IASetIndexBuffer(pIBuffer, DXGI_FORMAT_R16_UINT, 0u);
-    pContext.PSSetConstantBuffers(0, 1u, &pCFaceColorBuffer);
 
     // draw the vertex buffer to the back buffer
     pContext.DrawIndexed(36u, 0u, 0u);

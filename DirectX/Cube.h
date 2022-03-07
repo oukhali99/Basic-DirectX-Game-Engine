@@ -4,6 +4,8 @@
 #include "Mouse.h"
 #include "VertexBuffer.h"
 #include "TransformConstantBuffer.h"
+#include "ColorConstantBuffer.h"
+#include "IndexBuffer.h"
 
 class Cube : public Shape {
 public:
@@ -16,12 +18,6 @@ public:
     void OnButtonPressed(WPARAM wParam) override;
     void OnMouseMovedTo(Mouse::Position position) override;
 private:
-    struct FaceColors {
-        struct {
-            float r, g, b, a;
-        } faceColors[6];
-    };
-
     ID3D11Buffer* pVBuffer;
     ID3D11Buffer* pIBuffer;
     ID3D11Buffer* pCTransformationBuffer;

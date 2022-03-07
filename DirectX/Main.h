@@ -37,6 +37,12 @@ struct ConstantBuffer {
     dx::XMMATRIX transformation;
 };
 
+struct FaceColors {
+    struct {
+        float r, g, b, a;
+    } faceColors[6];
+};
+
 class Main {
 public:
     static void HandleError(HRESULT hr, const char* file, const long long line) {
