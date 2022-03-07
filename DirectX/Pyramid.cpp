@@ -5,9 +5,9 @@
 #include "TransformConstantBuffer.h"
 #include "Clock.h"
 
-Pyramid::Pyramid(ID3D11Device& pDevice, ID3D11DeviceContext& pContext, Transform transform)
+Pyramid::Pyramid(Graphics& gfx, Transform transform)
 	:
-	Shape(pDevice, pContext, transform)
+	Shape(gfx, transform)
 {
 	VERTEX vertices[] = {
 		{ 0.0f, 0.0f, -1.0f },
@@ -32,16 +32,16 @@ Pyramid::Pyramid(ID3D11Device& pDevice, ID3D11DeviceContext& pContext, Transform
 		}
 	};
 
-	VertexBuffer* vb = new VertexBuffer(&pContext, &pDevice, vertices, sizeof(vertices));
+	VertexBuffer* vb = new VertexBuffer(gfx, vertices, sizeof(vertices));
 	bindables.push_back(vb);
 
-	TransformConstantBuffer* tcb = new TransformConstantBuffer(&pContext, &pDevice);
+	TransformConstantBuffer* tcb = new TransformConstantBuffer(gfx);
 	bindables.push_back(tcb);
 
-	ColorConstantBuffer* ccb = new ColorConstantBuffer(&pContext, &pDevice, fc);
+	ColorConstantBuffer* ccb = new ColorConstantBuffer(gfx, fc);
 	bindables.push_back(ccb);
 
-	IndexBuffer* ib = new IndexBuffer(&pContext, &pDevice, indices, sizeof(indices));
+	IndexBuffer* ib = new IndexBuffer(gfx, indices, sizeof(indices));
 	bindables.push_back(ib);
 }
 
@@ -57,5 +57,5 @@ void Pyramid::RenderFrame() {
 	}
 
 	// draw the vertex buffer to the back buffer
-	pContext.DrawIndexed(12u, 0u, 0u);
+	GetDeviceContext(gfx)->DrawIndexed(12u, 0u, 0u);
 }

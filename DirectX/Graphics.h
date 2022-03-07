@@ -2,8 +2,11 @@
 #define H_GRAPHICS
 #include "Main.h"
 #include "Shape.h"
+#include "Bindable.h"
 
 class Graphics {
+    friend class Bindable;
+    friend class Shape;
 public:
     Graphics(HWND hWnd);
     ~Graphics();
@@ -17,20 +20,6 @@ public:
     void RenderFrame();
     void ButtonPressed(WPARAM wParam);
 private:
-    struct VERTEX {
-        float x, y, z;
-    };
-
-    struct ConstantBuffer {
-        dx::XMMATRIX transformation;
-    };
-
-    struct FaceColors {
-        struct {
-            float r, g, b, a;
-        } faceColors[6];
-    };
-
     HRESULT hr;
     HWND hWnd;
     IDXGISwapChain* swapchain;                  // the pointer to the swap chain interface

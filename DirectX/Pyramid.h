@@ -4,6 +4,6 @@
 
 class Pyramid : public Shape {
 public:
-	Pyramid(ID3D11Device& pDevice, ID3D11DeviceContext& pContext, Transform transform);
+	Pyramid(Graphics& gfx, Transform transform);
 	void RenderFrame() override;
 };

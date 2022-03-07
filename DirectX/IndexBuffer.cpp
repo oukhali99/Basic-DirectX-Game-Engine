@@ -1,8 +1,8 @@
 #include "IndexBuffer.h"
 
-IndexBuffer::IndexBuffer(ID3D11DeviceContext* pContext, ID3D11Device* pDevice, unsigned short indices[], UINT sizeOfIndices) 
+IndexBuffer::IndexBuffer(Graphics& gfx, unsigned short indices[], UINT sizeOfIndices) 
 	:
-	Bindable(pContext, pDevice)
+	Bindable(gfx)
 {
     // Create index resource
     D3D11_SUBRESOURCE_DATA rd;
@@ -17,11 +17,11 @@ IndexBuffer::IndexBuffer(ID3D11DeviceContext* pContext, ID3D11Device* pDevice, u
     bd.StructureByteStride = sizeof(unsigned short);
     bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    GFX_THROW_INFO(pDevice->CreateBuffer(&bd, &rd, &pBuffer));
+    GFX_THROW_INFO(GetDevice(gfx)->CreateBuffer(&bd, &rd, &pBuffer));
 }
 
 void IndexBuffer::Bind(Transform transform) {
     // select which buffers to use
-    pContext->IASetIndexBuffer(pBuffer, DXGI_FORMAT_R16_UINT, 0u);
+    GetDeviceContext(gfx)->IASetIndexBuffer(pBuffer, DXGI_FORMAT_R16_UINT, 0u);
 
 }

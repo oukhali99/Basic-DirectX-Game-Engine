@@ -1,8 +1,8 @@
 #include "VertexBuffer.h"
 
-VertexBuffer::VertexBuffer(ID3D11DeviceContext* pContext, ID3D11Device* pDevice, VERTEX* vertices, int verticesSize)
+VertexBuffer::VertexBuffer(Graphics& gfx, VERTEX* vertices, int verticesSize)
     :
-    Bindable(pContext, pDevice)
+    Bindable(gfx)
 {
     D3D11_SUBRESOURCE_DATA rd;
     ZeroMemory(&rd, sizeof(rd));
@@ -14,11 +14,11 @@ VertexBuffer::VertexBuffer(ID3D11DeviceContext* pContext, ID3D11Device* pDevice,
     bd.ByteWidth = verticesSize;                                        // size is the VERTEX struct * 3
     bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;                            // use as a vertex buffer
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;                         // allow CPU to write in buffer
-    GFX_THROW_INFO(pDevice->CreateBuffer(&bd, &rd, &pBuffer));          // create the buffer
+    GFX_THROW_INFO(GetDevice(gfx)->CreateBuffer(&bd, &rd, &pBuffer));          // create the buffer
 }
 
 void VertexBuffer::Bind(Transform transform) {
     UINT stride = sizeof(VERTEX);
     UINT offset = 0u;
-    pContext->IASetVertexBuffers(0, 1u, &pBuffer, &stride, &offset);
+    GetDeviceContext(gfx)->IASetVertexBuffers(0, 1u, &pBuffer, &stride, &offset);
 }

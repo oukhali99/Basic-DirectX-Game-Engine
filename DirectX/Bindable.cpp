@@ -1,7 +1,15 @@
 #include "Bindable.h"
+#include "Graphics.h"
 
-Bindable::Bindable(ID3D11DeviceContext* pContext, ID3D11Device* pDevice)
+Bindable::Bindable(Graphics& gfx)
 	:
-	pDevice(pDevice),
-	pContext(pContext)
+	gfx(gfx)
 {}
+
+ID3D11Device* Bindable::GetDevice(Graphics& gfx) {
+	return gfx.pDevice;
+}
+
+ID3D11DeviceContext* Bindable::GetDeviceContext(Graphics& gfx) {
+	return gfx.pContext;
+}

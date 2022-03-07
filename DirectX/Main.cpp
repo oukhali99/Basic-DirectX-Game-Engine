@@ -67,7 +67,7 @@ int WINAPI WinMain(
         cube1Transform.xRot = 0.0f;
         cube1Transform.yRot = 0.0f;
         cube1Transform.zRot = 0.0f;
-        Shape* cube1 = new Pyramid(*gfx->GetPDevice(), *gfx->GetPContext(), cube1Transform);
+        Shape* cube1 = new Pyramid(*gfx, cube1Transform);
         cube1->followMouse = true;
 
         cube1Transform.x = 0.0f;
@@ -76,7 +76,7 @@ int WINAPI WinMain(
         cube1Transform.xRot = -2.0f;
         cube1Transform.yRot = -3.0f;
         cube1Transform.zRot = -1.0f;
-        Shape* cube2 = new Cube(*gfx->GetPDevice(), *gfx->GetPContext(), cube1Transform);
+        Shape* cube2 = new Cube(*gfx, cube1Transform);
 
         gfx->AddShape(cube1);
         gfx->AddShape(cube2);

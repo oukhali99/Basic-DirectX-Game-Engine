@@ -1,8 +1,8 @@
 #include "TransformConstantBuffer.h"
 
-TransformConstantBuffer::TransformConstantBuffer(ID3D11DeviceContext* pContext, ID3D11Device* pDevice)
+TransformConstantBuffer::TransformConstantBuffer(Graphics& gfx)
 	:
-	Bindable(pContext, pDevice)
+	Bindable(gfx)
 {
     D3D11_BUFFER_DESC bd;
     ZeroMemory(&bd, sizeof(bd));
@@ -10,11 +10,11 @@ TransformConstantBuffer::TransformConstantBuffer(ID3D11DeviceContext* pContext, 
     bd.Usage = D3D11_USAGE_DYNAMIC;
     bd.ByteWidth = sizeof(ConstantBuffer);
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    GFX_THROW_INFO(pDevice->CreateBuffer(&bd, NULL, &pBuffer));
+    GFX_THROW_INFO(GetDevice(gfx)->CreateBuffer(&bd, NULL, &pBuffer));
 }
 
 void TransformConstantBuffer::Bind(Transform transform) {
-    pContext->VSSetConstantBuffers(0, 1u, &pBuffer);
+    GetDeviceContext(gfx)->VSSetConstantBuffers(0, 1u, &pBuffer);
 
     float squeeze = (float)SCREEN_HEIGHT / (float)SCREEN_WIDTH;
     const ConstantBuffer cb = {
@@ -30,11 +30,11 @@ void TransformConstantBuffer::Bind(Transform transform) {
     // Map the constant buffer onto our mapped constant buffer
     D3D11_MAPPED_SUBRESOURCE mCBuffer;
     ZeroMemory(&mCBuffer, sizeof(D3D11_MAPPED_SUBRESOURCE));
-    pContext->Map(pBuffer, 0u, D3D11_MAP_WRITE_DISCARD, 0u, &mCBuffer);
+    GetDeviceContext(gfx)->Map(pBuffer, 0u, D3D11_MAP_WRITE_DISCARD, 0u, &mCBuffer);
 
     // Copy the data onto the map
     memcpy(mCBuffer.pData, &cb, sizeof(cb));
 
     // Unmap from the resources
-    pContext->Unmap(pBuffer, 0u);
+    GetDeviceContext(gfx)->Unmap(pBuffer, 0u);
 }

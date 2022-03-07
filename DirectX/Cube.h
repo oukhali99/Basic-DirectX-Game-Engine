@@ -9,6 +9,6 @@
 
 class Cube : public Shape {
 public:
-	Cube(ID3D11Device& pDevice, ID3D11DeviceContext& pContext, Transform transform);
+	Cube(Graphics& gfx, Transform transform);
     void RenderFrame() override;
 };

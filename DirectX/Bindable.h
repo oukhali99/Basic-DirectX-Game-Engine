@@ -2,16 +2,21 @@
 #define H_BINDABLE
 #include "Main.h"
 
+class Graphics;
+
 class Bindable {
 public:
 	Bindable(Bindable& bindable) = delete;
 
-	Bindable(ID3D11DeviceContext* pContext, ID3D11Device* pDevice);
+	Bindable(Graphics& gfx);
+
 	virtual void Bind(Transform transform) = 0;
+
+	static ID3D11Device* GetDevice(Graphics& gfx);
+	static ID3D11DeviceContext* GetDeviceContext(Graphics& gfx);
 protected:
 	HRESULT hr;
-	ID3D11Device* pDevice;
-	ID3D11DeviceContext* pContext;
 	ID3D11Buffer* pBuffer;
+	Graphics& gfx;
 };
 #endif

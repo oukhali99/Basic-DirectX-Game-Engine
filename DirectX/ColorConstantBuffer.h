@@ -1,8 +1,9 @@
 #include "Main.h"
 #include "Bindable.h"
+#include "Graphics.h"
 
 class ColorConstantBuffer : public Bindable {
 public:
-	ColorConstantBuffer(ID3D11DeviceContext* pContext, ID3D11Device* pDevice, FaceColors fc);
+	ColorConstantBuffer(Graphics& gfx, FaceColors fc);
 	void Bind(Transform transform) override;
 };

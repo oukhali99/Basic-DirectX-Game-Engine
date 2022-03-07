@@ -5,6 +5,8 @@
 #include "Mouse.h"
 #include "Bindable.h"
 
+class Graphics;
+
 class Shape {
 public:
 	bool followMouse;
@@ -15,16 +17,18 @@ public:
 	void ButtonPressed(WPARAM wParam);
 	void MouseMovedTo(Mouse::Position position);
 protected:
-	Shape(ID3D11Device& pDevice, ID3D11DeviceContext& pContext, Transform transform);
+	Shape(Graphics& gfx, Transform transform);
 
 	HRESULT hr;
-	ID3D11Device& pDevice;
-	ID3D11DeviceContext& pContext;
+	Graphics& gfx;
 	Transform transform;
 	std::vector<Bindable*> bindables;
 
 	void OnButtonPressed(WPARAM wParam);
 	void OnMouseMovedTo(Mouse::Position position);
+
+	static ID3D11Device* GetDevice(Graphics& gfx);
+	static ID3D11DeviceContext* GetDeviceContext(Graphics& gfx);
 };
 
 #endif

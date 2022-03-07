@@ -1,9 +1,9 @@
 #include "Shape.h"
+#include "Graphics.h"
 
-Shape::Shape(ID3D11Device& pDevice, ID3D11DeviceContext& pContext, Transform transform)
+Shape::Shape(Graphics& gfx, Transform transform)
 	:
-	pDevice(pDevice),
-	pContext(pContext),
+	gfx(gfx),
 	hr(0),
     transform(transform),
     followKeyboard(false),
@@ -43,4 +43,12 @@ void Shape::OnButtonPressed(WPARAM wParam) {
 void Shape::OnMouseMovedTo(Mouse::Position position) {
     transform.x = 6 * position.x;
     transform.y = 6 * position.y;
+}
+
+ID3D11Device* Shape::GetDevice(Graphics& gfx) {
+    return gfx.pDevice;
+}
+
+ID3D11DeviceContext* Shape::GetDeviceContext(Graphics& gfx) {
+    return gfx.pContext;
 }
