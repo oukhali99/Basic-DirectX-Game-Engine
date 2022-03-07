@@ -63,6 +63,9 @@
     <ClCompile Include="IndexBuffer.cpp">
       <Filter>Source Files\Bindable</Filter>
     </ClCompile>
+    <ClCompile Include="Pyramid.cpp">
+      <Filter>Source Files\Shape</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders.shader">
@@ -105,6 +108,9 @@
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">
       <Filter>Header Files\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Pyramid.h">
+      <Filter>Header Files\Shape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

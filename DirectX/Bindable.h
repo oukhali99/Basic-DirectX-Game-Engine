@@ -4,6 +4,8 @@
 
 class Bindable {
 public:
+	Bindable(Bindable& bindable) = delete;
+
 	Bindable(ID3D11DeviceContext* pContext, ID3D11Device* pDevice);
 	virtual void Bind(Transform transform) = 0;
 protected:

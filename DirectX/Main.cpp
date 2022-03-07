@@ -3,6 +3,7 @@
 #include "Cube.h"
 #include "Clock.h"
 #include "Mouse.h"
+#include "Pyramid.h"
 
 Graphics* gfx;
 
@@ -62,16 +63,16 @@ int WINAPI WinMain(
         Transform cube1Transform;
         cube1Transform.x = 0.0f;
         cube1Transform.y = 0.0f;
-        cube1Transform.z = 6.0f; 
-        cube1Transform.xRot = 2.0f;
-        cube1Transform.yRot = 3.0f;
-        cube1Transform.zRot = 1.0f;
-        Shape* cube1 = new Cube(*gfx->GetPDevice(), *gfx->GetPContext(), cube1Transform);
+        cube1Transform.z = 3.0f; 
+        cube1Transform.xRot = 0.0f;
+        cube1Transform.yRot = 0.0f;
+        cube1Transform.zRot = 0.0f;
+        Shape* cube1 = new Pyramid(*gfx->GetPDevice(), *gfx->GetPContext(), cube1Transform);
         cube1->followMouse = true;
 
         cube1Transform.x = 0.0f;
         cube1Transform.y = 0.0f;
-        cube1Transform.z = 6.0f;
+        cube1Transform.z = 10.0f;
         cube1Transform.xRot = -2.0f;
         cube1Transform.yRot = -3.0f;
         cube1Transform.zRot = -1.0f;

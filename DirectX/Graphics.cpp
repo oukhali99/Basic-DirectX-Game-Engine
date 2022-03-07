@@ -92,6 +92,9 @@ void Graphics::InitD3D()
     viewport.MinDepth = 0.0f;
     // Set the viewport
     pContext->RSSetViewports(1, &viewport);
+
+    // select which primtive type we are using
+    pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
 void Graphics::InitPipeline() {
@@ -183,7 +186,7 @@ void Graphics::RenderFrame()
 
 void Graphics::ButtonPressed(WPARAM wParam) {
     for (Shape* shape : shapes) {
-        shape->OnButtonPressed(wParam);
+        shape->ButtonPressed(wParam);
     }
 }
 

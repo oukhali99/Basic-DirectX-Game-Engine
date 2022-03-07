@@ -8,21 +8,23 @@
 class Shape {
 public:
 	bool followMouse;
+	bool followKeyboard;
 
 	virtual void RenderFrame() = 0;
-	virtual void OnButtonPressed(WPARAM wParam) = 0;
-	virtual void OnMouseMovedTo(Mouse::Position position) = 0;
 
+	void ButtonPressed(WPARAM wParam);
 	void MouseMovedTo(Mouse::Position position);
 protected:
 	Shape(ID3D11Device& pDevice, ID3D11DeviceContext& pContext, Transform transform);
-	~Shape();
 
 	HRESULT hr;
 	ID3D11Device& pDevice;
 	ID3D11DeviceContext& pContext;
 	Transform transform;
 	std::vector<Bindable*> bindables;
+
+	void OnButtonPressed(WPARAM wParam);
+	void OnMouseMovedTo(Mouse::Position position);
 };
 
 #endif
