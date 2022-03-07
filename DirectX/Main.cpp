@@ -59,7 +59,7 @@ int WINAPI WinMain(
         // set up and initialize Direct3D
         gfx = new Graphics(hWnd);
 
-        Shape::Transform cube1Transform;
+        Transform cube1Transform;
         cube1Transform.x = 0.0f;
         cube1Transform.y = 0.0f;
         cube1Transform.z = 6.0f; 
@@ -67,7 +67,7 @@ int WINAPI WinMain(
         cube1Transform.yRot = 3.0f;
         cube1Transform.zRot = 1.0f;
         Shape* cube1 = new Cube(*gfx->GetPDevice(), *gfx->GetPContext(), cube1Transform);
-        //cube1->followMouse = true;
+        cube1->followMouse = true;
 
         cube1Transform.x = 0.0f;
         cube1Transform.y = 0.0f;

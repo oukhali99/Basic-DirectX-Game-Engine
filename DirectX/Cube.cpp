@@ -16,7 +16,7 @@ Cube::~Cube() {
 
 void Cube::InitGraphics() {
     // Create a resource for the vertices
-    const VERTEX OurVertices[] = {
+    VERTEX OurVertices[] = {
         {1.0f, 1.0f, -1.0f},
 
         {1.0f, -1.0f, -1.0f},
@@ -33,26 +33,16 @@ void Cube::InitGraphics() {
 
         {-1.0f, 1.0f, 1.0f},
     };
-    D3D11_SUBRESOURCE_DATA rd;
-    ZeroMemory(&rd, sizeof(rd));
-    rd.pSysMem = OurVertices;
 
-    // create the vertex buffer
-    D3D11_BUFFER_DESC bd;
-    ZeroMemory(&bd, sizeof(bd));
-    bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-    bd.ByteWidth = sizeof(OurVertices);             // size is the VERTEX struct * 3
-    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
-    bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
-    GFX_THROW_INFO(pDevice.CreateBuffer(&bd, &rd, &pVBuffer));       // create the buffer
+    VertexBuffer* vb = new VertexBuffer(&pContext, &pDevice, OurVertices, sizeof(OurVertices));
+    bindables.push_back(vb);
+
+    TransformConstantBuffer* tcb = new TransformConstantBuffer(&pContext, &pDevice);
+    bindables.push_back(tcb);
 
     // Create the rotation constant buffer
-    ZeroMemory(&bd, sizeof(bd));
-    bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-    bd.Usage = D3D11_USAGE_DYNAMIC;
-    bd.ByteWidth = sizeof(ConstantBuffer);
-    bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    GFX_THROW_INFO(pDevice.CreateBuffer(&bd, NULL, &pCTransformationBuffer));
+    D3D11_BUFFER_DESC bd;
+    
 
     // Create the face color resource
     FaceColors fc = {
@@ -65,6 +55,7 @@ void Cube::InitGraphics() {
             { 1.0f, 1.0f, 0.0f, 1.0f },
         }
     };
+    D3D11_SUBRESOURCE_DATA rd;
     ZeroMemory(&rd, sizeof(rd));
     rd.pSysMem = &fc;
 
@@ -104,36 +95,19 @@ void Cube::InitGraphics() {
 void Cube::RenderFrame() {
     // Get the time
     float t = Clock::GetSingleton().GetTimeSinceStart();
+    transform.xRot = 2 * t;
+    transform.yRot = 3 * t;
+    transform.zRot = 1 * t;
+
+    for (Bindable* bindable : bindables) {
+        bindable->Bind(transform);
+    }
 
     // select which buffers to use
     UINT stride = sizeof(VERTEX);
     UINT offset = 0u;
-    pContext.IASetVertexBuffers(0, 1u, &pVBuffer, &stride, &offset);
     pContext.IASetIndexBuffer(pIBuffer, DXGI_FORMAT_R16_UINT, 0u);
-    pContext.VSSetConstantBuffers(0, 1u, &pCTransformationBuffer);
     pContext.PSSetConstantBuffers(0, 1u, &pCFaceColorBuffer);
-
-    // Create the rotation constant
-    float squeeze = (float)SCREEN_HEIGHT / (float)SCREEN_WIDTH;
-    const ConstantBuffer cb = {
-        dx::XMMatrixTranspose(
-            dx::XMMatrixRotationX(transform.xRot * t) *
-            dx::XMMatrixRotationY(transform.yRot * t) *
-            dx::XMMatrixRotationZ(transform.zRot * t) *
-            dx::XMMatrixTranslation(transform.x, transform.y, transform.z) *
-            dx::XMMatrixPerspectiveLH(1.0f, squeeze, 0.5f, 20.0f)
-        )
-    };
-
-    // Map the constant buffer onto our mapped constant buffer
-    ZeroMemory(&mCBuffer, sizeof(D3D11_MAPPED_SUBRESOURCE));
-    pContext.Map(pCTransformationBuffer, 0u, D3D11_MAP_WRITE_DISCARD, 0u, &mCBuffer);
-
-    // Copy the data onto the map
-    memcpy(mCBuffer.pData, &cb, sizeof(cb));
-
-    // Unmap from the resources
-    pContext.Unmap(pCTransformationBuffer, 0u);
 
     // draw the vertex buffer to the back buffer
     pContext.DrawIndexed(36u, 0u, 0u);

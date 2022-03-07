@@ -3,18 +3,10 @@
 
 #include "Main.h"
 #include "Mouse.h"
+#include "Bindable.h"
 
 class Shape {
 public:
-	struct Transform {
-		float x, y, z;
-		float xRot, yRot, zRot;
-	};
-
-	struct VERTEX {
-		float x, y, z;
-	};
-
 	bool followMouse;
 
 	virtual void RenderFrame() = 0;
@@ -30,8 +22,7 @@ protected:
 	ID3D11Device& pDevice;
 	ID3D11DeviceContext& pContext;
 	Transform transform;
-
-	void HandleError(HRESULT hr, const char* file, const long long line);
+	std::vector<Bindable*> bindables;
 };
 
 #endif

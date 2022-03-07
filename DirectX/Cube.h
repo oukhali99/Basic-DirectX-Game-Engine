@@ -2,6 +2,8 @@
 #include "Shape.h"
 #include "Clock.h"
 #include "Mouse.h"
+#include "VertexBuffer.h"
+#include "TransformConstantBuffer.h"
 
 class Cube : public Shape {
 public:
@@ -14,10 +16,6 @@ public:
     void OnButtonPressed(WPARAM wParam) override;
     void OnMouseMovedTo(Mouse::Position position) override;
 private:
-    struct ConstantBuffer {
-        dx::XMMATRIX transformation;
-    };
-
     struct FaceColors {
         struct {
             float r, g, b, a;

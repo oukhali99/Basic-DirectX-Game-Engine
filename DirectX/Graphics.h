@@ -1,3 +1,5 @@
+#ifndef H_GRAPHICS
+#define H_GRAPHICS
 #include "Main.h"
 #include "Shape.h"
 
@@ -47,3 +49,4 @@ private:
     void InitGraphics();
     void HandleError(HRESULT hr, const char* file, const long long line);
 };
+#endif

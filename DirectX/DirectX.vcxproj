@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Clock.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -150,6 +151,8 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="MyException.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="TransformConstantBuffer.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders.shader" />
@@ -160,8 +163,11 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Bindable.h" />
     <ClInclude Include="MyException.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="TransformConstantBuffer.h" />
+    <ClInclude Include="VertexBuffer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,3 +1,5 @@
+#ifndef H_MAIN
+#define H_MAIN
 #include <vector>
 #include <cmath>
 #include <exception>
@@ -20,4 +22,50 @@ namespace dx = DirectX;
 #define SCREEN_WIDTH  1280
 #define SCREEN_HEIGHT 720
 
-#define GFX_THROW_INFO(hrcall) if (FAILED(hr = (hrcall))) { HandleError(hr, __FILE__, __LINE__); }
+#define GFX_THROW_INFO(hrcall) if (FAILED(hr = (hrcall))) { Main::HandleError(hr, __FILE__, __LINE__); }
+
+struct Transform {
+    float x, y, z;
+    float xRot, yRot, zRot;
+};
+
+struct VERTEX {
+    float x, y, z;
+};
+
+struct ConstantBuffer {
+    dx::XMMATRIX transformation;
+};
+
+class Main {
+public:
+    static void HandleError(HRESULT hr, const char* file, const long long line) {
+        std::stringstream ss;
+
+        // Exception line
+        ss << "Exception on line " << line << std::endl;
+
+        // Exception file
+        ss << "File: " << file << std::endl;
+
+        // Error code
+        ss << "Error code: " << "0x" << std::hex << hr << std::endl;
+
+        // Error description
+        char errorMessage[50];
+        FormatMessageA(
+            FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+            NULL,
+            hr,
+            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+            errorMessage,
+            sizeof(errorMessage) / sizeof(errorMessage[0]),
+            NULL
+        );
+
+        ss << "Description: " << errorMessage << std::endl;
+
+        throw new std::exception(ss.str().c_str());
+    }
+};
+#endif
