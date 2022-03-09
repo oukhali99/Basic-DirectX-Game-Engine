@@ -4,6 +4,7 @@
 #include "Main.h"
 #include "Mouse.h"
 #include "Bindable.h"
+#include "btBulletDynamicsCommon.h"
 
 class Graphics;
 
@@ -12,17 +13,19 @@ public:
 	bool followMouse;
 	bool followKeyboard;
 
-	virtual void RenderFrame() = 0;
+	void RenderFrame();
 
 	void ButtonPressed(WPARAM wParam);
 	void MouseMovedTo(Mouse::Position position);
 protected:
-	Shape(Graphics& gfx, Transform transform);
+	Shape(Graphics& gfx, btDiscreteDynamicsWorld* dynamicsWorld, btTransform transform);
 
 	HRESULT hr;
 	Graphics& gfx;
-	Transform transform;
+	btTransform transform;
 	std::vector<Bindable*> bindables;
+	btDiscreteDynamicsWorld* dynamicsWorld;
+	btRigidBody* rigidbody;
 
 	void OnButtonPressed(WPARAM wParam);
 	void OnMouseMovedTo(Mouse::Position position);

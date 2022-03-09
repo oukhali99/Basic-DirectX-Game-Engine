@@ -1,8 +1,11 @@
 #include "IndexBuffer.h"
+#include "btBulletDynamicsCommon.h"
 
 IndexBuffer::IndexBuffer(Graphics& gfx, unsigned short indices[], UINT sizeOfIndices) 
 	:
-	Bindable(gfx)
+	Bindable(gfx),
+    indices(indices),
+    sizeOfIndices(sizeOfIndices)
 {
     // Create index resource
     D3D11_SUBRESOURCE_DATA rd;
@@ -20,8 +23,12 @@ IndexBuffer::IndexBuffer(Graphics& gfx, unsigned short indices[], UINT sizeOfInd
     GFX_THROW_INFO(GetDevice(gfx)->CreateBuffer(&bd, &rd, &pBuffer));
 }
 
-void IndexBuffer::Bind(Transform transform) {
+void IndexBuffer::Bind(btTransform transform) {
     // select which buffers to use
     GetDeviceContext(gfx)->IASetIndexBuffer(pBuffer, DXGI_FORMAT_R16_UINT, 0u);
 
+    if (sizeOfIndices > 0) {
+        // draw the vertex buffer to the back buffer
+        GetDeviceContext(gfx)->DrawIndexed(sizeOfIndices / sizeof(indices[0]), 0u, 0u);
+    }
 }

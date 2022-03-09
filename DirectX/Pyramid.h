@@ -4,6 +4,5 @@
 
 class Pyramid : public Shape {
 public:
-	Pyramid(Graphics& gfx, Transform transform);
-	void RenderFrame() override;
+	Pyramid(Graphics& gfx, btDiscreteDynamicsWorld* dynamicsWorld, btTransform transform);
 };

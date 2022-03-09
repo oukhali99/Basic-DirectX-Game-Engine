@@ -13,16 +13,16 @@ TransformConstantBuffer::TransformConstantBuffer(Graphics& gfx)
     GFX_THROW_INFO(GetDevice(gfx)->CreateBuffer(&bd, NULL, &pBuffer));
 }
 
-void TransformConstantBuffer::Bind(Transform transform) {
+void TransformConstantBuffer::Bind(btTransform transform) {
     GetDeviceContext(gfx)->VSSetConstantBuffers(0, 1u, &pBuffer);
 
     float squeeze = (float)SCREEN_HEIGHT / (float)SCREEN_WIDTH;
     const ConstantBuffer cb = {
         dx::XMMatrixTranspose(
-            dx::XMMatrixRotationX(transform.xRot) *
-            dx::XMMatrixRotationY(transform.yRot) *
-            dx::XMMatrixRotationZ(transform.zRot) *
-            dx::XMMatrixTranslation(transform.x, transform.y, transform.z) *
+            dx::XMMatrixRotationX(transform.getRotation().x()) *
+            dx::XMMatrixRotationY(transform.getRotation().y()) *
+            dx::XMMatrixRotationZ(transform.getRotation().z()) *
+            dx::XMMatrixTranslation(transform.getOrigin().x(), transform.getOrigin().y(), transform.getOrigin().z()) *
             dx::XMMatrixPerspectiveLH(1.0f, squeeze, 0.5f, 20.0f)
         )
     };

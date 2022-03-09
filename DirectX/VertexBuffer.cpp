@@ -17,7 +17,7 @@ VertexBuffer::VertexBuffer(Graphics& gfx, VERTEX* vertices, int verticesSize)
     GFX_THROW_INFO(GetDevice(gfx)->CreateBuffer(&bd, &rd, &pBuffer));          // create the buffer
 }
 
-void VertexBuffer::Bind(Transform transform) {
+void VertexBuffer::Bind(btTransform transform) {
     UINT stride = sizeof(VERTEX);
     UINT offset = 0u;
     GetDeviceContext(gfx)->IASetVertexBuffers(0, 1u, &pBuffer, &stride, &offset);

@@ -5,9 +5,9 @@
 #include "TransformConstantBuffer.h"
 #include "Clock.h"
 
-Pyramid::Pyramid(Graphics& gfx, Transform transform)
+Pyramid::Pyramid(Graphics& gfx, btDiscreteDynamicsWorld* dynamicsWorld, btTransform transform)
 	:
-	Shape(gfx, transform)
+	Shape(gfx, dynamicsWorld, transform)
 {
 	VERTEX vertices[] = {
 		{ 0.0f, 0.0f, -1.0f },
@@ -43,19 +43,4 @@ Pyramid::Pyramid(Graphics& gfx, Transform transform)
 
 	IndexBuffer* ib = new IndexBuffer(gfx, indices, sizeof(indices));
 	bindables.push_back(ib);
-}
-
-void Pyramid::RenderFrame() {
-	// Get the time
-	float t = Clock::GetSingleton().GetTimeSinceStart();
-	//transform.xRot = 2 * t;
-	//transform.yRot = 3 * t;
-	//transform.zRot = 1 * t;
-
-	for (Bindable* bindable : bindables) {
-		bindable->Bind(transform);
-	}
-
-	// draw the vertex buffer to the back buffer
-	GetDeviceContext(gfx)->DrawIndexed(12u, 0u, 0u);
 }

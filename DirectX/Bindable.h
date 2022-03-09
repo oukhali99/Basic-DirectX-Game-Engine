@@ -1,6 +1,7 @@
 #ifndef H_BINDABLE
 #define H_BINDABLE
 #include "Main.h"
+#include "btBulletDynamicsCommon.h"
 
 class Graphics;
 
@@ -10,7 +11,7 @@ public:
 
 	Bindable(Graphics& gfx);
 
-	virtual void Bind(Transform transform) = 0;
+	virtual void Bind(btTransform transform) = 0;
 
 	static ID3D11Device* GetDevice(Graphics& gfx);
 	static ID3D11DeviceContext* GetDeviceContext(Graphics& gfx);

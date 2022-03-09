@@ -4,7 +4,7 @@
 class TransformConstantBuffer : public Bindable {
 public:
 	TransformConstantBuffer(Graphics& gfx);
-	void Bind(Transform transform) override;
+	void Bind(btTransform transform) override;
 private:
 	ConstantBuffer constantBuffer;
 };

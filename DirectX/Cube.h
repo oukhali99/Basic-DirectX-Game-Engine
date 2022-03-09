@@ -9,6 +9,5 @@
 
 class Cube : public Shape {
 public:
-	Cube(Graphics& gfx, Transform transform);
-    void RenderFrame() override;
+	Cube(Graphics& gfx, btDiscreteDynamicsWorld* dynamicsWorld, btTransform transform);
 };

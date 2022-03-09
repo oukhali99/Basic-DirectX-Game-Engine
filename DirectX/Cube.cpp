@@ -1,8 +1,9 @@
 #include "Cube.h"
+#include "btBulletDynamicsCommon.h"
 
-Cube::Cube(Graphics& gfx, Transform transform)
+Cube::Cube(Graphics& gfx, btDiscreteDynamicsWorld* dynamicsWorld, btTransform transform)
     :
-    Shape(gfx, transform)
+    Shape(gfx, dynamicsWorld, transform)
 {
     // Create a resource for the vertices
     VERTEX OurVertices[] = {
@@ -55,19 +56,15 @@ Cube::Cube(Graphics& gfx, Transform transform)
 
     IndexBuffer* ib = new IndexBuffer(gfx, indices, sizeof(indices));
     bindables.push_back(ib);
-}
 
-void Cube::RenderFrame() {
-    // Get the time
-    float t = Clock::GetSingleton().GetTimeSinceStart();
-    transform.xRot = 2 * t;
-    transform.yRot = 3 * t;
-    transform.zRot = 1 * t;
-
-    for (Bindable* bindable : bindables) {
-        bindable->Bind(transform);
-    }
-
-    // draw the vertex buffer to the back buffer
-    GetDeviceContext(gfx)->DrawIndexed(36u, 0u, 0u);
+    btCollisionShape* shape = new btBoxShape(btVector3(btScalar(1), btScalar(1), btScalar(1)));
+    btScalar mass(0.1f);
+    bool isDynamic = (mass != 0.f);
+    btVector3 localInertia(0, 0, 0);
+    if (isDynamic)
+        shape->calculateLocalInertia(mass, localInertia);
+    btDefaultMotionState* myMotionState = new btDefaultMotionState(transform);
+    btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape, localInertia);
+    rigidbody = new btRigidBody(rbInfo);
+    dynamicsWorld->addRigidBody(rigidbody);
 }

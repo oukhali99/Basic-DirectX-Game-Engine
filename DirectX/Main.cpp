@@ -4,6 +4,7 @@
 #include "Clock.h"
 #include "Mouse.h"
 #include "Pyramid.h"
+#include "btBulletDynamicsCommon.h"
 
 Graphics* gfx;
 
@@ -60,26 +61,34 @@ int WINAPI WinMain(
         // set up and initialize Direct3D
         gfx = new Graphics(hWnd);
 
-        Transform cube1Transform;
-        cube1Transform.x = 0.0f;
-        cube1Transform.y = 0.0f;
-        cube1Transform.z = 3.0f; 
-        cube1Transform.xRot = 0.0f;
-        cube1Transform.yRot = 0.0f;
-        cube1Transform.zRot = 0.0f;
-        Shape* cube1 = new Cube(*gfx, cube1Transform);
-        cube1->followMouse = true;
+        // Create the configuration
+        btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
 
-        cube1Transform.x = 0.0f;
-        cube1Transform.y = 0.0f;
-        cube1Transform.z = 10.0f;
-        cube1Transform.xRot = -2.0f;
-        cube1Transform.yRot = -3.0f;
-        cube1Transform.zRot = -1.0f;
-        Shape* cube2 = new Cube(*gfx, cube1Transform);
+        // Create the collision dispatcher
+        btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
 
-        gfx->AddShape(cube1);
-        gfx->AddShape(cube2);
+        // ???
+        btBroadphaseInterface* overlappingPairCache = new btDbvtBroadphase();
+
+        // Constraint solver
+        btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver();
+
+        // Create the world
+        btDiscreteDynamicsWorld* dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher,
+            overlappingPairCache, solver, collisionConfiguration);
+
+        // Set the gravity
+        dynamicsWorld->setGravity(btVector3(0, -0.5f, 0));
+
+        btTransform transform;
+        transform.setIdentity();
+        transform.setOrigin(btVector3(-2, 0, 10));
+        transform.setRotation(btQuaternion(90, 90, 90, 0));
+        Shape* cube1 = new Cube(*gfx, dynamicsWorld, transform);
+
+        transform.setIdentity();
+        transform.setOrigin(btVector3(2, 0, 10));
+        Shape* cube2 = new Cube(*gfx, dynamicsWorld, transform);
 
         // this struct holds Windows event messages
         MSG msg = { 0 };
@@ -105,6 +114,7 @@ int WINAPI WinMain(
                 oss << "Mouse Position: " << std::fixed << "(" << mp.x << ", " << mp.y << ")";
                 SetWindowTextA(hWnd, oss.str().c_str());
 
+                dynamicsWorld->stepSimulation(1.0f / 600.0f, 10);
                 gfx->RenderFrame();
             }
         }

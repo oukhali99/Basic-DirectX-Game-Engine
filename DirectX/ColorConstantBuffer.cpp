@@ -19,7 +19,7 @@ ColorConstantBuffer::ColorConstantBuffer(Graphics& gfx, FaceColors fc)
     GFX_THROW_INFO(GetDevice(gfx)->CreateBuffer(&bd, &rd, &pBuffer));
 }
 
-void ColorConstantBuffer::Bind(Transform transform) {
+void ColorConstantBuffer::Bind(btTransform transform) {
     UINT stride = sizeof(VERTEX);
     UINT offset = 0u;
     GetDeviceContext(gfx)->PSSetConstantBuffers(0, 1u, &pBuffer);
