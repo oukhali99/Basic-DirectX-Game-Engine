@@ -176,6 +176,7 @@
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="TransformBuffer.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders.shader" />
@@ -194,6 +195,7 @@
     <ClInclude Include="Shape.h" />
     <ClInclude Include="TransformBuffer.h" />
     <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

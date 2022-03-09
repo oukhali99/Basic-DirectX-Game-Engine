@@ -66,6 +66,9 @@
     <ClCompile Include="Pyramid.cpp">
       <Filter>Source Files\Shape</Filter>
     </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders.shader">
@@ -111,6 +114,9 @@
     </ClInclude>
     <ClInclude Include="Pyramid.h">
       <Filter>Header Files\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
