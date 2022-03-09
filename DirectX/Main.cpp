@@ -80,17 +80,9 @@ int WINAPI WinMain(
         // Set the gravity
         dynamicsWorld->setGravity(btVector3(0, -9.81f, 0));
 
-        btTransform transform;
-        transform.setIdentity();
-        transform.setOrigin(btVector3(0, -2, 10));
-        transform.setRotation(btQuaternion(3 * 3.14f/4, 0, 0));
-        Shape* cube1 = new Cube(*gfx, dynamicsWorld, transform);
-        cube1->rigidbody->setMassProps(0, btVector3());
+        Shape* cube1 = new Cube(gfx, dynamicsWorld);
 
-        transform.setIdentity();
-        transform.setOrigin(btVector3(0, 1, 10));
-        Shape* cube2 = new Cube(*gfx, dynamicsWorld, transform);
-        cube2->followKeyboard = true;
+        Shape* cube2 = new Cube(gfx, dynamicsWorld);
 
         // this struct holds Windows event messages
         MSG msg = { 0 };

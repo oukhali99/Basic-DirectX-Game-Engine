@@ -1,7 +1,7 @@
 #include "Shape.h"
 #include "Graphics.h"
 
-Shape::Shape(Graphics& gfx, btDiscreteDynamicsWorld* dynamicsWorld, btTransform transform)
+Shape::Shape(Graphics* gfx, btDiscreteDynamicsWorld* dynamicsWorld)
 	:
 	gfx(gfx),
 	hr(0),
@@ -10,7 +10,10 @@ Shape::Shape(Graphics& gfx, btDiscreteDynamicsWorld* dynamicsWorld, btTransform 
     followMouse(false),
     dynamicsWorld(dynamicsWorld)
 {
-    gfx.AddShape(this);
+    // Initialize the transform
+    transform.setIdentity();
+
+    gfx->AddShape(this);
 }
 
 void Shape::RenderFrame() {
@@ -62,10 +65,10 @@ void Shape::OnMouseMovedTo(Mouse::Position position) {
     */
 }
 
-ID3D11Device* Shape::GetDevice(Graphics& gfx) {
-    return gfx.pDevice;
+ID3D11Device* Shape::GetDevice(Graphics* gfx) {
+    return gfx->pDevice;
 }
 
-ID3D11DeviceContext* Shape::GetDeviceContext(Graphics& gfx) {
-    return gfx.pContext;
+ID3D11DeviceContext* Shape::GetDeviceContext(Graphics* gfx) {
+    return gfx->pContext;
 }

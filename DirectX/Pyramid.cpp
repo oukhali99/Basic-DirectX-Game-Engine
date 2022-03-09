@@ -5,9 +5,9 @@
 #include "TransformBuffer.h"
 #include "Clock.h"
 
-Pyramid::Pyramid(Graphics& gfx, btDiscreteDynamicsWorld* dynamicsWorld, btTransform transform)
+Pyramid::Pyramid(Graphics* gfx, btDiscreteDynamicsWorld* dynamicsWorld)
 	:
-	Shape(gfx, dynamicsWorld, transform)
+	Shape(gfx, dynamicsWorld)
 {
 	VERTEX vertices[] = {
 		{ 0.0f, 0.0f, -1.0f },

@@ -18,10 +18,10 @@ public:
 	void ButtonPressed(WPARAM wParam);
 	void MouseMovedTo(Mouse::Position position);
 protected:
-	Shape(Graphics& gfx, btDiscreteDynamicsWorld* dynamicsWorld, btTransform transform);
+	Shape(Graphics* gfx, btDiscreteDynamicsWorld* dynamicsWorld);
 
 	HRESULT hr;
-	Graphics& gfx;
+	Graphics* gfx;
 	btTransform transform;
 	std::vector<Bindable*> bindables;
 	btDiscreteDynamicsWorld* dynamicsWorld;
@@ -29,8 +29,8 @@ protected:
 	void OnButtonPressed(WPARAM wParam);
 	void OnMouseMovedTo(Mouse::Position position);
 
-	static ID3D11Device* GetDevice(Graphics& gfx);
-	static ID3D11DeviceContext* GetDeviceContext(Graphics& gfx);
+	static ID3D11Device* GetDevice(Graphics* gfx);
+	static ID3D11DeviceContext* GetDeviceContext(Graphics* gfx);
 };
 
 #endif

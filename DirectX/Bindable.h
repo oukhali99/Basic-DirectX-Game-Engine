@@ -9,15 +9,15 @@ class Bindable {
 public:
 	Bindable(Bindable& bindable) = delete;
 
-	Bindable(Graphics& gfx);
+	Bindable(Graphics* gfx);
 
 	virtual void Bind(btTransform transform) = 0;
 
-	static ID3D11Device* GetDevice(Graphics& gfx);
-	static ID3D11DeviceContext* GetDeviceContext(Graphics& gfx);
+	static ID3D11Device* GetDevice(Graphics* gfx);
+	static ID3D11DeviceContext* GetDeviceContext(Graphics* gfx);
 protected:
 	HRESULT hr;
 	ID3D11Buffer* pBuffer;
-	Graphics& gfx;
+	Graphics* gfx;
 };
 #endif

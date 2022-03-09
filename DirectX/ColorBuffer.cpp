@@ -1,6 +1,6 @@
 #include "ColorBuffer.h"
 
-ColorBuffer::ColorBuffer(Graphics& gfx, FaceColors fc)
+ColorBuffer::ColorBuffer(Graphics* gfx, FaceColors fc)
 	:
 	Bindable(gfx)
 {

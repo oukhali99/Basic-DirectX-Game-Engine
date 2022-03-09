@@ -1,6 +1,6 @@
 #include "TransformBuffer.h"
 
-TransformBuffer::TransformBuffer(Graphics& gfx)
+TransformBuffer::TransformBuffer(Graphics* gfx)
 	:
 	Bindable(gfx)
 {

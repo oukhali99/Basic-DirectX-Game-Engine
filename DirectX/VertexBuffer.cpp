@@ -1,6 +1,6 @@
 #include "VertexBuffer.h"
 
-VertexBuffer::VertexBuffer(Graphics& gfx, VERTEX* vertices, int verticesSize)
+VertexBuffer::VertexBuffer(Graphics* gfx, VERTEX* vertices, int verticesSize)
     :
     Bindable(gfx)
 {

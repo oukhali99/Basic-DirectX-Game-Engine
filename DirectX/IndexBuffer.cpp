@@ -1,7 +1,7 @@
 #include "IndexBuffer.h"
 #include "btBulletDynamicsCommon.h"
 
-IndexBuffer::IndexBuffer(Graphics& gfx, unsigned short indices[], UINT sizeOfIndices) 
+IndexBuffer::IndexBuffer(Graphics* gfx, unsigned short indices[], UINT sizeOfIndices) 
 	:
 	Bindable(gfx),
     indices(indices),

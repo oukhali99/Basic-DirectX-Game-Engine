@@ -1,9 +1,9 @@
 #include "Cube.h"
 #include "btBulletDynamicsCommon.h"
 
-Cube::Cube(Graphics& gfx, btDiscreteDynamicsWorld* dynamicsWorld, btTransform transform)
+Cube::Cube(Graphics* gfx, btDiscreteDynamicsWorld* dynamicsWorld)
     :
-    Shape(gfx, dynamicsWorld, transform)
+    Shape(gfx, dynamicsWorld)
 {
     // Create a resource for the vertices
     VERTEX OurVertices[] = {
@@ -45,20 +45,20 @@ Cube::Cube(Graphics& gfx, btDiscreteDynamicsWorld* dynamicsWorld, btTransform tr
             2, 5, 6, 1, 5, 2,
     };
 
+    // TODO. find a better way
+    transform.setOrigin(btVector3(0, 0, 10));
+
     VertexBuffer* vb = new VertexBuffer(gfx, OurVertices, sizeof(OurVertices));
-    bindables.push_back(vb);
-
     TransformBuffer* tcb = new TransformBuffer(gfx);
-    bindables.push_back(tcb);
-
     ColorBuffer* ccb = new ColorBuffer(gfx, fc);
-    bindables.push_back(ccb);
-
     IndexBuffer* ib = new IndexBuffer(gfx, indices, sizeof(indices));
+    bindables.push_back(vb);
+    bindables.push_back(tcb);
+    bindables.push_back(ccb);
     bindables.push_back(ib);
 
     btCollisionShape* shape = new btBoxShape(btVector3(btScalar(1), btScalar(1), btScalar(1)));
-    btScalar mass(0.1f);
+    btScalar mass(0);
     bool isDynamic = (mass != 0.f);
     btVector3 localInertia(0, 0, 0);
     if (isDynamic)

@@ -4,5 +4,5 @@
 
 class Pyramid : public Shape {
 public:
-	Pyramid(Graphics& gfx, btDiscreteDynamicsWorld* dynamicsWorld, btTransform transform);
+	Pyramid(Graphics* gfx, btDiscreteDynamicsWorld* dynamicsWorld);
 };
