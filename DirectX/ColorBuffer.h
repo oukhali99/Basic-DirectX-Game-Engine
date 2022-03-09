@@ -2,8 +2,8 @@
 #include "Bindable.h"
 #include "Graphics.h"
 
-class ColorConstantBuffer : public Bindable {
+class ColorBuffer : public Bindable {
 public:
-	ColorConstantBuffer(Graphics& gfx, FaceColors fc);
+	ColorBuffer(Graphics& gfx, FaceColors fc);
 	void Bind(btTransform transform) override;
 };

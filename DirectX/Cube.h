@@ -3,8 +3,8 @@
 #include "Clock.h"
 #include "Mouse.h"
 #include "VertexBuffer.h"
-#include "TransformConstantBuffer.h"
-#include "ColorConstantBuffer.h"
+#include "TransformBuffer.h"
+#include "ColorBuffer.h"
 #include "IndexBuffer.h"
 
 class Cube : public Shape {

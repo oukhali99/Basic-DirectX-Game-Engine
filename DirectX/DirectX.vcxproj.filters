@@ -54,10 +54,10 @@
     <ClCompile Include="VertexBuffer.cpp">
       <Filter>Source Files\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="TransformConstantBuffer.cpp">
+    <ClCompile Include="TransformBuffer.cpp">
       <Filter>Source Files\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="ColorConstantBuffer.cpp">
+    <ClCompile Include="ColorBuffer.cpp">
       <Filter>Source Files\Bindable</Filter>
     </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
@@ -100,10 +100,10 @@
     <ClInclude Include="VertexBuffer.h">
       <Filter>Header Files\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="TransformConstantBuffer.h">
+    <ClInclude Include="TransformBuffer.h">
       <Filter>Header Files\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="ColorConstantBuffer.h">
+    <ClInclude Include="ColorBuffer.h">
       <Filter>Header Files\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">

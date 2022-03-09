@@ -35,21 +35,24 @@ void Shape::ButtonPressed(WPARAM wParam) {
 
 void Shape::OnButtonPressed(WPARAM wParam) {
     float increment = 0.1f;
+    float force = 0.5f;
+    btVector3 direction(0, 0, 0);
 
-    /*
     if (wParam == 'w') {
-        transform.y += increment;
+        direction.setY(1);
     }
     else if (wParam == 's') {
-        transform.y -= increment;
+        direction.setY(-1);
     }
     else if (wParam == 'd') {
-        transform.x += increment;
+        direction.setX(1);
     }
     else if (wParam == 'a') {
-        transform.x -= increment;
+        direction.setX(-1);
     }
-    */
+
+    rigidbody->activate();
+    rigidbody->applyCentralImpulse(direction * force);
 }
 
 void Shape::OnMouseMovedTo(Mouse::Position position) { 

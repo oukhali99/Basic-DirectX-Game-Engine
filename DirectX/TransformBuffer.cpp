@@ -1,6 +1,6 @@
-#include "TransformConstantBuffer.h"
+#include "TransformBuffer.h"
 
-TransformConstantBuffer::TransformConstantBuffer(Graphics& gfx)
+TransformBuffer::TransformBuffer(Graphics& gfx)
 	:
 	Bindable(gfx)
 {
@@ -13,15 +13,15 @@ TransformConstantBuffer::TransformConstantBuffer(Graphics& gfx)
     GFX_THROW_INFO(GetDevice(gfx)->CreateBuffer(&bd, NULL, &pBuffer));
 }
 
-void TransformConstantBuffer::Bind(btTransform transform) {
+void TransformBuffer::Bind(btTransform transform) {
     GetDeviceContext(gfx)->VSSetConstantBuffers(0, 1u, &pBuffer);
 
     float squeeze = (float)SCREEN_HEIGHT / (float)SCREEN_WIDTH;
+    dx::XMFLOAT4 quaternionFloat((float)transform.getRotation().x(), (float)transform.getRotation().y(), (float)transform.getRotation().z(), (float)transform.getRotation().w());
+    dx::XMVECTOR quaternion = dx::XMLoadFloat4(&quaternionFloat);
     const ConstantBuffer cb = {
         dx::XMMatrixTranspose(
-            dx::XMMatrixRotationX(transform.getRotation().x()) *
-            dx::XMMatrixRotationY(transform.getRotation().y()) *
-            dx::XMMatrixRotationZ(transform.getRotation().z()) *
+            dx::XMMatrixRotationQuaternion(quaternion) *
             dx::XMMatrixTranslation(transform.getOrigin().x(), transform.getOrigin().y(), transform.getOrigin().z()) *
             dx::XMMatrixPerspectiveLH(1.0f, squeeze, 0.5f, 20.0f)
         )

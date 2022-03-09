@@ -48,10 +48,10 @@ Cube::Cube(Graphics& gfx, btDiscreteDynamicsWorld* dynamicsWorld, btTransform tr
     VertexBuffer* vb = new VertexBuffer(gfx, OurVertices, sizeof(OurVertices));
     bindables.push_back(vb);
 
-    TransformConstantBuffer* tcb = new TransformConstantBuffer(gfx);
+    TransformBuffer* tcb = new TransformBuffer(gfx);
     bindables.push_back(tcb);
 
-    ColorConstantBuffer* ccb = new ColorConstantBuffer(gfx, fc);
+    ColorBuffer* ccb = new ColorBuffer(gfx, fc);
     bindables.push_back(ccb);
 
     IndexBuffer* ib = new IndexBuffer(gfx, indices, sizeof(indices));

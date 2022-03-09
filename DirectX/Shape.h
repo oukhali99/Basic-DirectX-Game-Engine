@@ -12,9 +12,9 @@ class Shape {
 public:
 	bool followMouse;
 	bool followKeyboard;
+	btRigidBody* rigidbody;
 
 	void RenderFrame();
-
 	void ButtonPressed(WPARAM wParam);
 	void MouseMovedTo(Mouse::Position position);
 protected:
@@ -25,7 +25,6 @@ protected:
 	btTransform transform;
 	std::vector<Bindable*> bindables;
 	btDiscreteDynamicsWorld* dynamicsWorld;
-	btRigidBody* rigidbody;
 
 	void OnButtonPressed(WPARAM wParam);
 	void OnMouseMovedTo(Mouse::Position position);

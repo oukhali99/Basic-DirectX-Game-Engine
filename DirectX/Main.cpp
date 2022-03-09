@@ -78,17 +78,19 @@ int WINAPI WinMain(
             overlappingPairCache, solver, collisionConfiguration);
 
         // Set the gravity
-        dynamicsWorld->setGravity(btVector3(0, -0.5f, 0));
+        dynamicsWorld->setGravity(btVector3(0, -9.81f, 0));
 
         btTransform transform;
         transform.setIdentity();
-        transform.setOrigin(btVector3(-2, 0, 10));
-        transform.setRotation(btQuaternion(90, 90, 90, 0));
+        transform.setOrigin(btVector3(0, -2, 10));
+        transform.setRotation(btQuaternion(3 * 3.14f/4, 0, 0));
         Shape* cube1 = new Cube(*gfx, dynamicsWorld, transform);
+        cube1->rigidbody->setMassProps(0, btVector3());
 
         transform.setIdentity();
-        transform.setOrigin(btVector3(2, 0, 10));
+        transform.setOrigin(btVector3(0, 1, 10));
         Shape* cube2 = new Cube(*gfx, dynamicsWorld, transform);
+        cube2->followKeyboard = true;
 
         // this struct holds Windows event messages
         MSG msg = { 0 };
@@ -96,6 +98,7 @@ int WINAPI WinMain(
         // wait for the next message in the queue, store the result in 'msg'
         while (true)
         {
+            dynamicsWorld->stepSimulation(1.0f / 600.0f, 10);
             if (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE)) {
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);
@@ -114,7 +117,6 @@ int WINAPI WinMain(
                 oss << "Mouse Position: " << std::fixed << "(" << mp.x << ", " << mp.y << ")";
                 SetWindowTextA(hWnd, oss.str().c_str());
 
-                dynamicsWorld->stepSimulation(1.0f / 600.0f, 10);
                 gfx->RenderFrame();
             }
         }

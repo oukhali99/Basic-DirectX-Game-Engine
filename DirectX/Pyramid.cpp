@@ -1,8 +1,8 @@
 #include "Pyramid.h"
 #include "VertexBuffer.h"
-#include "ColorConstantBuffer.h"
+#include "ColorBuffer.h"
 #include "IndexBuffer.h"
-#include "TransformConstantBuffer.h"
+#include "TransformBuffer.h"
 #include "Clock.h"
 
 Pyramid::Pyramid(Graphics& gfx, btDiscreteDynamicsWorld* dynamicsWorld, btTransform transform)
@@ -35,10 +35,10 @@ Pyramid::Pyramid(Graphics& gfx, btDiscreteDynamicsWorld* dynamicsWorld, btTransf
 	VertexBuffer* vb = new VertexBuffer(gfx, vertices, sizeof(vertices));
 	bindables.push_back(vb);
 
-	TransformConstantBuffer* tcb = new TransformConstantBuffer(gfx);
+	TransformBuffer* tcb = new TransformBuffer(gfx);
 	bindables.push_back(tcb);
 
-	ColorConstantBuffer* ccb = new ColorConstantBuffer(gfx, fc);
+	ColorBuffer* ccb = new ColorBuffer(gfx, fc);
 	bindables.push_back(ccb);
 
 	IndexBuffer* ib = new IndexBuffer(gfx, indices, sizeof(indices));

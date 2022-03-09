@@ -165,7 +165,7 @@
   <ItemGroup>
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Clock.cpp" />
-    <ClCompile Include="ColorConstantBuffer.cpp" />
+    <ClCompile Include="ColorBuffer.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
@@ -174,7 +174,7 @@
     <ClCompile Include="MyException.cpp" />
     <ClCompile Include="Pyramid.cpp" />
     <ClCompile Include="Shape.cpp" />
-    <ClCompile Include="TransformConstantBuffer.cpp" />
+    <ClCompile Include="TransformBuffer.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -182,7 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Clock.h" />
-    <ClInclude Include="ColorConstantBuffer.h" />
+    <ClInclude Include="ColorBuffer.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="IndexBuffer.h" />
@@ -192,7 +192,7 @@
     <ClInclude Include="MyException.h" />
     <ClInclude Include="Pyramid.h" />
     <ClInclude Include="Shape.h" />
-    <ClInclude Include="TransformConstantBuffer.h" />
+    <ClInclude Include="TransformBuffer.h" />
     <ClInclude Include="VertexBuffer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

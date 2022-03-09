@@ -24,11 +24,6 @@ namespace dx = DirectX;
 
 #define GFX_THROW_INFO(hrcall) if (FAILED(hr = (hrcall))) { Main::HandleError(hr, __FILE__, __LINE__); }
 
-struct Transform {
-    float x, y, z;
-    float xRot, yRot, zRot;
-};
-
 struct VERTEX {
     float x, y, z;
 };
