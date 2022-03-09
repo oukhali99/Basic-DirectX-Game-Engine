@@ -6,6 +6,7 @@
 #include "Pyramid.h"
 #include "btBulletDynamicsCommon.h"
 #include "Window.h"
+#include "Physics.h"
 
 Graphics* gfx;
 
@@ -18,32 +19,23 @@ int WINAPI WinMain(
     try {
         HWND hWnd;
         ZeroMemory(&hWnd, sizeof(hWnd));
-        Window(hInstance, hPrevInstance, lpCmdLine, nCmdShow, hWnd);
+        Window window(hInstance, hPrevInstance, lpCmdLine, nCmdShow, hWnd);
 
         gfx = new Graphics(hWnd);
 
-        // Create the configuration
-        btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
-        // Create the collision dispatcher
-        btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
-        // ???
-        btBroadphaseInterface* overlappingPairCache = new btDbvtBroadphase();
-        // Constraint solver
-        btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver();
-        // Create the world
-        btDiscreteDynamicsWorld* dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher,
-            overlappingPairCache, solver, collisionConfiguration);
-        // Set the gravity
-        dynamicsWorld->setGravity(btVector3(0, -9.81f, 0));
-
+        btDiscreteDynamicsWorld* dynamicsWorld;
+        Physics physics(&dynamicsWorld);
 
         Shape* cube1 = new Cube(gfx, dynamicsWorld);
-        Shape* cube2 = new Cube(gfx, dynamicsWorld);
+        btRigidBody* rb = btRigidBody::upcast(cube1->collisionObject);
+        cube1->followKeyboard = true;
+
+        Shape* floor = new Cube(gfx, dynamicsWorld);
 
         MSG msg = { 0 };
         while (true)
         {
-            dynamicsWorld->stepSimulation(1.0f / 600.0f, 10);
+            dynamicsWorld->stepSimulation(1.0f / 6000.0f, 10);
             if (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE)) {
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);

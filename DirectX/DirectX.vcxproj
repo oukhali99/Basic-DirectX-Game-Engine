@@ -172,6 +172,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="MyException.cpp" />
+    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Pyramid.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="TransformBuffer.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Bindable.h" />
     <ClInclude Include="MyException.h" />
+    <ClInclude Include="Physics.h" />
     <ClInclude Include="Pyramid.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="TransformBuffer.h" />

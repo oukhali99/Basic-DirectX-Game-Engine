@@ -58,13 +58,13 @@ Cube::Cube(Graphics* gfx, btDiscreteDynamicsWorld* dynamicsWorld)
     bindables.push_back(ib);
 
     btCollisionShape* shape = new btBoxShape(btVector3(btScalar(1), btScalar(1), btScalar(1)));
-    btScalar mass(0);
-    bool isDynamic = (mass != 0.f);
+    btScalar mass(1);
+    bool isDynamic = (mass != 0);
     btVector3 localInertia(0, 0, 0);
     if (isDynamic)
         shape->calculateLocalInertia(mass, localInertia);
     btDefaultMotionState* myMotionState = new btDefaultMotionState(transform);
     btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape, localInertia);
-    rigidbody = new btRigidBody(rbInfo);
-    dynamicsWorld->addRigidBody(rigidbody);
+    collisionObject = new btRigidBody(rbInfo);
+    dynamicsWorld->addRigidBody(btRigidBody::upcast(collisionObject));
 }

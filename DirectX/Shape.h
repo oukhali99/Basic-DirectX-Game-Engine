@@ -12,7 +12,7 @@ class Shape {
 public:
 	bool followMouse;
 	bool followKeyboard;
-	btRigidBody* rigidbody;
+	btCollisionObject* collisionObject;
 
 	void RenderFrame();
 	void ButtonPressed(WPARAM wParam);

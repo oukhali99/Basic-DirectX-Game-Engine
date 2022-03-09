@@ -17,7 +17,10 @@ Shape::Shape(Graphics* gfx, btDiscreteDynamicsWorld* dynamicsWorld)
 }
 
 void Shape::RenderFrame() {
-    rigidbody->getMotionState()->getWorldTransform(transform);
+    btRigidBody* rigidbody = btRigidBody::upcast(collisionObject);
+    if (rigidbody) {
+        rigidbody->getMotionState()->getWorldTransform(transform);
+    }
 
     for (Bindable* bindable : bindables) {
         bindable->Bind(transform);
@@ -37,25 +40,28 @@ void Shape::ButtonPressed(WPARAM wParam) {
 }
 
 void Shape::OnButtonPressed(WPARAM wParam) {
-    float increment = 0.1f;
-    float force = 0.5f;
-    btVector3 direction(0, 0, 0);
+    btRigidBody* rigidbody = btRigidBody::upcast(collisionObject);
+    if (rigidbody) {
+        float increment = 0.1f;
+        float force = 1.5f;
+        btVector3 direction(0, 0, 0);
 
-    if (wParam == 'w') {
-        direction.setY(1);
-    }
-    else if (wParam == 's') {
-        direction.setY(-1);
-    }
-    else if (wParam == 'd') {
-        direction.setX(1);
-    }
-    else if (wParam == 'a') {
-        direction.setX(-1);
-    }
+        if (wParam == 'w') {
+            direction.setY(1);
+        }
+        else if (wParam == 's') {
+            direction.setY(-1);
+        }
+        else if (wParam == 'd') {
+            direction.setX(1);
+        }
+        else if (wParam == 'a') {
+            direction.setX(-1);
+        }
 
-    rigidbody->activate();
-    rigidbody->applyCentralImpulse(direction * force);
+        rigidbody->activate();
+        rigidbody->applyCentralImpulse(direction * force);
+    }
 }
 
 void Shape::OnMouseMovedTo(Mouse::Position position) { 
