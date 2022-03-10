@@ -45,9 +45,6 @@ Cube::Cube(Graphics* gfx, btDiscreteDynamicsWorld* dynamicsWorld)
             2, 5, 6, 1, 5, 2,
     };
 
-    // TODO. find a better way
-    transform.setOrigin(btVector3(0, 0, 10));
-
     VertexBuffer* vb = new VertexBuffer(gfx, OurVertices, sizeof(OurVertices));
     TransformBuffer* tcb = new TransformBuffer(gfx);
     ColorBuffer* ccb = new ColorBuffer(gfx, fc);
@@ -55,16 +52,5 @@ Cube::Cube(Graphics* gfx, btDiscreteDynamicsWorld* dynamicsWorld)
     bindables.push_back(vb);
     bindables.push_back(tcb);
     bindables.push_back(ccb);
-    bindables.push_back(ib);
-
-    btCollisionShape* shape = new btBoxShape(btVector3(btScalar(1), btScalar(1), btScalar(1)));
-    btScalar mass(1);
-    bool isDynamic = (mass != 0);
-    btVector3 localInertia(0, 0, 0);
-    if (isDynamic)
-        shape->calculateLocalInertia(mass, localInertia);
-    btDefaultMotionState* myMotionState = new btDefaultMotionState(transform);
-    btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape, localInertia);
-    collisionObject = new btRigidBody(rbInfo);
-    dynamicsWorld->addRigidBody(btRigidBody::upcast(collisionObject));
+    bindables.push_back(ib);    
 }

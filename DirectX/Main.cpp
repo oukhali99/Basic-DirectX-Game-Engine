@@ -27,15 +27,24 @@ int WINAPI WinMain(
         Physics physics(&dynamicsWorld);
 
         Shape* cube1 = new Cube(gfx, dynamicsWorld);
-        btRigidBody* rb = btRigidBody::upcast(cube1->collisionObject);
+        btTransform transform;
+        transform.setIdentity();
+        transform.setOrigin(btVector3(0, 0, 10));
+        cube1->SetTransform(transform);
+        cube1->AddRigidBody();
         cube1->followKeyboard = true;
 
         Shape* floor = new Cube(gfx, dynamicsWorld);
+        transform.setIdentity();
+        transform.setOrigin(btVector3(0, -3, 10));
+        floor->SetTransform(transform);
+        floor->AddRigidBody();
+        floor->SetMass(0);
 
         MSG msg = { 0 };
         while (true)
         {
-            dynamicsWorld->stepSimulation(1.0f / 6000.0f, 10);
+            dynamicsWorld->stepSimulation(1.0f / 60.0f, 10);
             if (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE)) {
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);

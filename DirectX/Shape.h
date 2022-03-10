@@ -12,11 +12,15 @@ class Shape {
 public:
 	bool followMouse;
 	bool followKeyboard;
-	btCollisionObject* collisionObject;
+
+	btRigidBody* GetRigidbody();
 
 	void RenderFrame();
 	void ButtonPressed(WPARAM wParam);
 	void MouseMovedTo(Mouse::Position position);
+	void AddRigidBody();
+	void SetMass(btScalar mass);
+	void SetTransform(btTransform transform);
 protected:
 	Shape(Graphics* gfx, btDiscreteDynamicsWorld* dynamicsWorld);
 
@@ -25,6 +29,7 @@ protected:
 	btTransform transform;
 	std::vector<Bindable*> bindables;
 	btDiscreteDynamicsWorld* dynamicsWorld;
+	btCollisionObject* collisionObject;
 
 	void OnButtonPressed(WPARAM wParam);
 	void OnMouseMovedTo(Mouse::Position position);
