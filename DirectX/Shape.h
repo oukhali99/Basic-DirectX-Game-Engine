@@ -10,8 +10,6 @@ class Graphics;
 
 class Shape {
 public:
-	btRigidBody* GetRigidbody();
-
 	btTransform GetTransform();
 	btVector3 GetSize();
 

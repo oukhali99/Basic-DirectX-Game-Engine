@@ -9,13 +9,6 @@ Shape::Shape()
 {}
 
 void Shape::RenderFrame() {
-    if (collisionObject) {
-        btRigidBody* rigidbody = btRigidBody::upcast(collisionObject);
-        if (rigidbody) {
-            rigidbody->getMotionState()->getWorldTransform(transform);
-        }
-    }
-
     for (Bindable* bindable : bindables) {
         bindable->Bind(this);
     }
@@ -35,15 +28,4 @@ void Shape::SetSize(btVector3 size) {
 
 void Shape::SetTransform(btTransform transform) {
     this->transform = transform;
-}
-
-btRigidBody* Shape::GetRigidbody() {
-    if (collisionObject) {
-        btRigidBody* rb = btRigidBody::upcast(collisionObject);
-        if (rb) {
-            return rb;
-        }
-    }
-
-    return NULL;
 }
