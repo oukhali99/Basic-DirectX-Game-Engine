@@ -21,7 +21,7 @@ int WINAPI WinMain(
         ZeroMemory(&hWnd, sizeof(hWnd));
         Window window(hInstance, hPrevInstance, lpCmdLine, nCmdShow, hWnd);
 
-        gfx = new Graphics(hWnd);
+        gfx = new Graphics(hWnd, 0.5f, 50.0f);
 
         btDiscreteDynamicsWorld* dynamicsWorld;
         Physics physics(&dynamicsWorld);

@@ -23,7 +23,7 @@ void TransformBuffer::Bind(btTransform transform) {
         dx::XMMatrixTranspose(
             dx::XMMatrixRotationQuaternion(quaternion) *
             dx::XMMatrixTranslation(transform.getOrigin().x(), transform.getOrigin().y(), transform.getOrigin().z()) *
-            dx::XMMatrixPerspectiveLH(1.0f, squeeze, 0.5f, 20.0f)
+            dx::XMMatrixPerspectiveLH(1.0f, squeeze, GetNearZ(gfx), GetFarZ(gfx))
         )
     };
 

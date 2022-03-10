@@ -1,9 +1,11 @@
 #include "Graphics.h"
 #include "Mouse.h"
 
-Graphics::Graphics(HWND hWnd)
+Graphics::Graphics(HWND hWnd, float nearZ, float farZ)
     :
-    hWnd(hWnd)
+    hWnd(hWnd),
+    nearZ(nearZ),
+    farZ(farZ)
 {
     InitD3D();
     InitPipeline();

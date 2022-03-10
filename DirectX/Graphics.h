@@ -8,7 +8,7 @@ class Graphics {
     friend class Bindable;
     friend class Shape;
 public:
-    Graphics(HWND hWnd);
+    Graphics(HWND hWnd, float nearZ, float farZ);
     ~Graphics();
 
     ID3D11Device* GetPDevice();
@@ -30,6 +30,7 @@ private:
     ID3D11PixelShader* pPS;                     // the pixel shader
     ID3D11InputLayout* pLayout;                 // global
     ID3D11DepthStencilView* pDSView;
+    float nearZ, farZ;
 
     std::vector<Shape*> shapes;
 
