@@ -30,15 +30,17 @@ Pyramid::Pyramid() {
 		}
 	};
 
-	VertexBuffer* vb = new VertexBuffer(vertices, sizeof(vertices));
-	bindables.push_back(vb);
+	if (bindables.size() == 0) {
+		VertexBuffer* vb = new VertexBuffer(vertices, sizeof(vertices));
+		bindables.push_back(vb);
 
-	TransformBuffer* tcb = new TransformBuffer();
-	bindables.push_back(tcb);
+		TransformBuffer* tcb = new TransformBuffer();
+		bindables.push_back(tcb);
 
-	ColorBuffer* ccb = new ColorBuffer(fc);
-	bindables.push_back(ccb);
+		ColorBuffer* ccb = new ColorBuffer(fc);
+		bindables.push_back(ccb);
 
-	IndexBuffer* ib = new IndexBuffer(indices, sizeof(indices));
-	bindables.push_back(ib);
+		IndexBuffer* ib = new IndexBuffer(indices, sizeof(indices));
+		bindables.push_back(ib);
+	}
 }

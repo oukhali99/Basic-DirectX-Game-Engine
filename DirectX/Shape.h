@@ -13,15 +13,13 @@ public:
 	btTransform GetTransform();
 	btVector3 GetSize();
 
-	void RenderFrame();
+	virtual void RenderFrame() = 0;
 	void SetTransform(btTransform transform);
 	void SetSize(btVector3 size);
 protected:
 	Shape();
 
 	HRESULT hr;
-	std::vector<Bindable*> bindables;
-
 	btTransform transform;
 	btVector3 size;
 	btCollisionObject* collisionObject;

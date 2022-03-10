@@ -1,8 +1,8 @@
 #include "Main.h"
-#include "Shape.h"
+#include "ShapeBase.h"
 
 
-class Pyramid : public Shape {
+class Pyramid : public ShapeBase<Pyramid> {
 public:
 	Pyramid();
 };

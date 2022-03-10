@@ -8,12 +8,6 @@ Shape::Shape()
     collisionObject(0)
 {}
 
-void Shape::RenderFrame() {
-    for (Bindable* bindable : bindables) {
-        bindable->Bind(this);
-    }
-}
-
 btTransform Shape::GetTransform() {
     return transform;
 }

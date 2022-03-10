@@ -39,6 +39,20 @@ int WINAPI WinMain(
         object1->AddRigidbody();
 
         transform.setIdentity();
+        transform.setOrigin(btVector3(-12, 8, 20));
+        GameObject* object2 = new GameObject(transform, size, mass);
+        Shape* cube2 = new Cube();
+        object2->AddShape(cube2);
+        object2->AddRigidbody();
+
+        transform.setIdentity();
+        transform.setOrigin(btVector3(0, 10, 20));
+        GameObject* object3 = new GameObject(transform, size, mass);
+        Shape* cube3 = new Cube();
+        object3->AddShape(cube3);
+        object3->AddRigidbody();
+
+        transform.setIdentity();
         transform.setOrigin(btVector3(0, -8, 20));
         size = btVector3(15, 1, 1);
         mass = 0;

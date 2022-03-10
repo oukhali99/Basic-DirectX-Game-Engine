@@ -43,12 +43,14 @@ Cube::Cube() {
             2, 5, 6, 1, 5, 2,
     };
 
-    VertexBuffer* vb = new VertexBuffer(OurVertices, sizeof(OurVertices));
-    TransformBuffer* tcb = new TransformBuffer();
-    ColorBuffer* ccb = new ColorBuffer(fc);
-    IndexBuffer* ib = new IndexBuffer(indices, sizeof(indices));
-    bindables.push_back(vb);
-    bindables.push_back(tcb);
-    bindables.push_back(ccb);
-    bindables.push_back(ib);    
+    if (bindables.size() == 0) {
+        VertexBuffer* vb = new VertexBuffer(OurVertices, sizeof(OurVertices));
+        TransformBuffer* tcb = new TransformBuffer();
+        ColorBuffer* ccb = new ColorBuffer(fc);
+        IndexBuffer* ib = new IndexBuffer(indices, sizeof(indices));
+        bindables.push_back(vb);
+        bindables.push_back(tcb);
+        bindables.push_back(ccb);
+        bindables.push_back(ib);
+    }
 }
