@@ -29,22 +29,25 @@ int WINAPI WinMain(
         Shape* cube1 = new Cube(gfx, dynamicsWorld);
         btTransform transform;
         transform.setIdentity();
-        transform.setOrigin(btVector3(0, 0, 10));
+        transform.setOrigin(btVector3(0, 20, 40));
         cube1->SetTransform(transform);
         cube1->AddRigidBody();
         cube1->followKeyboard = true;
 
         Shape* floor = new Cube(gfx, dynamicsWorld);
         transform.setIdentity();
-        transform.setOrigin(btVector3(0, -3, 10));
+        transform.setOrigin(btVector3(0, -20, 40));
         floor->SetTransform(transform);
         floor->AddRigidBody();
         floor->SetMass(0);
 
         MSG msg = { 0 };
+        float last = Clock::GetSingleton().GetTimeSinceStart();
         while (true)
         {
-            dynamicsWorld->stepSimulation(1.0f / 60.0f, 10);
+            dynamicsWorld->stepSimulation(Clock::GetSingleton().GetTimeSinceStart() - last, 10);
+            last = Clock::GetSingleton().GetTimeSinceStart();
+
             if (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE)) {
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);
