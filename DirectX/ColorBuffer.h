@@ -2,8 +2,10 @@
 #include "Bindable.h"
 #include "Graphics.h"
 
+class Shape;
+
 class ColorBuffer : public Bindable {
 public:
 	ColorBuffer(FaceColors fc);
-	void Bind(btTransform transform) override;
+	void Bind(Shape* shape) override;
 };

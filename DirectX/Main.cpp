@@ -26,12 +26,14 @@ int WINAPI WinMain(
 
         GameObject* object1 = new GameObject();
         Shape* cube1 = new Cube();
-        object1->SetShape(cube1);
+        object1->AddShape(cube1);
         object1->AddRigidbody();
 
         MSG msg = { 0 };
         while (true)
         {
+            Game::GetInstance()->Update();
+
             if (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE)) {
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);
@@ -51,8 +53,6 @@ int WINAPI WinMain(
                 //oss << "Time elapsed: " << std::fixed << t << "s";
                 oss << "Mouse Position: " << std::fixed << "(" << mp.x << ", " << mp.y << ")";
                 SetWindowTextA(hWnd, oss.str().c_str());
-
-                Game::GetInstance()->Update();
             }
         }
 

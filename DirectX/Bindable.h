@@ -4,6 +4,7 @@
 #include "btBulletDynamicsCommon.h"
 
 class Graphics;
+class Shape;
 
 class Bindable {
 public:
@@ -11,7 +12,7 @@ public:
 
 	Bindable();
 
-	virtual void Bind(btTransform transform) = 0;
+	virtual void Bind(Shape* transform) = 0;
 
 	static ID3D11Device* GetDevice(Graphics* gfx);
 	static ID3D11DeviceContext* GetDeviceContext(Graphics* gfx);

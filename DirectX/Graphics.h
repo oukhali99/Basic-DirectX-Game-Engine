@@ -12,7 +12,6 @@ public:
     static Graphics* GetInstance();
 
     void RenderFrame();
-    void ButtonPressed(WPARAM wParam);
 private:
     Graphics(HWND hWnd, float nearZ, float farZ);
     ~Graphics();
@@ -33,6 +32,5 @@ private:
     void InitD3D();
     void InitPipeline();
     void InitGraphics();
-    void HandleError(HRESULT hr, const char* file, const long long line);
 };
 #endif

@@ -1,6 +1,7 @@
 #include "IndexBuffer.h"
 #include "btBulletDynamicsCommon.h"
 #include "Graphics.h"
+#include "Shape.h"
 
 IndexBuffer::IndexBuffer(unsigned short indices[], UINT sizeOfIndices) 
 	:
@@ -24,7 +25,7 @@ IndexBuffer::IndexBuffer(unsigned short indices[], UINT sizeOfIndices)
     GFX_THROW_INFO(GetDevice(Graphics::GetInstance())->CreateBuffer(&bd, &rd, &pBuffer));
 }
 
-void IndexBuffer::Bind(btTransform transform) {
+void IndexBuffer::Bind(Shape* shape) {
     // select which buffers to use
     GetDeviceContext(Graphics::GetInstance())->IASetIndexBuffer(pBuffer, DXGI_FORMAT_R16_UINT, 0u);
 

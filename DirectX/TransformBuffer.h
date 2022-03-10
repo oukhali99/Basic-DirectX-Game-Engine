@@ -4,5 +4,5 @@
 class TransformBuffer : public Bindable {
 public:
 	TransformBuffer();
-	void Bind(btTransform transform) override;
+	void Bind(Shape* shape) override;
 };

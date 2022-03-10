@@ -10,28 +10,23 @@ class Graphics;
 
 class Shape {
 public:
-	bool followMouse;
-	bool followKeyboard;
-
 	btRigidBody* GetRigidbody();
 
+	btTransform GetTransform();
+	btVector3 GetSize();
+
 	void RenderFrame();
-	void ButtonPressed(WPARAM wParam);
-	void MouseMovedTo(Mouse::Position position);
 	void SetTransform(btTransform transform);
+	void SetSize(btVector3 size);
 protected:
 	Shape();
 
 	HRESULT hr;
-	btTransform transform;
 	std::vector<Bindable*> bindables;
+
+	btTransform transform;
+	btVector3 size;
 	btCollisionObject* collisionObject;
-
-	void OnButtonPressed(WPARAM wParam);
-	void OnMouseMovedTo(Mouse::Position position);
-
-	static ID3D11Device* GetDevice(Graphics* gfx);
-	static ID3D11DeviceContext* GetDeviceContext(Graphics* gfx);
 };
 
 #endif

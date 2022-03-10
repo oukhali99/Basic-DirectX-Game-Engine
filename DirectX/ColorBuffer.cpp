@@ -1,4 +1,5 @@
 #include "ColorBuffer.h"
+#include "Shape.h"
 
 ColorBuffer::ColorBuffer(FaceColors fc) {
     // Create the rotation constant buffer
@@ -16,7 +17,7 @@ ColorBuffer::ColorBuffer(FaceColors fc) {
     GFX_THROW_INFO(GetDevice(Graphics::GetInstance())->CreateBuffer(&bd, &rd, &pBuffer));
 }
 
-void ColorBuffer::Bind(btTransform transform) {
+void ColorBuffer::Bind(Shape* shape) {
     UINT stride = sizeof(VERTEX);
     UINT offset = 0u;
     GetDeviceContext(Graphics::GetInstance())->PSSetConstantBuffers(0, 1u, &pBuffer);

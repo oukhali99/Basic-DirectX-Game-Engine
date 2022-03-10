@@ -2,10 +2,12 @@
 #include "Bindable.h"
 #include "btBulletDynamicsCommon.h"
 
+class Shape;
+
 class IndexBuffer : public Bindable {
 public:
 	IndexBuffer(unsigned short indices[], UINT sizeOfIndices);
-	void Bind(btTransform transform) override;
+	void Bind(Shape* shape) override;
 private:
 	unsigned short* indices; 
 	UINT sizeOfIndices;

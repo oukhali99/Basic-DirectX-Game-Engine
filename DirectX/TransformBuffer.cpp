@@ -1,5 +1,6 @@
 #include "TransformBuffer.h"
 #include "Graphics.h"
+#include "Shape.h"
 
 TransformBuffer::TransformBuffer() {
     D3D11_BUFFER_DESC bd;
@@ -11,7 +12,10 @@ TransformBuffer::TransformBuffer() {
     GFX_THROW_INFO(GetDevice(Graphics::GetInstance())->CreateBuffer(&bd, NULL, &pBuffer));
 }
 
-void TransformBuffer::Bind(btTransform transform) {
+void TransformBuffer::Bind(Shape* shape) {
+    btTransform transform = shape->GetTransform();
+    btVector3 size = shape->GetSize();
+
     GetDeviceContext(Graphics::GetInstance())->VSSetConstantBuffers(0, 1u, &pBuffer);
 
     float squeeze = (float)SCREEN_HEIGHT / (float)SCREEN_WIDTH;
@@ -21,7 +25,8 @@ void TransformBuffer::Bind(btTransform transform) {
         dx::XMMatrixTranspose(
             dx::XMMatrixRotationQuaternion(quaternion) *
             dx::XMMatrixTranslation(transform.getOrigin().x(), transform.getOrigin().y(), transform.getOrigin().z()) *
-            dx::XMMatrixPerspectiveLH(1.0f, squeeze, GetNearZ(Graphics::GetInstance()), GetFarZ(Graphics::GetInstance()))
+            dx::XMMatrixPerspectiveLH(1.0f, squeeze, GetNearZ(Graphics::GetInstance()), GetFarZ(Graphics::GetInstance())) *
+            dx::XMMatrixScaling(size.x(), size.y(), size.z())
         )
     };
 

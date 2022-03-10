@@ -7,14 +7,15 @@ class GameObject {
 public:
 	GameObject();
 
-	Shape* GetShape();
-
 	void RenderFrame();
 	void UpdatePhysics();
-	void SetShape(Shape* shape);
+	void AddShape(Shape* shape);
 	void AddRigidbody();
 private:
 	Shape* shape;
 	btRigidBody* rigidbody;
+	btTransform transform;
+	btVector3 size;
+	btScalar mass;
 };
 #endif
