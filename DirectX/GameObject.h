@@ -6,6 +6,7 @@
 class GameObject {
 public:
 	GameObject();
+	GameObject(btTransform transform, btVector3 size, btScalar mass);
 
 	void RenderFrame();
 	void UpdatePhysics();

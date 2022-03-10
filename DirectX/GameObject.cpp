@@ -10,11 +10,17 @@ GameObject::GameObject()
 	mass(0),
 	size(btVector3(1, 1, 1))
 {
-	transform.setIdentity();
-	transform.setOrigin(btVector3(0, 0, 10));
-	mass = 1;
-	size = btVector3(1, 1, 1);
+	Game::GetInstance()->AddGameObject(this);
+}
 
+GameObject::GameObject(btTransform transform, btVector3 size, btScalar mass) 
+	:
+	shape(0),
+	rigidbody(0),
+	transform(transform),
+	size(size),
+	mass(mass)
+{
 	Game::GetInstance()->AddGameObject(this);
 }
 

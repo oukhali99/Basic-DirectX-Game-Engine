@@ -23,10 +23,10 @@ void TransformBuffer::Bind(Shape* shape) {
     dx::XMVECTOR quaternion = dx::XMLoadFloat4(&quaternionFloat);
     const ConstantBuffer cb = {
         dx::XMMatrixTranspose(
+            dx::XMMatrixScaling(size.x(), size.y(), size.z()) *
             dx::XMMatrixRotationQuaternion(quaternion) *
             dx::XMMatrixTranslation(transform.getOrigin().x(), transform.getOrigin().y(), transform.getOrigin().z()) *
-            dx::XMMatrixPerspectiveLH(1.0f, squeeze, GetNearZ(Graphics::GetInstance()), GetFarZ(Graphics::GetInstance())) *
-            dx::XMMatrixScaling(size.x(), size.y(), size.z())
+            dx::XMMatrixPerspectiveLH(1.0f, squeeze, GetNearZ(Graphics::GetInstance()), GetFarZ(Graphics::GetInstance())) 
         )
     };
 

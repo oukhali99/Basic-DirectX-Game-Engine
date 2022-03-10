@@ -24,10 +24,29 @@ int WINAPI WinMain(
         Physics::Init();
         Graphics::Init(hWnd, 0.5f, 50.0f);
 
-        GameObject* object1 = new GameObject();
+        btTransform transform;
+        btVector3 size;
+        btScalar mass;
+
+        transform.setIdentity();
+        transform.setOrigin(btVector3(12, 8, 20));
+        size = btVector3(2, 2, 1);
+        mass = 1;
+
+        GameObject* object1 = new GameObject(transform, size, mass);
         Shape* cube1 = new Cube();
         object1->AddShape(cube1);
         object1->AddRigidbody();
+
+        transform.setIdentity();
+        transform.setOrigin(btVector3(0, -8, 20));
+        size = btVector3(15, 1, 1);
+        mass = 0;
+
+        GameObject* floor = new GameObject(transform, size, mass);
+        Shape* floorShape = new Cube();
+        floor->AddShape(floorShape);
+        floor->AddRigidbody();
 
         MSG msg = { 0 };
         while (true)
