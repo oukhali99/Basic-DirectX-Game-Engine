@@ -8,18 +8,16 @@ class Graphics {
     friend class Bindable;
     friend class Shape;
 public:
-    Graphics(HWND hWnd, float nearZ, float farZ);
-    ~Graphics();
-
-    ID3D11Device* GetPDevice();
-    ID3D11DeviceContext* GetPContext();
-
-    // Mutators
-    void AddShape(Shape* shape);
+    static void Init(HWND hWnd, float nearZ, float farZ);
+    static Graphics* GetInstance();
 
     void RenderFrame();
     void ButtonPressed(WPARAM wParam);
 private:
+    Graphics(HWND hWnd, float nearZ, float farZ);
+    ~Graphics();
+    inline static Graphics* instance;
+
     HRESULT hr;
     HWND hWnd;
     IDXGISwapChain* swapchain;                  // the pointer to the swap chain interface
@@ -31,8 +29,6 @@ private:
     ID3D11InputLayout* pLayout;                 // global
     ID3D11DepthStencilView* pDSView;
     float nearZ, farZ;
-
-    std::vector<Shape*> shapes;
 
     void InitD3D();
     void InitPipeline();

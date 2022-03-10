@@ -4,11 +4,9 @@
 #include "IndexBuffer.h"
 #include "TransformBuffer.h"
 #include "Clock.h"
+#include "Game.h"
 
-Pyramid::Pyramid(Graphics* gfx, btDiscreteDynamicsWorld* dynamicsWorld)
-	:
-	Shape(gfx, dynamicsWorld)
-{
+Pyramid::Pyramid() {
 	VERTEX vertices[] = {
 		{ 0.0f, 0.0f, -1.0f },
 		{ 0.0f, 1.0f, 0.0f },
@@ -32,15 +30,15 @@ Pyramid::Pyramid(Graphics* gfx, btDiscreteDynamicsWorld* dynamicsWorld)
 		}
 	};
 
-	VertexBuffer* vb = new VertexBuffer(gfx, vertices, sizeof(vertices));
+	VertexBuffer* vb = new VertexBuffer(vertices, sizeof(vertices));
 	bindables.push_back(vb);
 
-	TransformBuffer* tcb = new TransformBuffer(gfx);
+	TransformBuffer* tcb = new TransformBuffer();
 	bindables.push_back(tcb);
 
-	ColorBuffer* ccb = new ColorBuffer(gfx, fc);
+	ColorBuffer* ccb = new ColorBuffer(fc);
 	bindables.push_back(ccb);
 
-	IndexBuffer* ib = new IndexBuffer(gfx, indices, sizeof(indices));
+	IndexBuffer* ib = new IndexBuffer(indices, sizeof(indices));
 	bindables.push_back(ib);
 }

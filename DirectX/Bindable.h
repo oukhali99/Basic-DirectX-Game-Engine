@@ -9,7 +9,7 @@ class Bindable {
 public:
 	Bindable(Bindable& bindable) = delete;
 
-	Bindable(Graphics* gfx);
+	Bindable();
 
 	virtual void Bind(btTransform transform) = 0;
 
@@ -20,6 +20,5 @@ public:
 protected:
 	HRESULT hr;
 	ID3D11Buffer* pBuffer;
-	Graphics* gfx;
 };
 #endif

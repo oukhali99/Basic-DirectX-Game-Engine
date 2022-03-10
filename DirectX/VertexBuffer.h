@@ -4,6 +4,6 @@
 
 class VertexBuffer : public Bindable {
 public:
-	VertexBuffer(Graphics* gfx, VERTEX* vertices, int verticesSize);
+	VertexBuffer(VERTEX* vertices, int verticesSize);
 	void Bind(btTransform transform) override;
 };

@@ -18,17 +18,13 @@ public:
 	void RenderFrame();
 	void ButtonPressed(WPARAM wParam);
 	void MouseMovedTo(Mouse::Position position);
-	void AddRigidBody();
-	void SetMass(btScalar mass);
 	void SetTransform(btTransform transform);
 protected:
-	Shape(Graphics* gfx, btDiscreteDynamicsWorld* dynamicsWorld);
+	Shape();
 
 	HRESULT hr;
-	Graphics* gfx;
 	btTransform transform;
 	std::vector<Bindable*> bindables;
-	btDiscreteDynamicsWorld* dynamicsWorld;
 	btCollisionObject* collisionObject;
 
 	void OnButtonPressed(WPARAM wParam);

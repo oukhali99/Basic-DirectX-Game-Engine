@@ -1,19 +1,17 @@
 #include "Shape.h"
 #include "Graphics.h"
+#include "btBulletDynamicsCommon.h"
 
-Shape::Shape(Graphics* gfx, btDiscreteDynamicsWorld* dynamicsWorld)
+Shape::Shape()
 	:
-	gfx(gfx),
 	hr(0),
     followKeyboard(false),
     followMouse(false),
-    dynamicsWorld(dynamicsWorld),
     collisionObject(0)
 {
     // Initialize the transform
     transform.setIdentity();
-
-    gfx->AddShape(this);
+    transform.setOrigin(btVector3(0, 0, 10));
 }
 
 void Shape::RenderFrame() {
@@ -43,19 +41,6 @@ void Shape::ButtonPressed(WPARAM wParam) {
 
 void Shape::SetTransform(btTransform transform) {
     this->transform = transform;
-}
-
-void Shape::AddRigidBody() {
-    btCollisionShape* shape = new btBoxShape(btVector3(btScalar(1), btScalar(1), btScalar(1)));
-    btScalar mass(1);
-    bool isDynamic = (mass != 0);
-    btVector3 localInertia(0, 0, 0);
-    if (isDynamic)
-        shape->calculateLocalInertia(mass, localInertia);
-    btDefaultMotionState* myMotionState = new btDefaultMotionState(transform);
-    btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape, localInertia);
-    collisionObject = new btRigidBody(rbInfo);
-    dynamicsWorld->addRigidBody(btRigidBody::upcast(collisionObject));
 }
 
 void Shape::OnButtonPressed(WPARAM wParam) {
@@ -94,18 +79,6 @@ btRigidBody* Shape::GetRigidbody() {
     }
 
     return NULL;
-}
-
-void Shape::SetMass(btScalar mass) {
-    btRigidBody* rb = GetRigidbody();
-    if (rb) {
-        btVector3 inertia;
-        rb->getCollisionShape()->calculateLocalInertia(mass, inertia);
-        rb->setMassProps(mass, inertia);
-
-        dynamicsWorld->removeCollisionObject(rb);
-        dynamicsWorld->addCollisionObject(rb);
-    }
 }
 
 void Shape::OnMouseMovedTo(Mouse::Position position) { 

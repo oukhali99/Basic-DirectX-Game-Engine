@@ -166,7 +166,10 @@
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Clock.cpp" />
     <ClCompile Include="ColorBuffer.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -174,6 +177,7 @@
     <ClCompile Include="MyException.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Pyramid.cpp" />
+    <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="TransformBuffer.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -185,7 +189,10 @@
   <ItemGroup>
     <ClInclude Include="Clock.h" />
     <ClInclude Include="ColorBuffer.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Main.h" />
@@ -194,6 +201,7 @@
     <ClInclude Include="MyException.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Pyramid.h" />
+    <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="TransformBuffer.h" />
     <ClInclude Include="VertexBuffer.h" />

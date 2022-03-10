@@ -3,6 +3,6 @@
 
 class TransformBuffer : public Bindable {
 public:
-	TransformBuffer(Graphics* gfx);
+	TransformBuffer();
 	void Bind(btTransform transform) override;
 };

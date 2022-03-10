@@ -1,5 +1,7 @@
 #ifndef H_CLOCK
 #define H_CLOCK
+#include <chrono>
+
 class Clock {
 public:
 	static Clock GetSingleton();

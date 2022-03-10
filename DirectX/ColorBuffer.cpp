@@ -1,9 +1,6 @@
 #include "ColorBuffer.h"
 
-ColorBuffer::ColorBuffer(Graphics* gfx, FaceColors fc)
-	:
-	Bindable(gfx)
-{
+ColorBuffer::ColorBuffer(FaceColors fc) {
     // Create the rotation constant buffer
     D3D11_BUFFER_DESC bd;
     D3D11_SUBRESOURCE_DATA rd;
@@ -16,11 +13,11 @@ ColorBuffer::ColorBuffer(Graphics* gfx, FaceColors fc)
     bd.Usage = D3D11_USAGE_DYNAMIC;
     bd.ByteWidth = sizeof(FaceColors);
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    GFX_THROW_INFO(GetDevice(gfx)->CreateBuffer(&bd, &rd, &pBuffer));
+    GFX_THROW_INFO(GetDevice(Graphics::GetInstance())->CreateBuffer(&bd, &rd, &pBuffer));
 }
 
 void ColorBuffer::Bind(btTransform transform) {
     UINT stride = sizeof(VERTEX);
     UINT offset = 0u;
-    GetDeviceContext(gfx)->PSSetConstantBuffers(0, 1u, &pBuffer);
+    GetDeviceContext(Graphics::GetInstance())->PSSetConstantBuffers(0, 1u, &pBuffer);
 }

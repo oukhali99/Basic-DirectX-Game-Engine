@@ -4,6 +4,6 @@
 
 class ColorBuffer : public Bindable {
 public:
-	ColorBuffer(Graphics* gfx, FaceColors fc);
+	ColorBuffer(FaceColors fc);
 	void Bind(btTransform transform) override;
 };

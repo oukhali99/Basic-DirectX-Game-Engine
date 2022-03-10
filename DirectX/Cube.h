@@ -9,5 +9,5 @@
 
 class Cube : public Shape {
 public:
-	Cube(Graphics* gfx, btDiscreteDynamicsWorld* dynamicsWorld);
+	Cube();
 };

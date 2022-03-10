@@ -1,5 +1,17 @@
+#include <vector>
+
 #include "Graphics.h"
 #include "Mouse.h"
+#include "Game.h"
+#include "GameObject.h"
+
+void Graphics::Init(HWND hWnd, float nearZ, float farZ) {
+    instance = new Graphics(hWnd, nearZ, farZ);
+}
+
+Graphics* Graphics::GetInstance() {
+    return instance;
+}
 
 Graphics::Graphics(HWND hWnd, float nearZ, float farZ)
     :
@@ -24,21 +36,6 @@ Graphics::~Graphics() {
     pPS->Release();
     pDSView->Release();
 }
-
-
-ID3D11Device* Graphics::GetPDevice() {
-    return pDevice;
-}
-
-ID3D11DeviceContext* Graphics::GetPContext() {
-    return pContext;
-}
-
-
-void Graphics::AddShape(Shape* shape) {
-    shapes.push_back(shape);
-}
-
 
 // this function initializes and prepares Direct3D for use
 void Graphics::InitD3D()
@@ -173,13 +170,9 @@ void Graphics::RenderFrame()
     pContext->ClearDepthStencilView(pDSView, D3D11_CLEAR_DEPTH, 1.0f, 0u);
 
     // Render all the shapes
-    for (Shape* shape : shapes) {
-        // Get the mouse position
-        Mouse::Position mousePosition = Mouse::GetSingleton(hWnd).GetPosition();
-
-        shape->MouseMovedTo(mousePosition);
-
-        shape->RenderFrame();
+    std::vector<GameObject*> gameObjects = Game::GetInstance()->GetGameObjects();
+    for (GameObject* gameObject : gameObjects) {
+        gameObject->RenderFrame();
     }
 
     // switch the back buffer and the front buffer
@@ -187,8 +180,12 @@ void Graphics::RenderFrame()
 }
 
 void Graphics::ButtonPressed(WPARAM wParam) {
-    for (Shape* shape : shapes) {
-        shape->ButtonPressed(wParam);
+    std::vector<GameObject*> gameObjects = Game::GetInstance()->GetGameObjects();
+    for (GameObject* gameObject : gameObjects) {
+        Shape* shape = gameObject->GetShape();
+        if (shape) {
+            shape->ButtonPressed(wParam);
+        }        
     }
 }
 
