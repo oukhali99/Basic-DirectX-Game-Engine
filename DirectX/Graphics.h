@@ -4,6 +4,21 @@
 #include "Shape.h"
 #include "Bindable.h"
 
+struct VERTEX {
+    float position[3];
+    float texCoords[2];
+};
+
+struct ConstantBuffer {
+    dx::XMMATRIX transformation;
+};
+
+struct FaceColors {
+    struct {
+        float r, g, b, a;
+    } faceColors[6];
+};
+
 class Graphics {
     friend class Bindable;
     friend class Shape;
