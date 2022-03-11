@@ -26,8 +26,8 @@ Window::Window(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, in
         L"WindowClass1",    // name of the window class
         L"Our First Windowed Program",   // title of the window
         WS_OVERLAPPEDWINDOW,    // window style
-        300,    // x-position of the window
-        100,    // y-position of the window
+        0,    // x-position of the window
+        0,    // y-position of the window
         SCREEN_WIDTH,    // width of the window
         SCREEN_HEIGHT,    // height of the window
         NULL,    // we have no parent window, NULL

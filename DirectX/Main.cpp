@@ -30,10 +30,27 @@ int WINAPI WinMain(
         btVector3 size;
 
         transform.setIdentity();
-        transform.setOrigin(btVector3(12, 8, 20));
-        size = btVector3(2, 2, 1);
+        transform.setOrigin(btVector3(0, 8, 20));
+        size = btVector3(2, 2, 3);
 
+        {
+            btTransform transform;
+            btVector3 size;
 
+            transform.setIdentity();
+            transform.setOrigin(btVector3(0, -8, 20));
+            size = btVector3(12, 1, 12);
+
+            GameObject* object = new GameObject(transform, size);
+
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+            //shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
+
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(0);
+        }
         {
             GameObject* object = new GameObject(transform, size);
 
