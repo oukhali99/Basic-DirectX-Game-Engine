@@ -1,5 +1,4 @@
 #include <vector>
-
 #include "Graphics.h"
 #include "Mouse.h"
 #include "Game.h"
@@ -95,25 +94,31 @@ void Graphics::InitD3D()
 }
 
 void Graphics::InitPipeline() {
-    // load and compile the two shaders
+    LPCWSTR shaderFiles[] = { SHADER_FILE_NAME_DEFAULT, SHADER_FILE_NAME_TEXTURE };
+
     ID3DBlob* VS = NULL;
     ID3DBlob* PS = NULL;
-    ID3DBlob* errorBlob = NULL;
-    ID3D11VertexShader* pVS;                    // the vertex shader
-    ID3D11PixelShader* pPS;                     // the pixel shader
+    for (LPCWSTR shaderFile : shaderFiles) {
+        // load and compile the two shaders
+        ID3DBlob* errorBlob = NULL;
+        ID3D11VertexShader* pVS;
+        ID3D11PixelShader* pPS;
 
-    GFX_THROW_INFO(D3DCompileFromFile(L"DefaultShaders.shaders", 0, 0, "VShader", "vs_4_0", 0, 0, &VS, &errorBlob));
-    GFX_THROW_INFO(D3DCompileFromFile(L"DefaultShaders.shaders", 0, 0, "PShader", "ps_4_0", 0, 0, &PS, &errorBlob));
+        GFX_THROW_INFO(D3DCompileFromFile(shaderFile, 0, 0, "VShader", "vs_4_0", 0, 0, &VS, &errorBlob));
+        GFX_THROW_INFO(D3DCompileFromFile(shaderFile, 0, 0, "PShader", "ps_4_0", 0, 0, &PS, &errorBlob));
 
-    GFX_THROW_INFO(pDevice->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &pVS));
-    GFX_THROW_INFO(pDevice->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &pPS));
+        GFX_THROW_INFO(pDevice->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &pVS));
+        GFX_THROW_INFO(pDevice->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &pPS));
+
+        std::pair<ID3D11VertexShader*, ID3D11PixelShader*> shaderPair;
+        shaderPair.first = pVS;
+        shaderPair.second = pPS;
+
+        compiledShaders[shaderFile] = shaderPair;
+    }
 
     // set the shader objects
-    pContext->VSSetShader(pVS, 0, 0);
-    pContext->PSSetShader(pPS, 0, 0);
-
-    pVS->Release();
-    pPS->Release();
+    SetShaders(L"DefaultShaders.shaders");
 
     // Create the shader layout (input)
     D3D11_INPUT_ELEMENT_DESC ied[] = {
@@ -127,6 +132,9 @@ void Graphics::InitPipeline() {
         &pLayout)
     );
     pContext->IASetInputLayout(pLayout);
+
+    PS->Release();
+    VS->Release();
 }
 
 void Graphics::InitGraphics() {
@@ -171,6 +179,11 @@ ID3D11Device* Graphics::GetDevice() {
 
 ID3D11DeviceContext* Graphics::GetDeviceContext() {
     return pContext;
+}
+
+void Graphics::SetShaders(LPCWSTR shaderFileName) {
+    pContext->VSSetShader(compiledShaders[shaderFileName].first, 0, 0);
+    pContext->PSSetShader(compiledShaders[shaderFileName].second, 0, 0);
 }
 
 void Graphics::ClearFrame() {

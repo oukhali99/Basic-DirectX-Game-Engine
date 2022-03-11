@@ -7,7 +7,8 @@ ShaderResources::ShaderResources(std::string texturePath)
     :
     shaderResourceView(0),
     samplerState(0),
-    texturePath(texturePath)
+    texturePath(texturePath),
+    currentShader(SHADER_FILE_NAME_DEFAULT)
 {
     // Create the texture
     D3D11_TEXTURE2D_DESC textureDesc;
@@ -56,24 +57,6 @@ ShaderResources::ShaderResources(std::string texturePath)
     }
     GFX_THROW_INFO(Graphics::GetInstance()->GetDevice()->CreateSamplerState(&image_sampler_desc,
         &samplerState));
-
-    // load and compile the two shaders
-    ID3DBlob* VS = NULL;
-    ID3DBlob* PS = NULL;
-    ID3DBlob* errorBlob = NULL;
-
-    GFX_THROW_INFO(D3DCompileFromFile(L"DefaultShaders.shaders", 0, 0, "VShader", "vs_4_0", 0, 0, &VS, &errorBlob));
-    GFX_THROW_INFO(D3DCompileFromFile(L"DefaultShaders.shaders", 0, 0, "PShader", "ps_4_0", 0, 0, &PS, &errorBlob));
-
-    GFX_THROW_INFO(Graphics::GetInstance()->GetDevice()->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &pVS));
-    GFX_THROW_INFO(Graphics::GetInstance()->GetDevice()->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &pPS));
-
-    VS->Release();
-    PS->Release();
-
-    if (errorBlob) {
-        errorBlob->Release();
-    }
 }
 
 void ShaderResources::Bind(Shape* shape) {
@@ -116,49 +99,17 @@ void ShaderResources::Bind(Shape* shape) {
             }
             Graphics::GetInstance()->GetDeviceContext()->Unmap(imageTexture, 0u);
 
-            // load and compile the two shaders
-            ID3DBlob* VS = NULL;
-            ID3DBlob* PS = NULL;
-            ID3DBlob* errorBlob = NULL;
-
-            GFX_THROW_INFO(D3DCompileFromFile(L"TextureShaders.shaders", 0, 0, "VShader", "vs_4_0", 0, 0, &VS, &errorBlob));
-            GFX_THROW_INFO(D3DCompileFromFile(L"TextureShaders.shaders", 0, 0, "PShader", "ps_4_0", 0, 0, &PS, &errorBlob));
-
-            GFX_THROW_INFO(Graphics::GetInstance()->GetDevice()->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &pVS));
-            GFX_THROW_INFO(Graphics::GetInstance()->GetDevice()->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &pPS));
-
-            VS->Release();
-            PS->Release();
-
-            if (errorBlob) {
-                errorBlob->Release();
-            }
+            // Set the shader
+            currentShader = SHADER_FILE_NAME_TEXTURE;
         }
         else {
-            // load and compile the two shaders
-            ID3DBlob* VS = NULL;
-            ID3DBlob* PS = NULL;
-            ID3DBlob* errorBlob = NULL;
-
-            GFX_THROW_INFO(D3DCompileFromFile(L"DefaultShaders.shaders", 0, 0, "VShader", "vs_4_0", 0, 0, &VS, &errorBlob));
-            GFX_THROW_INFO(D3DCompileFromFile(L"DefaultShaders.shaders", 0, 0, "PShader", "ps_4_0", 0, 0, &PS, &errorBlob));
-
-            GFX_THROW_INFO(Graphics::GetInstance()->GetDevice()->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &pVS));
-            GFX_THROW_INFO(Graphics::GetInstance()->GetDevice()->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &pPS));
-
-            VS->Release();
-            PS->Release();
-
-            if (errorBlob) {
-                errorBlob->Release();
-            }
+            currentShader = SHADER_FILE_NAME_DEFAULT;
         }
     }
 
 
     // set the shader objects
-    Graphics::GetInstance()->GetDeviceContext()->VSSetShader(pVS, 0, 0);
-    Graphics::GetInstance()->GetDeviceContext()->PSSetShader(pPS, 0, 0);
+    Graphics::GetInstance()->SetShaders(currentShader);
 
     Graphics::GetInstance()->GetDeviceContext()->PSSetShaderResources(0, 1, &shaderResourceView);
     Graphics::GetInstance()->GetDeviceContext()->PSSetSamplers(0, 1, &samplerState);

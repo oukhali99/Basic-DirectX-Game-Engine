@@ -1,8 +1,13 @@
 #ifndef H_GRAPHICS
 #define H_GRAPHICS
+#include <map>
+#include <string>
 #include "Main.h"
 #include "Shape.h"
 #include "Bindable.h"
+
+#define SHADER_FILE_NAME_DEFAULT L"DefaultShaders.shaders"
+#define SHADER_FILE_NAME_TEXTURE L"TextureShaders.shaders"
 
 struct VERTEX {
     float position[3];
@@ -31,6 +36,7 @@ public:
 
     void ClearFrame();
     void RenderFrame();
+    void SetShaders(LPCWSTR shaderFileName);
 private:
     Graphics(HWND hWnd, float nearZ, float farZ);
     ~Graphics();
@@ -45,6 +51,7 @@ private:
     ID3D11InputLayout* pLayout;                 // global
     ID3D11DepthStencilView* pDSView;
     float nearZ, farZ;
+    std::map<LPCWSTR, std::pair<ID3D11VertexShader*, ID3D11PixelShader*>> compiledShaders;
 
     void InitD3D();
     void InitPipeline();

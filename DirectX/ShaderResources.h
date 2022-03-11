@@ -23,6 +23,5 @@ private:
 	ID3D11SamplerState* samplerState;
 	std::string texturePath;
 	std::map<std::string, Image> textureCache;
-	ID3D11VertexShader* pVS;                    // the vertex shader
-	ID3D11PixelShader* pPS;                     // the pixel shader
+	LPCWSTR currentShader;
 };
