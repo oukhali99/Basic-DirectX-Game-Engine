@@ -17,8 +17,10 @@ public:
 
 	void Bind(Shape* shape) override;
 private:
-	ID3D11ShaderResourceView* image_shader_resource_view;
-	ID3D11SamplerState* image_sampler_state;
+	D3D11_TEXTURE2D_DESC textureDesc;
+	ID3D11Texture2D* imageTexture;
+	ID3D11ShaderResourceView* shaderResourceView;
+	ID3D11SamplerState* samplerState;
 	std::string texturePath;
 	std::map<std::string, Image> textureCache;
 };
