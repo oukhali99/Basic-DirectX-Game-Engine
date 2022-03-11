@@ -1,6 +1,7 @@
 #include "Cube.h"
 #include "btBulletDynamicsCommon.h"
 #include "Game.h"
+#include "ShaderResources.h"
 
 Cube::Cube(GameObject* gameObject)
     :
@@ -75,6 +76,10 @@ Cube::Cube(GameObject* gameObject)
         TransformBuffer* tcb = new TransformBuffer();
         ColorBuffer* ccb = new ColorBuffer(fc);
         IndexBuffer* ib = new IndexBuffer(indices, sizeof(indices));
+        ShaderResources* sr = new ShaderResources(texturePath);
+
+        // ORDER OF LOADING MATTERS
+        bindables.push_back(sr);    // THIS MUST BE LOADED FIRST
         bindables.push_back(vb);
         bindables.push_back(tcb);
         bindables.push_back(ccb);

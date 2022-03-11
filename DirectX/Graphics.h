@@ -26,6 +26,9 @@ public:
     static void Init(HWND hWnd, float nearZ, float farZ);
     static Graphics* GetInstance();
 
+    ID3D11Device* GetDevice();
+    ID3D11DeviceContext* GetDeviceContext();
+
     void ClearFrame();
     void RenderFrame();
 private:

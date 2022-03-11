@@ -9,6 +9,7 @@
 #include "GameObject.h"
 #include "Game.h"
 #include "Rigidbody.h"
+#include "Shape.h"
 
 int WINAPI WinMain(
     HINSTANCE hInstance,
@@ -32,11 +33,33 @@ int WINAPI WinMain(
         transform.setOrigin(btVector3(12, 8, 20));
         size = btVector3(2, 2, 1);
 
+
         GameObject* object1 = new GameObject(transform, size);
+
         object1->AddComponent<Cube>();
+        Shape* shape1 = object1->GetComponent<Shape>();
+        shape1->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
+
         object1->AddComponent<Rigidbody>();
         Rigidbody* rb = object1->GetComponent<Rigidbody>();
         rb->SetMass(1);
+
+
+        transform.setIdentity();
+        transform.setOrigin(btVector3(-12, 8, 20));
+
+        GameObject* object2 = new GameObject(transform, size);
+
+        object2->AddComponent<Cube>();
+
+
+        transform.setIdentity();
+        transform.setOrigin(btVector3(0, 8, 20));
+
+        GameObject* object3 = new GameObject(transform, size);
+
+        object3->AddComponent<Cube>();
+
 
         MSG msg = { 0 };
         while (true)

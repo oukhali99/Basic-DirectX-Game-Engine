@@ -184,6 +184,7 @@
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Pyramid.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
+    <ClCompile Include="ShaderResources.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="ShapeBase.cpp" />
     <ClCompile Include="TransformBuffer.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Pyramid.h" />
     <ClInclude Include="Rigidbody.h" />
+    <ClInclude Include="ShaderResources.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="ShapeBase.h" />
     <ClInclude Include="TransformBuffer.h" />
