@@ -95,7 +95,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders.hlsl">
+    <None Include="DefaultShaders.shaders">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="TextureShaders.shaders">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

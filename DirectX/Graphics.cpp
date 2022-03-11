@@ -35,8 +35,6 @@ Graphics::~Graphics() {
     pDevice->Release();
     pContext->Release();
     backbuffer->Release();
-    pVS->Release();
-    pPS->Release();
     pDSView->Release();
 }
 
@@ -104,9 +102,11 @@ void Graphics::InitPipeline() {
     ID3DBlob* VS = NULL;
     ID3DBlob* PS = NULL;
     ID3DBlob* errorBlob = NULL;
+    ID3D11VertexShader* pVS;                    // the vertex shader
+    ID3D11PixelShader* pPS;                     // the pixel shader
 
-    GFX_THROW_INFO(D3DCompileFromFile(L"Shaders.hlsl", 0, 0, "VShader", "vs_4_0", 0, 0, &VS, &errorBlob));
-    GFX_THROW_INFO(D3DCompileFromFile(L"Shaders.hlsl", 0, 0, "PShader", "ps_4_0", 0, 0, &PS, &errorBlob));
+    GFX_THROW_INFO(D3DCompileFromFile(L"DefaultShaders.shaders", 0, 0, "VShader", "vs_4_0", 0, 0, &VS, &errorBlob));
+    GFX_THROW_INFO(D3DCompileFromFile(L"DefaultShaders.shaders", 0, 0, "PShader", "ps_4_0", 0, 0, &PS, &errorBlob));
 
     GFX_THROW_INFO(pDevice->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &pVS));
     GFX_THROW_INFO(pDevice->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &pPS));
@@ -114,6 +114,9 @@ void Graphics::InitPipeline() {
     // set the shader objects
     pContext->VSSetShader(pVS, 0, 0);
     pContext->PSSetShader(pPS, 0, 0);
+
+    pVS->Release();
+    pPS->Release();
 
     D3D11_INPUT_ELEMENT_DESC ied[] = {
         {"POSITION", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, 0u, D3D11_INPUT_PER_VERTEX_DATA, 0u},
