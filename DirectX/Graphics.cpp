@@ -5,6 +5,9 @@
 #include "Game.h"
 #include "GameObject.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 void Graphics::Init(HWND hWnd, float nearZ, float farZ) {
     instance = new Graphics(hWnd, nearZ, farZ);
 }
@@ -102,8 +105,8 @@ void Graphics::InitPipeline() {
     ID3DBlob* PS = NULL;
     ID3DBlob* errorBlob = NULL;
 
-    GFX_THROW_INFO(D3DCompileFromFile(L"Shaders.shader", 0, 0, "VShader", "vs_4_0", 0, 0, &VS, &errorBlob));
-    GFX_THROW_INFO(D3DCompileFromFile(L"Shaders.shader", 0, 0, "PShader", "ps_4_0", 0, 0, &PS, &errorBlob));
+    GFX_THROW_INFO(D3DCompileFromFile(L"Shaders.hlsl", 0, 0, "VShader", "vs_4_0", 0, 0, &VS, &errorBlob));
+    GFX_THROW_INFO(D3DCompileFromFile(L"Shaders.hlsl", 0, 0, "PShader", "ps_4_0", 0, 0, &PS, &errorBlob));
 
     GFX_THROW_INFO(pDevice->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &pVS));
     GFX_THROW_INFO(pDevice->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &pPS));
@@ -114,6 +117,7 @@ void Graphics::InitPipeline() {
 
     D3D11_INPUT_ELEMENT_DESC ied[] = {
         {"POSITION", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, 0u, D3D11_INPUT_PER_VERTEX_DATA, 0u},
+        {"TEXCOORDS", 0u, DXGI_FORMAT_R32G32_FLOAT, 0u, 12u, D3D11_INPUT_PER_VERTEX_DATA, 0u}
     };
     GFX_THROW_INFO(pDevice->CreateInputLayout(
         ied, sizeof(ied) / sizeof(ied[0]),
@@ -157,8 +161,62 @@ void Graphics::InitGraphics() {
     dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
     dsvd.Texture2D.MipSlice = 0u;
     GFX_THROW_INFO(pDevice->CreateDepthStencilView(pDepthStencilTexture, &dsvd, &pDSView));
-
     pContext->OMSetRenderTargets(1u, &backbuffer, pDSView);
+
+    // Load the image
+    int image_width, image_height, image_channels;
+    unsigned char* image_data = stbi_load("C:/Users/Oussama/Projects/stb/data/dog.jpg", &image_width, &image_height, &image_channels, 4);
+    int image_pitch = image_width * sizeof(float);
+
+    // Create the texture
+    D3D11_TEXTURE2D_DESC image_texture_desc;
+    ZeroMemory(&image_texture_desc, sizeof(image_texture_desc));
+    image_texture_desc.Width = image_width;
+    image_texture_desc.Height = image_height;
+    image_texture_desc.MipLevels = 1u;
+    image_texture_desc.ArraySize = 1u;
+    image_texture_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    image_texture_desc.SampleDesc.Count = 1u;
+    image_texture_desc.SampleDesc.Quality = 0u;
+    image_texture_desc.Usage = D3D11_USAGE_IMMUTABLE;
+    image_texture_desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+
+    D3D11_SUBRESOURCE_DATA image_subresource_data = {};
+    image_subresource_data.pSysMem = image_data;
+    image_subresource_data.SysMemPitch = image_pitch;
+
+    ID3D11Texture2D* image_texture;
+    GFX_THROW_INFO(pDevice->CreateTexture2D(&image_texture_desc,
+        &image_subresource_data,
+        &image_texture
+    ));
+
+    ID3D11ShaderResourceView* image_shader_resource_view;
+    GFX_THROW_INFO(pDevice->CreateShaderResourceView(image_texture,
+        nullptr,
+        &image_shader_resource_view
+    ));
+    pContext->PSSetShaderResources(0, 1, &image_shader_resource_view);
+
+    D3D11_SAMPLER_DESC image_sampler_desc = {};
+    image_sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    image_sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+    image_sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+    image_sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+    image_sampler_desc.MipLODBias = 0.0f;
+    image_sampler_desc.MaxAnisotropy = 1;
+    image_sampler_desc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+    image_sampler_desc.BorderColor[0] = 1.0f;
+    image_sampler_desc.BorderColor[1] = 1.0f;
+    image_sampler_desc.BorderColor[2] = 1.0f;
+    image_sampler_desc.BorderColor[3] = 1.0f;
+    image_sampler_desc.MinLOD = -FLT_MAX;
+    image_sampler_desc.MaxLOD = FLT_MAX;
+
+    ID3D11SamplerState* image_sampler_state;
+    GFX_THROW_INFO(pDevice->CreateSamplerState(&image_sampler_desc,
+        &image_sampler_state));
+    pContext->PSSetSamplers(0, 1, &image_sampler_state);
 }
 
 // this is the function used to render a single frame
