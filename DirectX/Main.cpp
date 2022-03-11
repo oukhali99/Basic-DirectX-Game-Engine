@@ -34,31 +34,116 @@ int WINAPI WinMain(
         size = btVector3(2, 2, 1);
 
 
-        GameObject* object1 = new GameObject(transform, size);
+        {
+            GameObject* object = new GameObject(transform, size);
 
-        object1->AddComponent<Cube>();
-        Shape* shape1 = object1->GetComponent<Shape>();
-        shape1->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+            //shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
 
-        object1->AddComponent<Rigidbody>();
-        Rigidbody* rb = object1->GetComponent<Rigidbody>();
-        rb->SetMass(1);
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(1);
+        }
+        {
+            GameObject* object = new GameObject(transform, size);
 
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
 
-        transform.setIdentity();
-        transform.setOrigin(btVector3(-12, 8, 20));
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(1);
+        }
+        {
+            GameObject* object = new GameObject(transform, size);
 
-        GameObject* object2 = new GameObject(transform, size);
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
 
-        object2->AddComponent<Cube>();
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(1);
+        }
+        {
+            GameObject* object = new GameObject(transform, size);
 
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+            //shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
 
-        transform.setIdentity();
-        transform.setOrigin(btVector3(0, 8, 20));
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(1);
+        }
+        {
+            GameObject* object = new GameObject(transform, size);
 
-        GameObject* object3 = new GameObject(transform, size);
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
 
-        object3->AddComponent<Cube>();
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(1);
+        }
+        {
+            GameObject* object = new GameObject(transform, size);
+
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
+
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(1);
+        }
+        {
+            GameObject* object = new GameObject(transform, size);
+
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
+
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(1);
+        }
+        {
+            GameObject* object = new GameObject(transform, size);
+
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
+
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(1);
+        }
+        {
+            GameObject* object = new GameObject(transform, size);
+
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
+
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(1);
+        }
+        {
+            GameObject* object = new GameObject(transform, size);
+
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
+
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(1);
+        }
 
 
         MSG msg = { 0 };

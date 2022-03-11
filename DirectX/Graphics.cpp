@@ -115,6 +115,7 @@ void Graphics::InitPipeline() {
     pVS->Release();
     pPS->Release();
 
+    // Create the shader layout (input)
     D3D11_INPUT_ELEMENT_DESC ied[] = {
         {"POSITION", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, 0u, D3D11_INPUT_PER_VERTEX_DATA, 0u},
         {"TEXCOORDS", 0u, DXGI_FORMAT_R32G32_FLOAT, 0u, 12u, D3D11_INPUT_PER_VERTEX_DATA, 0u}
@@ -125,7 +126,7 @@ void Graphics::InitPipeline() {
         VS->GetBufferSize(),
         &pLayout)
     );
-    pContext->IASetInputLayout(pLayout);    
+    pContext->IASetInputLayout(pLayout);
 }
 
 void Graphics::InitGraphics() {
