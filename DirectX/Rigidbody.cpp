@@ -25,3 +25,16 @@ void Rigidbody::Update() {
 	rigidbody->getMotionState()->getWorldTransform(transform);
 	gameObject->SetTransform(transform);
 }
+
+void Rigidbody::SetMass(btScalar mass) {
+	Physics::GetInstance()->RemoveRigidbody(rigidbody);
+	btCollisionShape* shape = new btBoxShape(gameObject->GetScale());
+	bool isDynamic = (mass != 0.f);
+	btVector3 localInertia(0, 0, 0);
+	if (isDynamic)
+		shape->calculateLocalInertia(mass, localInertia);
+	btDefaultMotionState* myMotionState = new btDefaultMotionState(gameObject->GetTransform());
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape, localInertia);
+	rigidbody = new btRigidBody(rbInfo);
+	Physics::GetInstance()->AddRigidbody(rigidbody);
+}

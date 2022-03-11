@@ -8,6 +8,7 @@ public:
 	static Physics* GetInstance();
 
 	void AddRigidbody(btRigidBody* rigidbody);
+	void RemoveRigidbody(btRigidBody* rigidbody);
 	void Update();
 private:
 	Physics();

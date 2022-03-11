@@ -8,6 +8,7 @@ public:
 	Rigidbody(GameObject* gameObject);
 
 	void Update() override;
+	void SetMass(btScalar mass);
 private:
 	btRigidBody* rigidbody;
 };

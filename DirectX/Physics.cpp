@@ -31,6 +31,10 @@ void Physics::AddRigidbody(btRigidBody* rigidbody) {
     dynamicsWorld->addRigidBody(rigidbody);
 }
 
+void Physics::RemoveRigidbody(btRigidBody* rigidbody) {
+    dynamicsWorld->removeRigidBody(rigidbody);
+}
+
 void Physics::Update() {
     static float last = Clock::GetSingleton().GetTimeSinceStart();
     this->dynamicsWorld->stepSimulation(Clock::GetSingleton().GetTimeSinceStart() - last, 10);

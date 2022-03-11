@@ -36,6 +36,7 @@ int WINAPI WinMain(
         object1->AddComponent<Cube>();
         object1->AddComponent<Rigidbody>();
         Rigidbody* rb = object1->GetComponent<Rigidbody>();
+        rb->SetMass(1);
 
         MSG msg = { 0 };
         while (true)
