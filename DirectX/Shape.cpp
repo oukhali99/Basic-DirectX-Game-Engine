@@ -1,25 +1,19 @@
 #include "Shape.h"
 #include "Graphics.h"
 #include "btBulletDynamicsCommon.h"
+#include "Component.h"
+#include "GameObject.h"
 
-Shape::Shape()
+Shape::Shape(GameObject* gameObject)
 	:
-	hr(0),
-    collisionObject(0)
+    Component(gameObject),
+	hr(0)
 {}
 
 btTransform Shape::GetTransform() {
-    return transform;
+    return gameObject->GetTransform();
 }
 
-btVector3 Shape::GetSize() {
-    return size;
-}
-
-void Shape::SetSize(btVector3 size) {
-    this->size = size;
-}
-
-void Shape::SetTransform(btTransform transform) {
-    this->transform = transform;
+btVector3 Shape::GetScale() {
+    return gameObject->GetScale();
 }

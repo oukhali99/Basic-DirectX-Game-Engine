@@ -8,6 +8,7 @@
 #include "Physics.h"
 #include "GameObject.h"
 #include "Game.h"
+#include "Rigidbody.h"
 
 int WINAPI WinMain(
     HINSTANCE hInstance,
@@ -26,41 +27,15 @@ int WINAPI WinMain(
 
         btTransform transform;
         btVector3 size;
-        btScalar mass;
 
         transform.setIdentity();
         transform.setOrigin(btVector3(12, 8, 20));
         size = btVector3(2, 2, 1);
-        mass = 1;
 
-        GameObject* object1 = new GameObject(transform, size, mass);
-        Shape* cube1 = new Cube();
-        object1->AddShape(cube1);
-        object1->AddRigidbody();
-
-        transform.setIdentity();
-        transform.setOrigin(btVector3(-12, 8, 20));
-        GameObject* object2 = new GameObject(transform, size, mass);
-        Shape* cube2 = new Cube();
-        object2->AddShape(cube2);
-        object2->AddRigidbody();
-
-        transform.setIdentity();
-        transform.setOrigin(btVector3(0, 10, 20));
-        GameObject* object3 = new GameObject(transform, size, mass);
-        Shape* cube3 = new Cube();
-        object3->AddShape(cube3);
-        object3->AddRigidbody();
-
-        transform.setIdentity();
-        transform.setOrigin(btVector3(0, -8, 20));
-        size = btVector3(15, 1, 1);
-        mass = 0;
-
-        GameObject* floor = new GameObject(transform, size, mass);
-        Shape* floorShape = new Cube();
-        floor->AddShape(floorShape);
-        floor->AddRigidbody();
+        GameObject* object1 = new GameObject(transform, size);
+        object1->AddComponent<Cube>();
+        object1->AddComponent<Rigidbody>();
+        Rigidbody* rb = object1->GetComponent<Rigidbody>();
 
         MSG msg = { 0 };
         while (true)

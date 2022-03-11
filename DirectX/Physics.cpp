@@ -35,11 +35,6 @@ void Physics::Update() {
     static float last = Clock::GetSingleton().GetTimeSinceStart();
     this->dynamicsWorld->stepSimulation(Clock::GetSingleton().GetTimeSinceStart() - last, 10);
     last = Clock::GetSingleton().GetTimeSinceStart();
-
-    // Send signal to all objects
-    for (GameObject* gameObject : Game::GetInstance()->GetGameObjects()) {
-        gameObject->UpdatePhysics();
-    }
 }
 
 Physics::~Physics() {

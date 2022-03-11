@@ -6,7 +6,10 @@
 #include "Clock.h"
 #include "Game.h"
 
-Pyramid::Pyramid() {
+Pyramid::Pyramid(GameObject* gameObject)
+	:
+	ShapeBase<Pyramid>(gameObject)
+{
 	VERTEX vertices[] = {
 		{ 0.0f, 0.0f, -1.0f },
 		{ 0.0f, 1.0f, 0.0f },

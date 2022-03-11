@@ -219,20 +219,16 @@ void Graphics::InitGraphics() {
     pContext->PSSetSamplers(0, 1, &image_sampler_state);
 }
 
-// this is the function used to render a single frame
-void Graphics::RenderFrame()
-{
+void Graphics::ClearFrame() {
     // clear the back buffer to a deep blue
     float color[4] = { 0.3f, 0.1f, 1.0f, 1.0f };
     pContext->ClearRenderTargetView(backbuffer, color);
     pContext->ClearDepthStencilView(pDSView, D3D11_CLEAR_DEPTH, 1.0f, 0u);
+}
 
-    // Render all the shapes
-    std::vector<GameObject*> gameObjects = Game::GetInstance()->GetGameObjects();
-    for (GameObject* gameObject : gameObjects) {
-        gameObject->RenderFrame();
-    }
-
+// this is the function used to render a single frame
+void Graphics::RenderFrame()
+{
     // switch the back buffer and the front buffer
     GFX_THROW_INFO(swapchain->Present(0u, 0u));
 }

@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Shape">
-      <UniqueIdentifier>{acc1f8db-b51c-4720-a666-b8bbc7d960c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Shape">
-      <UniqueIdentifier>{849093cd-5a0d-4593-97aa-47ec3e5306e6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Bindable">
       <UniqueIdentifier>{180a2d7c-3e45-444f-b178-82a3c24f0290}</UniqueIdentifier>
     </Filter>
@@ -30,6 +24,12 @@
     </Filter>
     <Filter Include="Source Files\Component">
       <UniqueIdentifier>{f476800a-b014-44e7-a78c-ebebbf14a795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Component\Shape">
+      <UniqueIdentifier>{acc1f8db-b51c-4720-a666-b8bbc7d960c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Component\Shape">
+      <UniqueIdentifier>{849093cd-5a0d-4593-97aa-47ec3e5306e6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -43,10 +43,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Shape.cpp">
-      <Filter>Source Files\Shape</Filter>
+      <Filter>Source Files\Component\Shape</Filter>
     </ClCompile>
     <ClCompile Include="Cube.cpp">
-      <Filter>Source Files\Shape</Filter>
+      <Filter>Source Files\Component\Shape</Filter>
     </ClCompile>
     <ClCompile Include="Clock.cpp">
       <Filter>Source Files</Filter>
@@ -70,7 +70,7 @@
       <Filter>Source Files\Bindable</Filter>
     </ClCompile>
     <ClCompile Include="Pyramid.cpp">
-      <Filter>Source Files\Shape</Filter>
+      <Filter>Source Files\Component\Shape</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Source Files</Filter>
@@ -91,7 +91,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ShapeBase.cpp">
-      <Filter>Source Files\Shape</Filter>
+      <Filter>Source Files\Component\Shape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,10 +110,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Shape.h">
-      <Filter>Header Files\Shape</Filter>
+      <Filter>Header Files\Component\Shape</Filter>
     </ClInclude>
     <ClInclude Include="Cube.h">
-      <Filter>Header Files\Shape</Filter>
+      <Filter>Header Files\Component\Shape</Filter>
     </ClInclude>
     <ClInclude Include="Clock.h">
       <Filter>Header Files</Filter>
@@ -137,7 +137,7 @@
       <Filter>Header Files\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="Pyramid.h">
-      <Filter>Header Files\Shape</Filter>
+      <Filter>Header Files\Component\Shape</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>Header Files</Filter>
@@ -158,7 +158,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ShapeBase.h">
-      <Filter>Header Files\Shape</Filter>
+      <Filter>Header Files\Component\Shape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

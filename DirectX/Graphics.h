@@ -26,6 +26,7 @@ public:
     static void Init(HWND hWnd, float nearZ, float farZ);
     static Graphics* GetInstance();
 
+    void ClearFrame();
     void RenderFrame();
 private:
     Graphics(HWND hWnd, float nearZ, float farZ);

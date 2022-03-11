@@ -23,5 +23,10 @@ std::vector<GameObject*> Game::GetGameObjects() {
 
 void Game::Update() {
 	Physics::GetInstance()->Update();
+
+	Graphics::GetInstance()->ClearFrame();
+	for (GameObject* gameObject : gameObjects) {
+		gameObject->Update();
+	}
 	Graphics::GetInstance()->RenderFrame();
 }

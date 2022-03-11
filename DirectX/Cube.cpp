@@ -2,7 +2,10 @@
 #include "btBulletDynamicsCommon.h"
 #include "Game.h"
 
-Cube::Cube() {
+Cube::Cube(GameObject* gameObject)
+    :
+    ShapeBase(gameObject)
+{
     // Create a resource for the vertices
     VERTEX OurVertices[] = {
         {

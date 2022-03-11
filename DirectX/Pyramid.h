@@ -4,5 +4,5 @@
 
 class Pyramid : public ShapeBase<Pyramid> {
 public:
-	Pyramid();
+	Pyramid(GameObject* gameObject);
 };

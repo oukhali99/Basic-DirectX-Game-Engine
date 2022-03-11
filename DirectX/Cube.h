@@ -9,5 +9,5 @@
 
 class Cube : public ShapeBase<Cube> {
 public:
-	Cube();
+	Cube(GameObject* gameObject);
 };

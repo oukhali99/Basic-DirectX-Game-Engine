@@ -5,24 +5,19 @@
 #include "Mouse.h"
 #include "Bindable.h"
 #include "btBulletDynamicsCommon.h"
+#include "Component.h"
 
 class Graphics;
+class Shape;
 
-class Shape {
+class Shape : public Component {
 public:
 	btTransform GetTransform();
-	btVector3 GetSize();
-
-	virtual void RenderFrame() = 0;
-	void SetTransform(btTransform transform);
-	void SetSize(btVector3 size);
+	btVector3 GetScale();
 protected:
-	Shape();
+	Shape(GameObject* gameObject);
 
 	HRESULT hr;
-	btTransform transform;
-	btVector3 size;
-	btCollisionObject* collisionObject;
 };
 
 #endif

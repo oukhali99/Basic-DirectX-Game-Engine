@@ -7,12 +7,17 @@
 template<class T>
 class ShapeBase : public Shape {
 public:
-	void ShapeBase<T>::RenderFrame() override {
+	void ShapeBase<T>::Update() override {
         for (Bindable* bindable : bindables) {
             bindable->Bind(this);
         }
     }
 protected:
+    ShapeBase<T>(GameObject* gameObject)
+        :
+        Shape(gameObject)
+    {}
+
 	inline static std::vector<Bindable*> bindables;    
 };
 #endif

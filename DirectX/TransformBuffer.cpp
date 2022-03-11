@@ -14,7 +14,7 @@ TransformBuffer::TransformBuffer() {
 
 void TransformBuffer::Bind(Shape* shape) {
     btTransform transform = shape->GetTransform();
-    btVector3 size = shape->GetSize();
+    btVector3 size = shape->GetScale();
 
     GetDeviceContext(Graphics::GetInstance())->VSSetConstantBuffers(0, 1u, &pBuffer);
 
