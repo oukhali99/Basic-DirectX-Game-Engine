@@ -6,7 +6,7 @@
 #include "btBulletDynamicsCommon.h"
 
 class Component;
-class Rigidbody;
+class InputController;
 
 class GameObject {
 public:
@@ -35,14 +35,14 @@ public:
 		T* t = new T(this);
 		components.push_back(t);
 
-		if (std::is_same<T, Rigidbody>::value) {
-			int x = 3;
-			x = x * 3;
+		if (std::is_same<T, InputController>::value) {
+			inputControllers.push_back((InputController*)(t));
 		}
 	}
 private:
 	btTransform transform;
 	btVector3 scale;
 	std::vector<Component*> components;
+	std::vector<InputController*> inputControllers;
 };
 #endif

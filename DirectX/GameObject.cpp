@@ -3,6 +3,7 @@
 #include "btBulletDynamicsCommon.h"
 #include "Component.h"
 #include "Rigidbody.h"
+#include "InputController.h"
 
 GameObject::GameObject()
 	:
@@ -39,5 +40,7 @@ void GameObject::Update() {
 }
 
 void GameObject::ButtonPressed(char button) {
-	
+	for (InputController* inputController : inputControllers) {
+		inputController->ButtonPressed(button);
+	}
 }

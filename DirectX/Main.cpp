@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "Rigidbody.h"
 #include "Shape.h"
+#include "InputController.h"
 
 int WINAPI WinMain(
     HINSTANCE hInstance,
@@ -60,6 +61,27 @@ int WINAPI WinMain(
             object->AddComponent<Rigidbody>();
             Rigidbody* rb = object->GetComponent<Rigidbody>();
             rb->SetMass(0);
+            rb->SetIsKinematic(true);
+
+            object->AddComponent<InputController>();
+            InputController* inputController = object->GetComponent<InputController>();
+            inputController->SetOnButtonPressed([rb](GameObject* gameObject, char button)->void {
+                btVector3 unitImpulse(0, 0, 0);
+                btScalar impulseMagnitude = 0.1f;
+                if (button == 'w') {
+                    unitImpulse.setY(1);
+                }
+                if (button == 's') {
+                    unitImpulse.setY(-1);
+                }
+                if (button == 'd') {
+                    unitImpulse.setX(1);
+                }
+                if (button == 'a') {
+                    unitImpulse.setX(-1);
+                }
+                rb->ApplyImpulse(impulseMagnitude * unitImpulse);
+            });
         }
         {
             GameObject* object = new GameObject(transform, size);
@@ -72,6 +94,7 @@ int WINAPI WinMain(
             Rigidbody* rb = object->GetComponent<Rigidbody>();
             rb->SetMass(1);
         }
+        /*
         {
             GameObject* object = new GameObject(transform, size);
 
@@ -104,6 +127,14 @@ int WINAPI WinMain(
             object->AddComponent<Rigidbody>();
             Rigidbody* rb = object->GetComponent<Rigidbody>();
             rb->SetMass(1);
+
+            std::function<void(GameObject* gameObject, char button)> callback = [rb](GameObject* gameObject, char button)->void {
+                //rb->ApplyImpulse(btVector3(1, 1, 1));
+            };
+
+            object->AddComponent<InputController>();
+            InputController* inputController = object->GetComponent<InputController>();
+            inputController->SetOnButtonPressed(callback);
         }
         {
             GameObject* object = new GameObject(transform, size);
@@ -171,6 +202,7 @@ int WINAPI WinMain(
             Rigidbody* rb = object->GetComponent<Rigidbody>();
             rb->SetMass(1);
         }
+        */
 
 
         MSG msg = { 0 };
@@ -186,6 +218,7 @@ int WINAPI WinMain(
                     break;
                 }
                 else if (msg.message == WM_CHAR) {
+                    OutputDebugStringA("Clicked: " + msg.wParam);
                     Game::GetInstance()->ButtonPressed(msg.wParam);
                 }
             }
