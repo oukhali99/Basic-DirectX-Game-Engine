@@ -8,7 +8,8 @@ Shape::Shape(GameObject* gameObject)
 	:
     Component(gameObject),
 	hr(0),
-    texturePath("")
+    texturePath(""),
+    faceColors(0)
 {}
 
 btTransform Shape::GetTransform() {
@@ -23,6 +24,14 @@ std::string Shape::GetTexturePath() {
     return texturePath;
 }
 
+FaceColors* Shape::GetFaceColors() {
+    return faceColors;
+}
+
 void Shape::SetTexturePath(std::string texturePath) {
     this->texturePath = std::string(texturePath);
+}
+
+void Shape::SetFaceColors(FaceColors* pFaceColors) {
+    this->faceColors = pFaceColors;
 }

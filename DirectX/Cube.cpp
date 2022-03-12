@@ -50,18 +50,6 @@ Cube::Cube(GameObject* gameObject)
         },
     };
 
-    // Create the face color resource
-    FaceColors fc = {
-        {
-            { 1.0f, 0.0f, 0.0f, 1.0f },
-            { 0.0f, 1.0f, 0.0f, 1.0f },
-            { 0.0f, 0.0f, 1.0f, 1.0f },
-            { 0.0f, 0.0f, 1.0f, 1.0f },
-            { 1.0f, 0.0f, 1.0f, 1.0f },
-            { 1.0f, 1.0f, 0.0f, 1.0f },
-        }
-    };
-
     unsigned short indices[] = {
             0, 1, 2, 3, 0, 2,
             4, 6, 5, 6, 4, 7,
@@ -72,17 +60,17 @@ Cube::Cube(GameObject* gameObject)
     };
 
     if (bindables.size() == 0) {
-        VertexBuffer* vb = new VertexBuffer(OurVertices, sizeof(OurVertices));
-        TransformBuffer* tcb = new TransformBuffer();
-        ColorBuffer* ccb = new ColorBuffer(fc);
-        IndexBuffer* ib = new IndexBuffer(indices, sizeof(indices));
-        ShaderResources* sr = new ShaderResources(texturePath);
+        VertexBuffer* vertexBuffer = new VertexBuffer(OurVertices, sizeof(OurVertices));
+        TransformBuffer* transformBuffer = new TransformBuffer();
+        ColorBuffer* colorBuffer = new ColorBuffer(6);
+        IndexBuffer* indexBuffer = new IndexBuffer(indices, sizeof(indices));
+        ShaderResources* shaderResources = new ShaderResources(texturePath);
 
         // ORDER OF LOADING MATTERS
-        bindables.push_back(sr);    // THIS MUST BE LOADED FIRST
-        bindables.push_back(vb);
-        bindables.push_back(tcb);
-        bindables.push_back(ccb);
-        bindables.push_back(ib);
+        bindables.push_back(shaderResources);    // THIS MUST BE LOADED FIRST
+        bindables.push_back(vertexBuffer);
+        bindables.push_back(transformBuffer);
+        bindables.push_back(colorBuffer);
+        bindables.push_back(indexBuffer);
     }
 }

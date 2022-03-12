@@ -24,14 +24,16 @@ Pyramid::Pyramid(GameObject* gameObject)
 		1, 3, 2		// Floor
 	};
 
-	FaceColors fc = {
-		{
+	FaceColor faceColors[] = {
 			{ 1, 0, 0, 1 },
 			{ 0, 1, 0, 1 },
 			{ 0, 0, 1, 1 },
 			{ 0, 0, 0, 1 }
-		}
 	};
+
+	FaceColors fc;
+	fc.data = faceColors;
+	fc.count = sizeof(faceColors) / sizeof(FaceColor);
 
 	if (bindables.size() == 0) {
 		VertexBuffer* vb = new VertexBuffer(vertices, sizeof(vertices));
@@ -40,7 +42,7 @@ Pyramid::Pyramid(GameObject* gameObject)
 		TransformBuffer* tcb = new TransformBuffer();
 		bindables.push_back(tcb);
 
-		ColorBuffer* ccb = new ColorBuffer(fc);
+		ColorBuffer* ccb = new ColorBuffer(4);
 		bindables.push_back(ccb);
 
 		IndexBuffer* ib = new IndexBuffer(indices, sizeof(indices));

@@ -18,10 +18,13 @@ struct ConstantBuffer {
     dx::XMMATRIX transformation;
 };
 
+struct FaceColor {
+    float r, g, b, a;
+};
+
 struct FaceColors {
-    struct {
-        float r, g, b, a;
-    } faceColors[6];
+    FaceColor* data;
+    int count;
 };
 
 class Graphics {

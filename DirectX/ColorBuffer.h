@@ -6,6 +6,6 @@ class Shape;
 
 class ColorBuffer : public Bindable {
 public:
-	ColorBuffer(FaceColors fc);
+	ColorBuffer(unsigned short faceCount);
 	void Bind(Shape* shape) override;
 };
