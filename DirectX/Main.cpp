@@ -186,7 +186,7 @@ int WINAPI WinMain(
                     break;
                 }
                 else if (msg.message == WM_CHAR) {
-                    // TODO
+                    Game::GetInstance()->ButtonPressed(msg.wParam);
                 }
             }
             else {

@@ -18,6 +18,7 @@ public:
 
 	void SetTransform(btTransform transform);
 	void Update();
+	void ButtonPressed(char button);
 
 	template<typename T, typename std::enable_if<std::is_base_of<Component, T>::value>::type* = nullptr>
 	T* GetComponent() {

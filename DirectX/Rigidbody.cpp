@@ -38,3 +38,7 @@ void Rigidbody::SetMass(btScalar mass) {
 	rigidbody = new btRigidBody(rbInfo);
 	Physics::GetInstance()->AddRigidbody(rigidbody);
 }
+
+void Rigidbody::ApplyForce(btVector3 force) {
+	rigidbody->applyCentralImpulse(force);
+}

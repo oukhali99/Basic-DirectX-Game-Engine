@@ -9,6 +9,7 @@ public:
 
 	void Update() override;
 	void SetMass(btScalar mass);
+	void ApplyForce(btVector3 force);
 private:
 	btRigidBody* rigidbody;
 };

@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "btBulletDynamicsCommon.h"
 #include "Component.h"
+#include "Rigidbody.h"
 
 GameObject::GameObject()
 	:
@@ -35,4 +36,8 @@ void GameObject::Update() {
 	for (Component* component : components) {
 		component->Update();
 	}
+}
+
+void GameObject::ButtonPressed(char button) {
+	
 }

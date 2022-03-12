@@ -10,10 +10,9 @@ public:
 	static void Init(HWND hWnd);
 	static Game* GetInstance();
 
-	Graphics* GetGraphics();
-
 	void AddGameObject(GameObject* gameObject);
 	void Update();
+	void ButtonPressed(char button);
 
 	std::vector<GameObject*> GetGameObjects();
 
