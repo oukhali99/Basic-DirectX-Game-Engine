@@ -24,17 +24,6 @@ Pyramid::Pyramid(GameObject* gameObject)
 		1, 3, 2		// Floor
 	};
 
-	FaceColor faceColors[] = {
-			{ 1, 0, 0, 1 },
-			{ 0, 1, 0, 1 },
-			{ 0, 0, 1, 1 },
-			{ 0, 0, 0, 1 }
-	};
-
-	FaceColors fc;
-	fc.data = faceColors;
-	fc.count = sizeof(faceColors) / sizeof(FaceColor);
-
 	if (bindables.size() == 0) {
 		VertexBuffer* vb = new VertexBuffer(vertices, sizeof(vertices));
 		bindables.push_back(vb);

@@ -24,7 +24,7 @@ std::string Shape::GetTexturePath() {
     return texturePath;
 }
 
-FaceColors* Shape::GetFaceColors() {
+FaceColor* Shape::GetFaceColors() {
     return faceColors;
 }
 
@@ -32,6 +32,6 @@ void Shape::SetTexturePath(std::string texturePath) {
     this->texturePath = std::string(texturePath);
 }
 
-void Shape::SetFaceColors(FaceColors* pFaceColors) {
+void Shape::SetFaceColors(FaceColor* pFaceColors) {
     this->faceColors = pFaceColors;
 }

@@ -42,11 +42,6 @@ int WINAPI WinMain(
                 { 1.0f, 1.0f, 0.0f, 1.0f },
         };
 
-        // Create the face color resource
-        FaceColors fc;
-        fc.data = faceColors;
-        fc.count = sizeof(faceColors) / sizeof(FaceColor);
-
         {
             btTransform transform;
             btVector3 size;
@@ -59,7 +54,7 @@ int WINAPI WinMain(
 
             object->AddComponent<Cube>();
             Shape* shape = object->GetComponent<Shape>();
-            shape->SetFaceColors(&fc);
+            shape->SetFaceColors(faceColors);
             //shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
 
             object->AddComponent<Rigidbody>();

@@ -1,7 +1,10 @@
 #include "ColorBuffer.h"
 #include "Shape.h"
 
-ColorBuffer::ColorBuffer(unsigned short faceCount) {
+ColorBuffer::ColorBuffer(unsigned short faceCount) 
+    :
+    faceCount(faceCount)
+{
     // Create the face color buffer
     D3D11_BUFFER_DESC bd;
     ZeroMemory(&bd, sizeof(bd));
@@ -24,9 +27,9 @@ void ColorBuffer::Bind(Shape* shape) {
         &msr
     ));
 
-    FaceColors* fc = shape->GetFaceColors();
+    FaceColor* fc = shape->GetFaceColors();
     if (fc) {
-        memcpy(msr.pData, fc->data, sizeof(FaceColor) * fc->count);
+        memcpy(msr.pData, fc, sizeof(FaceColor) * faceCount);
         bufferToUse = pBuffer;
     }
 

@@ -22,11 +22,6 @@ struct FaceColor {
     float r, g, b, a;
 };
 
-struct FaceColors {
-    FaceColor* data;
-    int count;
-};
-
 class Graphics {
     friend class Bindable;
     friend class Shape;

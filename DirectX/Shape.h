@@ -10,23 +10,23 @@
 
 class Graphics;
 class Shape;
-struct FaceColors;
+struct FaceColor;
 
 class Shape : public Component {
 public:
 	btTransform GetTransform();
 	btVector3 GetScale();
 	std::string GetTexturePath();
-	FaceColors* GetFaceColors();
+	FaceColor* GetFaceColors();
 
 	void SetTexturePath(std::string texturePath);
-	void SetFaceColors(FaceColors* pFaceColors);
+	void SetFaceColors(FaceColor* pFaceColors);
 protected:
 	Shape(GameObject* gameObject);
 
 	HRESULT hr;
 	std::string texturePath;
-	FaceColors* faceColors;
+	FaceColor* faceColors;
 };
 
 #endif
