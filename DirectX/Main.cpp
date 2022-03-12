@@ -11,6 +11,7 @@
 #include "Rigidbody.h"
 #include "Shape.h"
 #include "InputController.h"
+#include "Keyboard.h"
 
 int WINAPI WinMain(
     HINSTANCE hInstance,
@@ -68,16 +69,16 @@ int WINAPI WinMain(
             inputController->SetOnButtonPressed([rb](GameObject* gameObject, char button)->void {
                 btVector3 unitImpulse(0, 0, 0);
                 btScalar impulseMagnitude = 0.1f;
-                if (button == 'w') {
+                if (button == 'W') {
                     unitImpulse.setY(1);
                 }
-                if (button == 's') {
+                if (button == 'S') {
                     unitImpulse.setY(-1);
                 }
-                if (button == 'd') {
+                if (button == 'D') {
                     unitImpulse.setX(1);
                 }
-                if (button == 'a') {
+                if (button == 'A') {
                     unitImpulse.setX(-1);
                 }
                 rb->ApplyImpulse(impulseMagnitude * unitImpulse);
@@ -217,9 +218,18 @@ int WINAPI WinMain(
                 if (msg.message == WM_QUIT) {
                     break;
                 }
-                else if (msg.message == WM_CHAR) {
-                    OutputDebugStringA("Clicked: " + msg.wParam);
-                    Game::GetInstance()->ButtonPressed(msg.wParam);
+                else if (msg.message == WM_KEYDOWN) {
+                    /*
+                    std::stringstream ss;
+                    ss << "User pressed: ";
+                    ss << (char)msg.wParam << std::endl;
+
+                    OutputDebugStringA(ss.str().c_str());
+                    */
+                    Keyboard::GetInstance()->InputStarted(msg.wParam);
+                }
+                else if (msg.message == WM_KEYUP) {
+                    Keyboard::GetInstance()->InputStopped(msg.wParam);
                 }
             }
             else {

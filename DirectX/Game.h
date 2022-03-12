@@ -12,7 +12,6 @@ public:
 
 	void AddGameObject(GameObject* gameObject);
 	void Update();
-	void ButtonPressed(char button);
 
 	std::vector<GameObject*> GetGameObjects();
 

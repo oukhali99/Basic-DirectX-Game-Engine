@@ -30,9 +30,3 @@ void Game::Update() {
 	}
 	Graphics::GetInstance()->RenderFrame();
 }
-
-void Game::ButtonPressed(char button) {
-	for (GameObject* gameObject : gameObjects) {
-		gameObject->ButtonPressed(button);
-	}
-}

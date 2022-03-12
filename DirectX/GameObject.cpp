@@ -38,9 +38,3 @@ void GameObject::Update() {
 		component->Update();
 	}
 }
-
-void GameObject::ButtonPressed(char button) {
-	for (InputController* inputController : inputControllers) {
-		inputController->ButtonPressed(button);
-	}
-}

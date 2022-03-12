@@ -99,6 +99,9 @@
     <ClCompile Include="InputController.cpp">
       <Filter>Source Files\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="DefaultShaders.shaders">
@@ -174,6 +177,9 @@
     </ClInclude>
     <ClInclude Include="InputController.h">
       <Filter>Header Files\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

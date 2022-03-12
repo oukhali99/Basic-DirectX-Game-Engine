@@ -7,7 +7,6 @@ public:
 	InputController(GameObject* gameObject);
 
 	void Update() override;
-	void ButtonPressed(char button);
 	void SetOnButtonPressed(std::function<void(GameObject* gameObject, char button)> onButtonPressed);
 private:
 	std::function<void(GameObject* gameObject, char button)> onButtonPressed;
