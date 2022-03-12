@@ -64,7 +64,7 @@ Cube::Cube(GameObject* gameObject)
         TransformBuffer* transformBuffer = new TransformBuffer();
         ColorBuffer* colorBuffer = new ColorBuffer(6);
         IndexBuffer* indexBuffer = new IndexBuffer(indices, sizeof(indices));
-        ShaderResources* shaderResources = new ShaderResources(texturePath);
+        ShaderResources* shaderResources = new ShaderResources(256, 256);
 
         // ORDER OF LOADING MATTERS
         bindables.push_back(shaderResources);    // THIS MUST BE LOADED FIRST

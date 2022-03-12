@@ -13,7 +13,7 @@ struct Image {
 
 class ShaderResources : public Bindable {
 public:
-	ShaderResources(std::string texturePath);
+	ShaderResources(int width, int height);
 
 	void Bind(Shape* shape) override;
 private:
@@ -24,4 +24,5 @@ private:
 	std::string texturePath;
 	std::map<std::string, Image> textureCache;
 	LPCWSTR currentShader;
+	int width, height;
 };

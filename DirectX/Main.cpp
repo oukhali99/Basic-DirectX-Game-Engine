@@ -66,17 +66,6 @@ int WINAPI WinMain(
 
             object->AddComponent<Cube>();
             Shape* shape = object->GetComponent<Shape>();
-            //shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
-
-            object->AddComponent<Rigidbody>();
-            Rigidbody* rb = object->GetComponent<Rigidbody>();
-            rb->SetMass(1);
-        }
-        {
-            GameObject* object = new GameObject(transform, size);
-
-            object->AddComponent<Cube>();
-            Shape* shape = object->GetComponent<Shape>();
             shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
 
             object->AddComponent<Rigidbody>();
@@ -99,7 +88,18 @@ int WINAPI WinMain(
 
             object->AddComponent<Cube>();
             Shape* shape = object->GetComponent<Shape>();
-            //shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
+            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
+
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(1);
+        }
+        {
+            GameObject* object = new GameObject(transform, size);
+
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/map_02.png");
 
             object->AddComponent<Rigidbody>();
             Rigidbody* rb = object->GetComponent<Rigidbody>();

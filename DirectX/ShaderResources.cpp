@@ -2,19 +2,25 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include "Graphics.h"
+#define STB_IMAGE_RESIZE_IMPLEMENTATION
+#include "stb_image_resize.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
 
-ShaderResources::ShaderResources(std::string texturePath)
+ShaderResources::ShaderResources(int width, int height)
     :
     shaderResourceView(0),
     samplerState(0),
-    texturePath(texturePath),
-    currentShader(SHADER_FILE_NAME_DEFAULT)
+    texturePath(""),
+    currentShader(SHADER_FILE_NAME_DEFAULT),
+    width(width),
+    height(height)
 {
     // Create the texture
     D3D11_TEXTURE2D_DESC textureDesc;
     ZeroMemory(&textureDesc, sizeof(textureDesc));
-    textureDesc.Width = 800;
-    textureDesc.Height = 825;
+    textureDesc.Width = width;
+    textureDesc.Height = height;
     textureDesc.MipLevels = 1u;
     textureDesc.ArraySize = 1u;
     textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -51,10 +57,7 @@ ShaderResources::ShaderResources(std::string texturePath)
     image_sampler_desc.BorderColor[3] = 1.0f;
     image_sampler_desc.MinLOD = -FLT_MAX;
     image_sampler_desc.MaxLOD = FLT_MAX;
-    if (samplerState) {
-        samplerState->Release();
-        samplerState = 0;
-    }
+    
     GFX_THROW_INFO(Graphics::GetInstance()->GetDevice()->CreateSamplerState(&image_sampler_desc,
         &samplerState));
 }
@@ -71,31 +74,43 @@ void ShaderResources::Bind(Shape* shape) {
         }
         else {
             // Load the image
-            int width, height, channelCount;
-            unsigned char* imageData = stbi_load(texturePath.c_str(), &width, &height, &channelCount, 4);
+            int loadedWidth, loadedHeight;
+            int channelCount = 4;
+            unsigned char* imageData = stbi_load(texturePath.c_str(), &loadedWidth, &loadedHeight, NULL, channelCount);
+            
+            if (imageData) {
+                unsigned char* resizedImageData = (unsigned char*)malloc(width * height * channelCount);
+                stbir_resize_uint8(imageData, loadedWidth, loadedHeight, 0, resizedImageData, width, height, 0, channelCount);
 
-            // Create the image struct
-            image.data = imageData;
-            image.width = width;
-            image.height = height;
-            image.channelCount = channelCount;
+                // Create the image struct
+                image.data = resizedImageData;
+                image.width = width;
+                image.height = height;
+                image.channelCount = channelCount;
+            }
+            else {
+                image.data = 0;
+                image.width = 0;
+                image.height = 0;
+                image.channelCount = 0;
+            }
 
             // Save to cache
             textureCache[texturePath] = image;
         }
 
         if (image.data) {
-            int imagePitch = image.width * sizeof(float);
+            int imageRowPitch = image.width * image.channelCount;
 
             // Modify the texture
             D3D11_MAPPED_SUBRESOURCE msr = {};
             Graphics::GetInstance()->GetDeviceContext()->Map(imageTexture, 0u, D3D11_MAP_WRITE_DISCARD, 0u, &msr);
             BYTE* mappedData = reinterpret_cast<BYTE*>(msr.pData);
-            for (UINT i = 0; i < image.height; i++)
+            for (UINT row = 0; row < image.height; row++)
             {
-                memcpy(mappedData, image.data, image.width * sizeof(float));
+                memcpy(mappedData, image.data, imageRowPitch);
                 mappedData += msr.RowPitch;
-                image.data += image.width * sizeof(float);
+                image.data += imageRowPitch;
             }
             Graphics::GetInstance()->GetDeviceContext()->Unmap(imageTexture, 0u);
 
