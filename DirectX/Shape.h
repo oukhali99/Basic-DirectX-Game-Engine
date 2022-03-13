@@ -10,6 +10,7 @@
 
 class Graphics;
 class Shape;
+class Texture;
 struct FaceColor;
 struct VERTEX;
 
@@ -17,19 +18,19 @@ class Shape : public Component {
 public:
 	btTransform GetTransform();
 	btVector3 GetScale();
-	std::string GetTexturePath();
+	Texture* GetTexture();
 	FaceColor* GetFaceColors();
 	VERTEX* GetVertices();
 	int GetVertexCount();
 
-	void SetTexturePath(std::string texturePath);
+	void SetTexture(Texture* texture);
 	void SetFaceColors(FaceColor* pFaceColors);
 protected:
 	Shape(GameObject* gameObject, int vertexCount);
 	~Shape();
 
 	HRESULT hr;
-	std::string texturePath;
+	Texture* texture;
 	FaceColor* faceColors;
 	VERTEX* vertices;
 	int vertexCount;

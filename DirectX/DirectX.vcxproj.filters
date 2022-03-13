@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Component\Shape">
       <UniqueIdentifier>{849093cd-5a0d-4593-97aa-47ec3e5306e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{ab8b1bc6-7147-4bea-bb7b-eb09b16459ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{5ca9538e-67e1-41a2-b9ea-be5edd34f818}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -47,12 +53,6 @@
     </ClCompile>
     <ClCompile Include="Cube.cpp">
       <Filter>Source Files\Component\Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="Clock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Bindable.cpp">
       <Filter>Source Files\Bindable</Filter>
@@ -99,7 +99,16 @@
     <ClCompile Include="Script.cpp">
       <Filter>Source Files\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Clock.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
     <ClCompile Include="Keyboard.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -118,12 +127,6 @@
     </ClInclude>
     <ClInclude Include="Cube.h">
       <Filter>Header Files\Component\Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="Clock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Bindable.h">
       <Filter>Header Files\Bindable</Filter>
@@ -170,7 +173,16 @@
     <ClInclude Include="Script.h">
       <Filter>Header Files\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Clock.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="Keyboard.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

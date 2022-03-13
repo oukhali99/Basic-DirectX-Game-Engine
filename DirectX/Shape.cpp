@@ -3,12 +3,13 @@
 #include "btBulletDynamicsCommon.h"
 #include "Component.h"
 #include "GameObject.h"
+#include "Texture.h"
 
 Shape::Shape(GameObject* gameObject, int vertexCount)
 	:
     Component(gameObject),
 	hr(0),
-    texturePath(""),
+    texture(0),
     faceColors(0),
     vertexCount(vertexCount)
 {
@@ -27,8 +28,8 @@ btVector3 Shape::GetScale() {
     return gameObject->GetScale();
 }
 
-std::string Shape::GetTexturePath() {
-    return texturePath;
+Texture* Shape::GetTexture() {
+    return texture;
 }
 
 FaceColor* Shape::GetFaceColors() {
@@ -43,8 +44,8 @@ int Shape::GetVertexCount() {
     return vertexCount;
 }
 
-void Shape::SetTexturePath(std::string texturePath) {
-    this->texturePath = std::string(texturePath);
+void Shape::SetTexture(Texture* texture) {
+    this->texture = texture;
 }
 
 void Shape::SetFaceColors(FaceColor* pFaceColors) {

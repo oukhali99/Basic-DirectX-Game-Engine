@@ -3,13 +3,7 @@
 #include "Bindable.h"
 
 class Shape;
-
-struct Image {
-	unsigned char* data;
-	int width;
-	int height;
-	int channelCount;
-};
+class Texture;
 
 class ShaderResources : public Bindable {
 public:
@@ -21,7 +15,6 @@ private:
 	ID3D11ShaderResourceView* shaderResourceView;
 	ID3D11SamplerState* samplerState;
 	std::string texturePath;
-	std::map<std::string, Image> textureCache;
 	LPCWSTR currentShader;
 	int width, height;
 };

@@ -12,6 +12,7 @@
 #include "Shape.h"
 #include "Script.h"
 #include "Keyboard.h"
+#include "Texture.h"
 
 int WINAPI WinMain(
     HINSTANCE hInstance,
@@ -95,13 +96,14 @@ int WINAPI WinMain(
             btTransform transform;
             transform.setIdentity();
             transform.setOrigin(btVector3(0, 0, 5));
-            //transform.setRotation(btQuaternion(0, -0.25f * 2 * 3.14, 0));
 
             GameObject* object = new GameObject(transform, size);
 
             object->AddComponent<Cube>();
             Shape* shape = object->GetComponent<Shape>();
-            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/cubeTexture.jpg");
+            
+            Texture* texture = new Texture("C:/Users/Oussama/Projects/stb/data/cubeTexture.jpg");
+            shape->SetTexture(texture);
 
             object->AddComponent<Rigidbody>();
             Rigidbody* rb = object->GetComponent<Rigidbody>();

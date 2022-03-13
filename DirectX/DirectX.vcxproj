@@ -193,6 +193,7 @@
     <ClCompile Include="ShaderResources.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="ShapeBase.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TransformBuffer.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="ShaderResources.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="ShapeBase.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="TransformBuffer.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="Window.h" />
