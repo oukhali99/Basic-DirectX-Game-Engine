@@ -72,7 +72,7 @@ void Rigidbody::ApplyTorqueImpulse(btVector3 torque) {
 	else if (isKinematic) {
 		btTransform newTrans;
 		rigidbody->getMotionState()->getWorldTransform(newTrans);
-		newTrans.setRotation(newTrans.getRotation() * btQuaternion(torque.getY(), torque.getX(), torque.getZ()));
+		newTrans.setRotation(btQuaternion(torque.getY(), torque.getX(), torque.getZ()) * newTrans.getRotation());
 		rigidbody->getMotionState()->setWorldTransform(newTrans);
 	}
 }
