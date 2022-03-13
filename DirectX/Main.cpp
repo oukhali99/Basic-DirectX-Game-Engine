@@ -90,6 +90,8 @@ int WINAPI WinMain(
             });
         }
         {
+            btVector3 size(2, 2, 2);
+
             btTransform transform;
             transform.setIdentity();
             transform.setOrigin(btVector3(0, 0, 20));
@@ -99,19 +101,20 @@ int WINAPI WinMain(
 
             object->AddComponent<Cube>();
             Shape* shape = object->GetComponent<Shape>();
-            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
+            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/brick.png");
 
             object->AddComponent<Rigidbody>();
             Rigidbody* rb = object->GetComponent<Rigidbody>();
-            rb->SetMass(1);
-            rb->SetGravity(btVector3());
+            rb->SetMass(0);
+            rb->SetIsKinematic(true);
 
             object->AddComponent<Script>();
             Script* script = object->GetComponent<Script>();
             script->SetOnUpdate([rb](GameObject* gameObject) {
                 for (WPARAM wParam : *Keyboard::GetInstance()->GetPressedKeys()) {
+                    float deltaTime = Clock::GetSingleton().GetTimeSinceStart() -  Game::GetInstance()->GetLastUpdateTime();
                     btVector3 unitTorque(0, 0, 0);
-                    btScalar torqueMagnitude = 0.1f;
+                    btScalar torqueMagnitude = 2.0f * deltaTime;
 
                     if (wParam == 'W') {
                         unitTorque.setX(1);
@@ -124,6 +127,12 @@ int WINAPI WinMain(
                     }
                     else if (wParam == 'A') {
                         unitTorque.setY(1);
+                    }
+                    else if (wParam == 'Q') {
+                        unitTorque.setZ(1);
+                    }
+                    else if (wParam == 'E') {
+                        unitTorque.setZ(-1);
                     }
 
                     rb->ApplyTorqueImpulse(unitTorque * torqueMagnitude);
