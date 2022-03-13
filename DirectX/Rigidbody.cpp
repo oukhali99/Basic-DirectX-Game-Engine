@@ -64,3 +64,13 @@ void Rigidbody::ApplyImpulse(btVector3 force) {
 		rigidbody->getMotionState()->setWorldTransform(newTrans);
 	}
 }
+
+void Rigidbody::ApplyTorqueImpulse(btVector3 torque) {
+	if (rigidbody->getMass() > 0) {
+		rigidbody->applyTorqueImpulse(torque);
+	}
+}
+
+void Rigidbody::SetGravity(btVector3 gravity) {
+	rigidbody->setGravity(gravity);
+}

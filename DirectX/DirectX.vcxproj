@@ -135,6 +135,8 @@
     </ProjectReference>
     <FxCompile>
       <EntryPointName>main</EntryPointName>
+      <ShaderType>Effect</ShaderType>
+      <ShaderModel>4.0</ShaderModel>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -166,6 +168,8 @@
     </ProjectReference>
     <FxCompile>
       <EntryPointName>main</EntryPointName>
+      <ShaderType>Effect</ShaderType>
+      <ShaderModel>4.0</ShaderModel>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -194,10 +198,6 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DefaultShaders.shaders" />
-    <None Include="TextureShaders.shaders" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Clock.h" />
     <ClInclude Include="ColorBuffer.h" />
     <ClInclude Include="Component.h" />
@@ -221,6 +221,10 @@
     <ClInclude Include="TransformBuffer.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="DefaultShaders.hlsl" />
+    <FxCompile Include="TextureShaders.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

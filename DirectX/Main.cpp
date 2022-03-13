@@ -67,6 +67,7 @@ int WINAPI WinMain(
             object->AddComponent<Script>();
             Script* inputController = object->GetComponent<Script>();
             inputController->SetOnUpdate([rb](GameObject* gameObject)->void {
+                return;
                 for (WPARAM wParam : *Keyboard::GetInstance()->GetPressedKeys()) {
                     char button = (char)wParam;
                     btVector3 unitImpulse(0, 0, 0);
@@ -89,6 +90,11 @@ int WINAPI WinMain(
             });
         }
         {
+            btTransform transform;
+            transform.setIdentity();
+            transform.setOrigin(btVector3(0, 0, 20));
+            //transform.setRotation(btQuaternion(0, -0.25f * 2 * 3.14, 0));
+
             GameObject* object = new GameObject(transform, size);
 
             object->AddComponent<Cube>();
@@ -98,6 +104,31 @@ int WINAPI WinMain(
             object->AddComponent<Rigidbody>();
             Rigidbody* rb = object->GetComponent<Rigidbody>();
             rb->SetMass(1);
+            rb->SetGravity(btVector3());
+
+            object->AddComponent<Script>();
+            Script* script = object->GetComponent<Script>();
+            script->SetOnUpdate([rb](GameObject* gameObject) {
+                for (WPARAM wParam : *Keyboard::GetInstance()->GetPressedKeys()) {
+                    btVector3 unitTorque(0, 0, 0);
+                    btScalar torqueMagnitude = 0.1f;
+
+                    if (wParam == 'W') {
+                        unitTorque.setX(1);
+                    }
+                    else if (wParam == 'S') {
+                        unitTorque.setX(-1);
+                    }
+                    else if (wParam == 'D') {
+                        unitTorque.setY(-1);
+                    }
+                    else if (wParam == 'A') {
+                        unitTorque.setY(1);
+                    }
+
+                    rb->ApplyTorqueImpulse(unitTorque * torqueMagnitude);
+                }
+            });
         }
         /*
         {
@@ -127,19 +158,11 @@ int WINAPI WinMain(
 
             object->AddComponent<Cube>();
             Shape* shape = object->GetComponent<Shape>();
-            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/map_02.png");
+            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.png");
 
             object->AddComponent<Rigidbody>();
             Rigidbody* rb = object->GetComponent<Rigidbody>();
             rb->SetMass(1);
-
-            std::function<void(GameObject* gameObject, char button)> callback = [rb](GameObject* gameObject, char button)->void {
-                //rb->ApplyImpulse(btVector3(1, 1, 1));
-            };
-
-            object->AddComponent<InputController>();
-            InputController* inputController = object->GetComponent<InputController>();
-            inputController->SetOnButtonPressed(callback);
         }
         {
             GameObject* object = new GameObject(transform, size);
@@ -208,7 +231,6 @@ int WINAPI WinMain(
             rb->SetMass(1);
         }
         */
-
 
         MSG msg = { 0 };
         while (true)

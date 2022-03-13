@@ -17,7 +17,6 @@ public:
 
 	void Bind(Shape* shape) override;
 private:
-	D3D11_TEXTURE2D_DESC textureDesc;
 	ID3D11Texture2D* imageTexture;
 	ID3D11ShaderResourceView* shaderResourceView;
 	ID3D11SamplerState* samplerState;

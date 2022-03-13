@@ -104,14 +104,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DefaultShaders.shaders">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="TextureShaders.shaders">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="MyException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -181,5 +173,13 @@
     <ClInclude Include="Keyboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="TextureShaders.hlsl">
+      <Filter>Resource Files</Filter>
+    </FxCompile>
+    <FxCompile Include="DefaultShaders.hlsl">
+      <Filter>Resource Files</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

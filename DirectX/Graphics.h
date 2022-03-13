@@ -6,8 +6,8 @@
 #include "Shape.h"
 #include "Bindable.h"
 
-#define SHADER_FILE_NAME_DEFAULT L"DefaultShaders.shaders"
-#define SHADER_FILE_NAME_TEXTURE L"TextureShaders.shaders"
+#define SHADER_FILE_NAME_DEFAULT L"DefaultShaders.hlsl"
+#define SHADER_FILE_NAME_TEXTURE L"TextureShaders.hlsl"
 
 struct VERTEX {
     float position[3];
