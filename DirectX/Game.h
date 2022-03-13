@@ -10,6 +10,8 @@ public:
 	static void Init(HWND hWnd);
 	static Game* GetInstance();
 
+	float GetLastUpdateTime();
+
 	void AddGameObject(GameObject* gameObject);
 	void Update();
 
@@ -21,4 +23,5 @@ private:
 	inline static Game* instance;
 
 	std::vector<GameObject*> gameObjects;
+	float lastUpdateTime;
 };

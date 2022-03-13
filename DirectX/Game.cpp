@@ -7,6 +7,8 @@ void Game::Init(HWND hWnd) {
 }
 
 Game::Game(HWND hWnd) 
+	:
+	lastUpdateTime(Clock::GetSingleton().GetTimeSinceStart())
 {}
 
 Game* Game::GetInstance() {
@@ -21,6 +23,10 @@ std::vector<GameObject*> Game::GetGameObjects() {
 	return gameObjects;
 }
 
+float Game::GetLastUpdateTime() {
+	return lastUpdateTime;
+}
+
 void Game::Update() {
 	Physics::GetInstance()->Update();
 
@@ -28,5 +34,7 @@ void Game::Update() {
 	for (GameObject* gameObject : gameObjects) {
 		gameObject->Update();
 	}
+	lastUpdateTime = Clock::GetSingleton().GetTimeSinceStart();
+
 	Graphics::GetInstance()->RenderFrame();
 }

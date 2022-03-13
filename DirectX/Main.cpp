@@ -10,7 +10,7 @@
 #include "Game.h"
 #include "Rigidbody.h"
 #include "Shape.h"
-#include "InputController.h"
+#include "Script.h"
 #include "Keyboard.h"
 
 int WINAPI WinMain(
@@ -64,24 +64,28 @@ int WINAPI WinMain(
             rb->SetMass(0);
             rb->SetIsKinematic(true);
 
-            object->AddComponent<InputController>();
-            InputController* inputController = object->GetComponent<InputController>();
-            inputController->SetOnButtonPressed([rb](GameObject* gameObject, char button)->void {
-                btVector3 unitImpulse(0, 0, 0);
-                btScalar impulseMagnitude = 0.1f;
-                if (button == 'W') {
-                    unitImpulse.setY(1);
+            object->AddComponent<Script>();
+            Script* inputController = object->GetComponent<Script>();
+            inputController->SetOnUpdate([rb](GameObject* gameObject)->void {
+                for (WPARAM wParam : *Keyboard::GetInstance()->GetPressedKeys()) {
+                    char button = (char)wParam;
+                    btVector3 unitImpulse(0, 0, 0);
+                    float deltaTime = Clock::GetSingleton().GetTimeSinceStart() - Game::GetInstance()->GetLastUpdateTime();
+                    btScalar impulseMagnitude = 1 * deltaTime;
+                    if (button == 'W') {
+                        unitImpulse.setY(1);
+                    }
+                    if (button == 'S') {
+                        unitImpulse.setY(-1);
+                    }
+                    if (button == 'D') {
+                        unitImpulse.setX(1);
+                    }
+                    if (button == 'A') {
+                        unitImpulse.setX(-1);
+                    }
+                    rb->ApplyImpulse(impulseMagnitude * unitImpulse);
                 }
-                if (button == 'S') {
-                    unitImpulse.setY(-1);
-                }
-                if (button == 'D') {
-                    unitImpulse.setX(1);
-                }
-                if (button == 'A') {
-                    unitImpulse.setX(-1);
-                }
-                rb->ApplyImpulse(impulseMagnitude * unitImpulse);
             });
         }
         {

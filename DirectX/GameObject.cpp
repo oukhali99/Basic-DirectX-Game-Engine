@@ -3,7 +3,7 @@
 #include "btBulletDynamicsCommon.h"
 #include "Component.h"
 #include "Rigidbody.h"
-#include "InputController.h"
+#include "Script.h"
 
 GameObject::GameObject()
 	:

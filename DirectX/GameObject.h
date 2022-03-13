@@ -6,7 +6,7 @@
 #include "btBulletDynamicsCommon.h"
 
 class Component;
-class InputController;
+class Script;
 
 class GameObject {
 public:
@@ -34,14 +34,14 @@ public:
 		T* t = new T(this);
 		components.push_back(t);
 
-		if (std::is_same<T, InputController>::value) {
-			inputControllers.push_back((InputController*)(t));
+		if (std::is_same<T, Script>::value) {
+			inputControllers.push_back((Script*)(t));
 		}
 	}
 private:
 	btTransform transform;
 	btVector3 scale;
 	std::vector<Component*> components;
-	std::vector<InputController*> inputControllers;
+	std::vector<Script*> inputControllers;
 };
 #endif
