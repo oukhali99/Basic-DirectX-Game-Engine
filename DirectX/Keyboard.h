@@ -1,4 +1,4 @@
-#include <list>
+#include <set>
 #include <Windows.h>
 
 using namespace std;
@@ -7,7 +7,7 @@ class Keyboard {
 public:
 	static Keyboard* GetInstance();
 
-	list<WPARAM>* GetPressedKeys();
+	set<WPARAM>* GetPressedKeys();
 
 	void InputStarted(WPARAM wParam);
 	void InputStopped(WPARAM wParam);
@@ -15,5 +15,5 @@ private:
 	Keyboard();
 	inline static Keyboard* instance;
 
-	list<WPARAM> pressedKeys;
+	set<WPARAM> pressedKeys;
 };

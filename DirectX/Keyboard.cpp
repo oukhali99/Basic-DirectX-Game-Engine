@@ -10,14 +10,14 @@ Keyboard* Keyboard::GetInstance() {
 
 Keyboard::Keyboard() {}
 
-list<WPARAM>* Keyboard::GetPressedKeys() {
+set<WPARAM>* Keyboard::GetPressedKeys() {
 	return &pressedKeys;
 }
 
 void Keyboard::InputStarted(WPARAM wParam) {
-	pressedKeys.push_back(wParam);
+	pressedKeys.insert(wParam);
 }
 
 void Keyboard::InputStopped(WPARAM wParam) {
-	pressedKeys.remove(wParam);
+	pressedKeys.erase(wParam);
 }
