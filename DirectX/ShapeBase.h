@@ -13,9 +13,9 @@ public:
         }
     }
 protected:
-    ShapeBase<T>(GameObject* gameObject)
+    ShapeBase<T>(GameObject* gameObject, int vertexCount)
         :
-        Shape(gameObject)
+        Shape(gameObject, vertexCount)
     {}
 
 	inline static std::vector<Bindable*> bindables;    

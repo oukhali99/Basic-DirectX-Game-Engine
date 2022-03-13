@@ -11,6 +11,7 @@
 class Graphics;
 class Shape;
 struct FaceColor;
+struct VERTEX;
 
 class Shape : public Component {
 public:
@@ -18,15 +19,20 @@ public:
 	btVector3 GetScale();
 	std::string GetTexturePath();
 	FaceColor* GetFaceColors();
+	VERTEX* GetVertices();
+	int GetVertexCount();
 
 	void SetTexturePath(std::string texturePath);
 	void SetFaceColors(FaceColor* pFaceColors);
 protected:
-	Shape(GameObject* gameObject);
+	Shape(GameObject* gameObject, int vertexCount);
+	~Shape();
 
 	HRESULT hr;
 	std::string texturePath;
 	FaceColor* faceColors;
+	VERTEX* vertices;
+	int vertexCount;
 };
 
 #endif

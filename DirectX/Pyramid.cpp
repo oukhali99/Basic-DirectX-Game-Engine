@@ -8,7 +8,7 @@
 
 Pyramid::Pyramid(GameObject* gameObject)
 	:
-	ShapeBase<Pyramid>(gameObject)
+	ShapeBase<Pyramid>(gameObject, 4)
 {
 	VERTEX vertices[] = {
 		{ 0.0f, 0.0f, -1.0f },
@@ -25,7 +25,7 @@ Pyramid::Pyramid(GameObject* gameObject)
 	};
 
 	if (bindables.size() == 0) {
-		VertexBuffer* vb = new VertexBuffer(vertices, sizeof(vertices));
+		VertexBuffer* vb = new VertexBuffer(vertexCount);
 		bindables.push_back(vb);
 
 		TransformBuffer* tcb = new TransformBuffer();

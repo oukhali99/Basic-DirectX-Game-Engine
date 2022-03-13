@@ -7,6 +7,6 @@ class Shape;
 
 class VertexBuffer : public Bindable {
 public:
-	VertexBuffer(VERTEX* vertices, int verticesSize);
+	VertexBuffer(int vertexCount);
 	void Bind(Shape* shape) override;
 };

@@ -5,7 +5,7 @@
 
 Cube::Cube(GameObject* gameObject)
     :
-    ShapeBase(gameObject)
+    ShapeBase(gameObject, 14)
 {
     // Create a resource for the vertices
     VERTEX OurVertices[] = {
@@ -95,6 +95,7 @@ Cube::Cube(GameObject* gameObject)
             { 0, 1 }
         },
     };
+    memcpy(vertices, OurVertices, vertexCount * sizeof(VERTEX));
 
     unsigned short indices[] = {
             0, 1, 2, 3, 0, 2,
@@ -106,7 +107,7 @@ Cube::Cube(GameObject* gameObject)
     };
 
     if (bindables.size() == 0) {
-        VertexBuffer* vertexBuffer = new VertexBuffer(OurVertices, sizeof(OurVertices));
+        VertexBuffer* vertexBuffer = new VertexBuffer(vertexCount);
         TransformBuffer* transformBuffer = new TransformBuffer();
         ColorBuffer* colorBuffer = new ColorBuffer(6);
         IndexBuffer* indexBuffer = new IndexBuffer(indices, sizeof(indices));
