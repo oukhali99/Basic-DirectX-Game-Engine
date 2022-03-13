@@ -90,18 +90,18 @@ int WINAPI WinMain(
             });
         }
         {
-            btVector3 size(2, 2, 2);
+            btVector3 size(1, 1, 1);
 
             btTransform transform;
             transform.setIdentity();
-            transform.setOrigin(btVector3(0, 0, 20));
+            transform.setOrigin(btVector3(0, 0, 5));
             //transform.setRotation(btQuaternion(0, -0.25f * 2 * 3.14, 0));
 
             GameObject* object = new GameObject(transform, size);
 
             object->AddComponent<Cube>();
             Shape* shape = object->GetComponent<Shape>();
-            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/brick.png");
+            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/cubeTexture.jpg");
 
             object->AddComponent<Rigidbody>();
             Rigidbody* rb = object->GetComponent<Rigidbody>();
