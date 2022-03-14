@@ -132,7 +132,7 @@ void Graphics::InitPipeline() {
     // Create the shader layout (input)
     D3D11_INPUT_ELEMENT_DESC ied[] = {
         {"POSITION", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, 0u, D3D11_INPUT_PER_VERTEX_DATA, 0u},
-        {"TEXCOORDS", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, 12u, D3D11_INPUT_PER_VERTEX_DATA, 0u}
+        {"TEXCOORDS", 0u, DXGI_FORMAT_R32G32_FLOAT, 0u, 12u, D3D11_INPUT_PER_VERTEX_DATA, 0u}
     };
     GFX_THROW_INFO(pDevice->CreateInputLayout(
         ied, sizeof(ied) / sizeof(ied[0]),
