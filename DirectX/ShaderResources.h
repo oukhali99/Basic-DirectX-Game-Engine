@@ -12,9 +12,9 @@ public:
 	void Bind(Shape* shape) override;
 private:
 	ID3D11Texture2D* imageTexture;
+	ID3D11Texture2D* imageTextureCopy;
 	ID3D11ShaderResourceView* shaderResourceView;
 	ID3D11SamplerState* samplerState;
-	std::string texturePath;
 	LPCWSTR currentShader;
 	int width, height;
 };

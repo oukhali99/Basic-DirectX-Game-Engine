@@ -9,7 +9,6 @@ ShaderResources::ShaderResources(int width, int height)
     :
     shaderResourceView(0),
     samplerState(0),
-    texturePath(""),
     currentShader(SHADER_FILE_NAME_DEFAULT),
     width(width),
     height(height)
@@ -20,11 +19,11 @@ ShaderResources::ShaderResources(int width, int height)
     textureDesc.Width = width;
     textureDesc.Height = height;
     textureDesc.MipLevels = 1u;
-    textureDesc.ArraySize = 1u;
+    textureDesc.ArraySize = 6u;
     textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     textureDesc.SampleDesc.Count = 1u;
     textureDesc.SampleDesc.Quality = 0u;
-    textureDesc.Usage = D3D11_USAGE_DYNAMIC;
+    textureDesc.Usage = D3D11_USAGE_DEFAULT;
     textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
     textureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
@@ -32,6 +31,15 @@ ShaderResources::ShaderResources(int width, int height)
         &textureDesc,
         NULL,
         &imageTexture
+    ));
+
+    textureDesc.Usage = D3D11_USAGE_STAGING;
+    textureDesc.BindFlags = 0u;
+    textureDesc.ArraySize = 6u;
+    GFX_THROW_INFO(Graphics::GetInstance()->GetDevice()->CreateTexture2D(
+        &textureDesc,
+        NULL,
+        &imageTextureCopy
     ));
 
     // Create the resource view
@@ -122,18 +130,23 @@ void ShaderResources::Bind(Shape* shape) {
 
         int imageRowPitch = texture->image.width * texture->image.channelCount;
 
-        // Modify the texture
-        D3D11_MAPPED_SUBRESOURCE msr = {};
-        Graphics::GetInstance()->GetDeviceContext()->Map(imageTexture, 0u, D3D11_MAP_WRITE_DISCARD, 0u, &msr);
-        BYTE* mappedData = reinterpret_cast<BYTE*>(msr.pData);
-        BYTE* newTextureData = texture->image.data;
-        for (UINT row = 0; row < texture->image.height; row++)
-        {
-            memcpy(mappedData, newTextureData, imageRowPitch);
-            mappedData += msr.RowPitch;
-            newTextureData += imageRowPitch;
+        // Modify the texture copy
+        for (int i = 0; i < 6; i++) {
+            D3D11_MAPPED_SUBRESOURCE msr = {};
+            Graphics::GetInstance()->GetDeviceContext()->Map(imageTextureCopy, i, D3D11_MAP_WRITE, 0u, &msr);
+            BYTE* mappedData = reinterpret_cast<BYTE*>(msr.pData);
+            BYTE* newTextureData = texture->image.data;
+            for (UINT row = 0; row < texture->image.height; row++)
+            {
+                memcpy(mappedData, newTextureData, imageRowPitch);
+                mappedData += msr.RowPitch;
+                newTextureData += imageRowPitch;
+            }
+            Graphics::GetInstance()->GetDeviceContext()->Unmap(imageTextureCopy, i);
         }
-        Graphics::GetInstance()->GetDeviceContext()->Unmap(imageTexture, 0u);
+
+        // Move the texture copy to the texture
+        Graphics::GetInstance()->GetDeviceContext()->CopyResource(imageTexture, imageTextureCopy);
 
         // Set the shader
         currentShader = SHADER_FILE_NAME_TEXTURE;

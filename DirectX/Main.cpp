@@ -102,7 +102,7 @@ int WINAPI WinMain(
             object->AddComponent<Cube>();
             Shape* shape = object->GetComponent<Shape>();
             
-            Texture* texture = new Texture("C:/Users/Oussama/Projects/stb/data/cubeTexture.jpg");
+            Texture* texture = new Texture("C:/Users/Oussama/Projects/stb/data/dog.jpg");
             shape->SetTexture(texture);
 
             object->AddComponent<Rigidbody>();

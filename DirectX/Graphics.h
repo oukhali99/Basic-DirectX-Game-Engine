@@ -11,7 +11,7 @@
 
 struct VERTEX {
     float position[3];
-    float texCoords[2];
+    float texCoords[3];
 };
 
 struct ConstantBuffer {

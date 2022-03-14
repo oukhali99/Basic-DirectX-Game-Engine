@@ -104,8 +104,17 @@ void Graphics::InitPipeline() {
         ID3D11VertexShader* pVS;
         ID3D11PixelShader* pPS;
 
-        GFX_THROW_INFO(D3DCompileFromFile(shaderFile, 0, 0, "VShader", "vs_4_0", 0, 0, &VS, &errorBlob));
-        GFX_THROW_INFO(D3DCompileFromFile(shaderFile, 0, 0, "PShader", "ps_4_0", 0, 0, &PS, &errorBlob));
+        hr = D3DCompileFromFile(shaderFile, 0, 0, "VShader", "vs_4_0", 0, 0, &VS, &errorBlob);
+        if (errorBlob) {
+            LPCSTR message = (LPCSTR)errorBlob->GetBufferPointer();
+            Main::HandleError(message, __FILE__, __LINE__);
+        }
+
+        hr = D3DCompileFromFile(shaderFile, 0, 0, "PShader", "ps_4_0", 0, 0, &PS, &errorBlob);
+        if (errorBlob) {
+            LPCSTR message = (LPCSTR)errorBlob->GetBufferPointer();
+            Main::HandleError(message, __FILE__, __LINE__);
+        }
 
         GFX_THROW_INFO(pDevice->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &pVS));
         GFX_THROW_INFO(pDevice->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &pPS));
@@ -123,7 +132,7 @@ void Graphics::InitPipeline() {
     // Create the shader layout (input)
     D3D11_INPUT_ELEMENT_DESC ied[] = {
         {"POSITION", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, 0u, D3D11_INPUT_PER_VERTEX_DATA, 0u},
-        {"TEXCOORDS", 0u, DXGI_FORMAT_R32G32_FLOAT, 0u, 12u, D3D11_INPUT_PER_VERTEX_DATA, 0u}
+        {"TEXCOORDS", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, 12u, D3D11_INPUT_PER_VERTEX_DATA, 0u}
     };
     GFX_THROW_INFO(pDevice->CreateInputLayout(
         ied, sizeof(ied) / sizeof(ied[0]),

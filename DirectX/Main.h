@@ -54,5 +54,20 @@ public:
 
         throw new std::exception(ss.str().c_str());
     }
+
+    static void HandleError(std::string description, const char* file, const long long line) {
+        std::stringstream ss;
+
+        // Exception line
+        ss << "Exception on line " << line << std::endl;
+
+        // Exception file
+        ss << "File: " << file << std::endl;
+
+
+        ss << "Description: " << description << std::endl;
+
+        throw new std::exception(ss.str().c_str());
+    }
 };
 #endif

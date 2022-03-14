@@ -15,11 +15,11 @@ VS_Out VShader(float4 position : POSITION, float3 texcoords : TEXCOORDS)
     return output;
 }
 
-Texture2D my_texture;
+Texture2DArray my_texture;
 SamplerState my_sampler;
 
 float4 PShader(VS_Out input, uint tid: SV_PrimitiveID) : SV_TARGET
 {
-    float2 texCoords = { input.texcoords.x, input.texcoords.y };
-    return my_texture.Sample(my_sampler, texCoords);
+    float3 texCoords = { input.texcoords.x, input.texcoords.y, tid / 2 };
+    return my_texture.Sample(my_sampler, texCoords, 0);
 }
