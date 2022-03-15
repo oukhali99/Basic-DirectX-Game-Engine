@@ -29,13 +29,6 @@ int WINAPI WinMain(
         Physics::Init();
         Graphics::Init(hWnd, 0.5f, 50.0f);
 
-        btTransform transform;
-        btVector3 size;
-
-        transform.setIdentity();
-        transform.setOrigin(btVector3(0, 8, 20));
-        size = btVector3(2, 2, 3);
-
         FaceColor faceColors[] = {
                 { 1.0f, 0.0f, 0.0f, 1.0f },
                 { 0.0f, 1.0f, 0.0f, 1.0f },
@@ -45,51 +38,6 @@ int WINAPI WinMain(
                 { 1.0f, 1.0f, 0.0f, 1.0f },
         };
 
-        {
-            btTransform transform;
-            btVector3 size;
-
-            transform.setIdentity();
-            transform.setOrigin(btVector3(0, -8, 20));
-            size = btVector3(12, 1, 12);
-
-            GameObject* object = new GameObject(transform, size);
-
-            object->AddComponent<Cube>();
-            Shape* shape = object->GetComponent<Shape>();
-            shape->SetFaceColors(faceColors);
-            //shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
-
-            object->AddComponent<Rigidbody>();
-            Rigidbody* rb = object->GetComponent<Rigidbody>();
-            rb->SetMass(0);
-            rb->SetIsKinematic(true);
-
-            object->AddComponent<Script>();
-            Script* inputController = object->GetComponent<Script>();
-            inputController->SetOnUpdate([rb](GameObject* gameObject)->void {
-                return;
-                for (WPARAM wParam : *Keyboard::GetInstance()->GetPressedKeys()) {
-                    char button = (char)wParam;
-                    btVector3 unitImpulse(0, 0, 0);
-                    float deltaTime = Clock::GetSingleton().GetTimeSinceStart() - Game::GetInstance()->GetLastUpdateTime();
-                    btScalar impulseMagnitude = 15.0f * deltaTime;
-                    if (button == 'W') {
-                        unitImpulse.setY(1);
-                    }
-                    if (button == 'S') {
-                        unitImpulse.setY(-1);
-                    }
-                    if (button == 'D') {
-                        unitImpulse.setX(1);
-                    }
-                    if (button == 'A') {
-                        unitImpulse.setX(-1);
-                    }
-                    rb->ApplyImpulse(impulseMagnitude * unitImpulse);
-                }
-            });
-        }
         {
             btVector3 size(1, 1, 1);
 
@@ -102,7 +50,7 @@ int WINAPI WinMain(
             object->AddComponent<Cube>();
             Shape* shape = object->GetComponent<Shape>();
             
-            Texture* texture = new Texture("C:/Users/Oussama/Projects/stb/data/brick.jpg");
+            Texture* texture = new Texture("brick.jpg");
             shape->SetTexture(texture);
 
             object->AddComponent<Rigidbody>();
@@ -114,7 +62,7 @@ int WINAPI WinMain(
             Script* script = object->GetComponent<Script>();
             script->SetOnUpdate([rb](GameObject* gameObject) {
                 for (WPARAM wParam : *Keyboard::GetInstance()->GetPressedKeys()) {
-                    float deltaTime = Clock::GetSingleton().GetTimeSinceStart() -  Game::GetInstance()->GetLastUpdateTime();
+                    float deltaTime = Clock::GetSingleton().GetTimeSinceStart() - Game::GetInstance()->GetLastUpdateTime();
                     btVector3 unitTorque(0, 0, 0);
                     btScalar torqueMagnitude = 2.0f * deltaTime;
 
@@ -141,107 +89,6 @@ int WINAPI WinMain(
                 }
             });
         }
-        /*
-        {
-            GameObject* object = new GameObject(transform, size);
-
-            object->AddComponent<Cube>();
-            Shape* shape = object->GetComponent<Shape>();
-            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
-
-            object->AddComponent<Rigidbody>();
-            Rigidbody* rb = object->GetComponent<Rigidbody>();
-            rb->SetMass(1);
-        }
-        {
-            GameObject* object = new GameObject(transform, size);
-
-            object->AddComponent<Cube>();
-            Shape* shape = object->GetComponent<Shape>();
-            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
-
-            object->AddComponent<Rigidbody>();
-            Rigidbody* rb = object->GetComponent<Rigidbody>();
-            rb->SetMass(1);
-        }
-        {
-            GameObject* object = new GameObject(transform, size);
-
-            object->AddComponent<Cube>();
-            Shape* shape = object->GetComponent<Shape>();
-            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.png");
-
-            object->AddComponent<Rigidbody>();
-            Rigidbody* rb = object->GetComponent<Rigidbody>();
-            rb->SetMass(1);
-        }
-        {
-            GameObject* object = new GameObject(transform, size);
-
-            object->AddComponent<Cube>();
-            Shape* shape = object->GetComponent<Shape>();
-            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
-
-            object->AddComponent<Rigidbody>();
-            Rigidbody* rb = object->GetComponent<Rigidbody>();
-            rb->SetMass(1);
-        }
-        {
-            GameObject* object = new GameObject(transform, size);
-
-            object->AddComponent<Cube>();
-            Shape* shape = object->GetComponent<Shape>();
-            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
-
-            object->AddComponent<Rigidbody>();
-            Rigidbody* rb = object->GetComponent<Rigidbody>();
-            rb->SetMass(1);
-        }
-        {
-            GameObject* object = new GameObject(transform, size);
-
-            object->AddComponent<Cube>();
-            Shape* shape = object->GetComponent<Shape>();
-            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
-
-            object->AddComponent<Rigidbody>();
-            Rigidbody* rb = object->GetComponent<Rigidbody>();
-            rb->SetMass(1);
-        }
-        {
-            GameObject* object = new GameObject(transform, size);
-
-            object->AddComponent<Cube>();
-            Shape* shape = object->GetComponent<Shape>();
-            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
-
-            object->AddComponent<Rigidbody>();
-            Rigidbody* rb = object->GetComponent<Rigidbody>();
-            rb->SetMass(1);
-        }
-        {
-            GameObject* object = new GameObject(transform, size);
-
-            object->AddComponent<Cube>();
-            Shape* shape = object->GetComponent<Shape>();
-            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
-
-            object->AddComponent<Rigidbody>();
-            Rigidbody* rb = object->GetComponent<Rigidbody>();
-            rb->SetMass(1);
-        }
-        {
-            GameObject* object = new GameObject(transform, size);
-
-            object->AddComponent<Cube>();
-            Shape* shape = object->GetComponent<Shape>();
-            shape->SetTexturePath("C:/Users/Oussama/Projects/stb/data/dog.jpg");
-
-            object->AddComponent<Rigidbody>();
-            Rigidbody* rb = object->GetComponent<Rigidbody>();
-            rb->SetMass(1);
-        }
-        */
 
         MSG msg = { 0 };
         while (true)

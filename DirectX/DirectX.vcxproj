@@ -228,6 +228,10 @@
     <FxCompile Include="DefaultShaders.hlsl" />
     <FxCompile Include="TextureShaders.hlsl" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="brick.jpg" />
+    <Image Include="dog.jpg" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
