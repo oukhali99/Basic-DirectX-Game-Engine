@@ -14,12 +14,15 @@ Gui* Gui::GetInstance() {
 
 Gui::Gui(HWND hWnd)
     :
-    hWnd(hWnd)
+    hWnd(hWnd),
+    showDemoWindow(false),
+    showAnotherWindow(false),
+    backgroundColor(ImVec4(0.3f, 0.1f, 1.0f, 1.0f))
 {
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGuiIO io = ImGui::GetIO();
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
@@ -35,8 +38,8 @@ Gui::Gui(HWND hWnd)
 
 void Gui::Update() {
     // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-    if (show_demo_window)
-        ImGui::ShowDemoWindow(&show_demo_window);
+    if (showDemoWindow)
+        ImGui::ShowDemoWindow(&showDemoWindow);
 
     // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
     {
@@ -46,11 +49,11 @@ void Gui::Update() {
         ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
         ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-        ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-        ImGui::Checkbox("Another Window", &show_another_window);
+        ImGui::Checkbox("Demo Window", &showDemoWindow);      // Edit bools storing our window open/close state
+        ImGui::Checkbox("Another Window", &showAnotherWindow);
 
         ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+        ImGui::ColorEdit3("clear color", (float*)&backgroundColor); // Edit 3 floats representing a color
 
         if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
             counter++;
@@ -62,12 +65,16 @@ void Gui::Update() {
     }
 
     // 3. Show another simple window.
-    if (show_another_window)
+    if (showAnotherWindow)
     {
-        ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+        ImGui::Begin("Another Window", &showAnotherWindow);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
         ImGui::Text("Hello from another window!");
         if (ImGui::Button("Close Me"))
-            show_another_window = false;
+            showAnotherWindow = false;
         ImGui::End();
     }
+}
+
+ImVec4 Gui::GetBackgroundColor() {
+    return backgroundColor;
 }

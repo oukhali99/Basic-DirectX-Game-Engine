@@ -3,6 +3,7 @@
 #include "Mouse.h"
 #include "Game.h"
 #include "GameObject.h"
+#include "Gui.h"
 
 void Graphics::Init(HWND hWnd, float nearZ, float farZ) {
     instance = new Graphics(hWnd, nearZ, farZ);
@@ -37,6 +38,9 @@ Graphics::~Graphics() {
 // this function initializes and prepares Direct3D for use
 void Graphics::InitD3D()
 {
+    RECT clientRect;
+    GetClientRect(hWnd, &clientRect);
+
     // create a struct to hold information about the swap chain
     DXGI_SWAP_CHAIN_DESC scd;
     ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
@@ -44,8 +48,8 @@ void Graphics::InitD3D()
     // fill the swap chain description struct
     scd.BufferCount = 1u;                                   // one back buffer
     scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;     // use 32-bit color
-    scd.BufferDesc.Width = SCREEN_WIDTH;                    // set the back buffer width
-    scd.BufferDesc.Height = SCREEN_HEIGHT;                  // set the back buffer height
+    scd.BufferDesc.Width = clientRect.right;                    // set the back buffer width
+    scd.BufferDesc.Height = clientRect.bottom;                  // set the back buffer height
     scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;      // how swap chain is to be used
     scd.OutputWindow = hWnd;                                // the window to be used
     scd.SampleDesc.Count = 4u;                              // how many multisamples
@@ -82,8 +86,8 @@ void Graphics::InitD3D()
     ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
     viewport.TopLeftX = 0;
     viewport.TopLeftY = 0;
-    viewport.Width = SCREEN_WIDTH;
-    viewport.Height = SCREEN_HEIGHT;
+    viewport.Width = clientRect.right;
+    viewport.Height = clientRect.bottom;
     viewport.MaxDepth = 1.0f;
     viewport.MinDepth = 0.0f;
     // Set the viewport
@@ -147,6 +151,9 @@ void Graphics::InitPipeline() {
 }
 
 void Graphics::InitGraphics() {
+    RECT clientRect;
+    GetClientRect(hWnd, &clientRect);
+
     // Create the depth stencil state
     ID3D11DepthStencilState* pDSState;
     D3D11_DEPTH_STENCIL_DESC dsd;
@@ -161,8 +168,8 @@ void Graphics::InitGraphics() {
     ID3D11Texture2D* pDepthStencilTexture;
     D3D11_TEXTURE2D_DESC td;
     ZeroMemory(&td, sizeof(td));
-    td.Width = SCREEN_WIDTH;
-    td.Height = SCREEN_HEIGHT;
+    td.Width = clientRect.right;
+    td.Height = clientRect.bottom;
     td.MipLevels = 1u;
     td.ArraySize = 1u;
     td.Format = DXGI_FORMAT_D32_FLOAT;                      // Shape::Transform.z is a float (32bit)
@@ -197,8 +204,10 @@ void Graphics::SetShaders(LPCWSTR shaderFileName) {
 
 void Graphics::ClearFrame() {
     // clear the back buffer to a deep blue
-    float color[4] = { 0.3f, 0.1f, 1.0f, 1.0f };
-    pContext->ClearRenderTargetView(renderTargetView, color);
+    Gui* gui = Gui::GetInstance();
+    ImVec4 color = gui->GetBackgroundColor();
+    float colorFloat[4] = { color.x, color.y, color.z, color.w };
+    pContext->ClearRenderTargetView(renderTargetView, colorFloat);
     pContext->ClearDepthStencilView(pDSView, D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
