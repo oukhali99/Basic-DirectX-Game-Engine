@@ -4,7 +4,7 @@
 
 Texture::Texture(string texturePath)
 	:
-	image({}),
+	image(0),
     texturePath(texturePath)
 {
     if (textureCache.contains(texturePath)) {
@@ -16,10 +16,11 @@ Texture::Texture(string texturePath)
         int channelCount = 4;
         unsigned char* imageData = stbi_load(texturePath.c_str(), &loadedWidth, &loadedHeight, NULL, channelCount);
 
-        image.data = imageData;
-        image.width = loadedWidth;
-        image.height = loadedHeight;
-        image.channelCount = channelCount;
+        image = new Image();
+        image->data = imageData;
+        image->width = loadedWidth;
+        image->height = loadedHeight;
+        image->channelCount = channelCount;
 
         // Save to cache
         textureCache[texturePath] = image;

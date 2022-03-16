@@ -71,72 +71,38 @@ ShaderResources::ShaderResources(int width, int height)
 void ShaderResources::Bind(Shape* shape) {
     Texture* texture = shape->GetTexture();
 
-    // Load the image
-    /*
-    Texture::Image image = {};
-    if (textureCache.contains(texturePath)) {
-        image = textureCache[texturePath];
-    }
-    else {
-        // Load the image
-        int loadedWidth, loadedHeight;
-        int channelCount = 4;
-        unsigned char* imageData = stbi_load(texturePath.c_str(), &loadedWidth, &loadedHeight, NULL, channelCount);
-            
-        if (imageData) {
-            unsigned char* resizedImageData = (unsigned char*)malloc(width * height * channelCount);
-            stbir_resize_uint8(imageData, loadedWidth, loadedHeight, 0, resizedImageData, width, height, 0, channelCount);
-
-            // Create the image struct
-            image.data = resizedImageData;
-            image.width = width;
-            image.height = height;
-            image.channelCount = channelCount;
-        }
-        else {
-            image.data = 0;
-            image.width = 0;
-            image.height = 0;
-            image.channelCount = 0;
-        }
-
-        // Save to cache
-        textureCache[texturePath] = image;
-    }
-    */
-
-    if (texture && texture->image.data) {
-        if (texture->image.width != width || texture->image.height != height) {
-            unsigned char* resizedImageData = (unsigned char*)malloc(width * height * texture->image.channelCount);
+    if (texture && texture->image->data) {
+        if (texture->image->width != width || texture->image->height != height) {
+            unsigned char* resizedImageData = (unsigned char*)malloc(width * height * texture->image->channelCount);
             stbir_resize_uint8(
-                texture->image.data,
-                texture->image.width,
-                texture->image.height,
+                texture->image->data,
+                texture->image->width,
+                texture->image->height,
                 0,
                 resizedImageData,
                 width,
                 height,
                 0,
-                texture->image.channelCount
+                texture->image->channelCount
             );
 
-            free(texture->image.data);
+            free(texture->image->data);
 
             // Modify the image struct
-            texture->image.data = resizedImageData;
-            texture->image.width = width;
-            texture->image.height = height;
+            texture->image->data = resizedImageData;
+            texture->image->width = width;
+            texture->image->height = height;
         }
 
-        int imageRowPitch = texture->image.width * texture->image.channelCount;
+        int imageRowPitch = texture->image->width * texture->image->channelCount;
 
         // Modify the texture copy
         for (int i = 0; i < 6; i++) {
             D3D11_MAPPED_SUBRESOURCE msr = {};
             Graphics::GetInstance()->GetDeviceContext()->Map(imageTextureCopy, i, D3D11_MAP_WRITE, 0u, &msr);
             BYTE* mappedData = reinterpret_cast<BYTE*>(msr.pData);
-            BYTE* newTextureData = texture->image.data;
-            for (UINT row = 0; row < texture->image.height; row++)
+            BYTE* newTextureData = texture->image->data;
+            for (UINT row = 0; row < texture->image->height; row++)
             {
                 memcpy(mappedData, newTextureData, imageRowPitch);
                 mappedData += msr.RowPitch;

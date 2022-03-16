@@ -51,7 +51,7 @@ int WINAPI WinMain(
 
             object->AddComponent<Cube>();
             Shape* shape = object->GetComponent<Shape>();
-            
+
             Texture* texture = new Texture("brick.jpg");
             shape->SetTexture(texture);
 
@@ -89,7 +89,53 @@ int WINAPI WinMain(
 
                     rb->ApplyTorqueImpulse(unitTorque * torqueMagnitude);
                 }
-            });
+                });
+        }
+
+        {
+            btVector3 size(1, 1, 1);
+
+            btTransform transform;
+            transform.setIdentity();
+            transform.setOrigin(btVector3(0, 0, 5));
+
+            GameObject* object = new GameObject(transform, size);
+
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+
+            Texture* texture = new Texture("brick.jpg");
+            shape->SetTexture(texture);
+
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(0);
+            rb->SetIsKinematic(true);
+
+            object->AddComponent<Script>();
+            Script* script = object->GetComponent<Script>();
+            script->SetOnUpdate([rb](GameObject* gameObject) {
+                for (WPARAM wParam : *Keyboard::GetInstance()->GetPressedKeys()) {
+                    float deltaTime = Clock::GetSingleton().GetTimeSinceStart() - Game::GetInstance()->GetLastUpdateTime();
+                    btVector3 unitTorque(0, 0, 0);
+                    btScalar torqueMagnitude = 2.0f * deltaTime;
+
+                    if (wParam == 'W') {
+                        unitTorque.setY(1);
+                    }
+                    else if (wParam == 'S') {
+                        unitTorque.setY(-1);
+                    }
+                    else if (wParam == 'D') {
+                        unitTorque.setX(1);
+                    }
+                    else if (wParam == 'A') {
+                        unitTorque.setX(-1);
+                    }
+
+                    rb->ApplyImpulse(unitTorque * torqueMagnitude);
+                }
+                });
         }
 
         MSG msg = { 0 };

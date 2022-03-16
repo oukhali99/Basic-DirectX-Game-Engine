@@ -12,10 +12,10 @@ public:
 		int width;
 		int height;
 		int channelCount;
-	} image;
+	}* image;
 
 private:
-	inline static map<std::string, Image> textureCache;
+	inline static map<std::string, Image*> textureCache;
 
 	string texturePath;
 };
