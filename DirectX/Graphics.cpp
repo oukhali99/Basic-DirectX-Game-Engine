@@ -111,13 +111,13 @@ void Graphics::InitPipeline() {
         hr = D3DCompileFromFile(shaderFile, 0, 0, "VShader", "vs_4_0", 0, 0, &VS, &errorBlob);
         if (errorBlob) {
             LPCSTR message = (LPCSTR)errorBlob->GetBufferPointer();
-            Main::HandleError(message, __FILE__, __LINE__);
+            Main::HandleError(hr, __FILE__, __LINE__, message);
         }
 
         hr = D3DCompileFromFile(shaderFile, 0, 0, "PShader", "ps_4_0", 0, 0, &PS, &errorBlob);
         if (errorBlob) {
             LPCSTR message = (LPCSTR)errorBlob->GetBufferPointer();
-            Main::HandleError(message, __FILE__, __LINE__);
+            Main::HandleError(hr, __FILE__, __LINE__, message);
         }
 
         GFX_THROW_INFO(pDevice->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &pVS));
