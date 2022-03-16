@@ -8,7 +8,7 @@ VertexBuffer::VertexBuffer(int vertexCount) {
     bd.ByteWidth = vertexCount * sizeof(VERTEX);                        // size is the VERTEX struct * 3
     bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;                            // use as a vertex buffer
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;                         // allow CPU to write in buffer
-    GFX_THROW_INFO(GetDevice(Graphics::GetInstance())->CreateBuffer(&bd, NULL, &pBuffer));          // create the buffer
+    GFX_THROW_INFO(Graphics::GetInstance()->GetDevice()->CreateBuffer(&bd, NULL, &pBuffer));          // create the buffer
 }
 
 void VertexBuffer::Bind(Shape* shape) {
@@ -19,5 +19,5 @@ void VertexBuffer::Bind(Shape* shape) {
 
     UINT stride = sizeof(VERTEX);
     UINT offset = 0u;
-    GetDeviceContext(Graphics::GetInstance())->IASetVertexBuffers(0, 1u, &pBuffer, &stride, &offset);
+    Graphics::GetInstance()->GetDeviceContext()->IASetVertexBuffers(0, 1u, &pBuffer, &stride, &offset);
 }

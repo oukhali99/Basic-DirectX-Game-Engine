@@ -13,11 +13,6 @@ public:
 	Bindable();
 
 	virtual void Bind(Shape* transform) = 0;
-
-	static ID3D11Device* GetDevice(Graphics* gfx);
-	static ID3D11DeviceContext* GetDeviceContext(Graphics* gfx);
-	static float GetNearZ(Graphics* gfx);
-	static float GetFarZ(Graphics* gfx);
 protected:
 	HRESULT hr;
 	ID3D11Buffer* pBuffer;

@@ -9,6 +9,8 @@
 #define SHADER_FILE_NAME_DEFAULT L"DefaultShaders.hlsl"
 #define SHADER_FILE_NAME_TEXTURE L"TextureShaders.hlsl"
 
+class Gui;
+
 struct VERTEX {
     float position[3];
     float texCoords[2];
@@ -23,14 +25,14 @@ struct FaceColor {
 };
 
 class Graphics {
-    friend class Bindable;
-    friend class Shape;
 public:
     static void Init(HWND hWnd, float nearZ, float farZ);
     static Graphics* GetInstance();
 
     ID3D11Device* GetDevice();
     ID3D11DeviceContext* GetDeviceContext();
+    float GetNearZ();
+    float GetFarZ();
 
     void ClearFrame();
     void RenderFrame();

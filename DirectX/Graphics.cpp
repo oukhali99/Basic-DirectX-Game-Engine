@@ -217,3 +217,11 @@ void Graphics::RenderFrame()
     // switch the back buffer and the front buffer
     GFX_THROW_INFO(swapchain->Present(0u, 0u));
 }
+
+float Graphics::GetNearZ() {
+    return nearZ;
+}
+
+float Graphics::GetFarZ() {
+    return farZ;
+}

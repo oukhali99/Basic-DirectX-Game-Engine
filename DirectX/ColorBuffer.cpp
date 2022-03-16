@@ -1,5 +1,6 @@
 #include "ColorBuffer.h"
 #include "Shape.h"
+#include "Graphics.h"
 
 ColorBuffer::ColorBuffer(unsigned short faceCount) 
     :
@@ -12,7 +13,7 @@ ColorBuffer::ColorBuffer(unsigned short faceCount)
     bd.Usage = D3D11_USAGE_DYNAMIC;
     bd.ByteWidth = sizeof(FaceColor) * faceCount;
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    GFX_THROW_INFO(GetDevice(Graphics::GetInstance())->CreateBuffer(&bd, NULL, &pBuffer));
+    GFX_THROW_INFO(Graphics::GetInstance()->GetDevice()->CreateBuffer(&bd, NULL, &pBuffer));
 }
 
 void ColorBuffer::Bind(Shape* shape) {
@@ -37,5 +38,5 @@ void ColorBuffer::Bind(Shape* shape) {
 
     UINT stride = sizeof(VERTEX);
     UINT offset = 0u;
-    GetDeviceContext(Graphics::GetInstance())->PSSetConstantBuffers(0, 1u, &bufferToUse);
+    Graphics::GetInstance()->GetDeviceContext()->PSSetConstantBuffers(0, 1u, &bufferToUse);
 }
