@@ -30,7 +30,7 @@ Graphics::~Graphics() {
     swapchain->Release();
     pDevice->Release();
     pContext->Release();
-    backbuffer->Release();
+    renderTargetView->Release();
     pDSView->Release();
 }
 
@@ -74,7 +74,7 @@ void Graphics::InitD3D()
     GFX_THROW_INFO(swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer));
 
     // use the back buffer address to create the render target
-    GFX_THROW_INFO(pDevice->CreateRenderTargetView(pBackBuffer, NULL, &backbuffer));
+    GFX_THROW_INFO(pDevice->CreateRenderTargetView(pBackBuffer, NULL, &renderTargetView));
     pBackBuffer->Release();
 
     // Create the viewport
@@ -179,7 +179,7 @@ void Graphics::InitGraphics() {
     dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
     dsvd.Texture2D.MipSlice = 0u;
     GFX_THROW_INFO(pDevice->CreateDepthStencilView(pDepthStencilTexture, &dsvd, &pDSView));
-    pContext->OMSetRenderTargets(1u, &backbuffer, pDSView);
+    pContext->OMSetRenderTargets(1u, &renderTargetView, pDSView);
 }
 
 ID3D11Device* Graphics::GetDevice() {
@@ -198,7 +198,7 @@ void Graphics::SetShaders(LPCWSTR shaderFileName) {
 void Graphics::ClearFrame() {
     // clear the back buffer to a deep blue
     float color[4] = { 0.3f, 0.1f, 1.0f, 1.0f };
-    pContext->ClearRenderTargetView(backbuffer, color);
+    pContext->ClearRenderTargetView(renderTargetView, color);
     pContext->ClearDepthStencilView(pDSView, D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 

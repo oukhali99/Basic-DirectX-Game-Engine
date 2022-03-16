@@ -13,6 +13,7 @@
 #include "Script.h"
 #include "Keyboard.h"
 #include "Texture.h"
+#include "Gui.h"
 
 int WINAPI WinMain(
     HINSTANCE hInstance,
@@ -28,6 +29,7 @@ int WINAPI WinMain(
         Game::Init(hWnd);
         Physics::Init();
         Graphics::Init(hWnd, 0.5f, 50.0f);
+        Gui::Init(hWnd);
 
         FaceColor faceColors[] = {
                 { 1.0f, 0.0f, 0.0f, 1.0f },
