@@ -19,4 +19,5 @@ private:
 	bool showDemoWindow;
 	bool showAnotherWindow;
 	ImVec4 backgroundColor;
+	float nearZ, farZ;
 };

@@ -37,6 +37,8 @@ public:
     void ClearFrame();
     void RenderFrame();
     void SetShaders(LPCWSTR shaderFileName);
+    void SetNearZ(float nearZ);
+    void SetFarZ(float farZ);
 private:
     Graphics(HWND hWnd, float nearZ, float farZ);
     ~Graphics();

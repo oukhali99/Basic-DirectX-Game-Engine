@@ -17,7 +17,9 @@ Gui::Gui(HWND hWnd)
     hWnd(hWnd),
     showDemoWindow(false),
     showAnotherWindow(false),
-    backgroundColor(ImVec4(0.3f, 0.1f, 1.0f, 1.0f))
+    backgroundColor(ImVec4(0.3f, 0.1f, 1.0f, 1.0f)),
+    nearZ(Graphics::GetInstance()->GetNearZ()),
+    farZ(Graphics::GetInstance()->GetFarZ())
 {
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -43,7 +45,6 @@ void Gui::Update() {
 
     // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
     {
-        static float f = 0.0f;
         static int counter = 0;
 
         ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
@@ -52,16 +53,20 @@ void Gui::Update() {
         ImGui::Checkbox("Demo Window", &showDemoWindow);      // Edit bools storing our window open/close state
         ImGui::Checkbox("Another Window", &showAnotherWindow);
 
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3("clear color", (float*)&backgroundColor); // Edit 3 floats representing a color
+        ImGui::ColorEdit3("clear color", (float*)&backgroundColor);
 
-        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
+        ImGui::SliderFloat("NearZ", &nearZ, 0.01f, farZ - 0.01f);
+        ImGui::SliderFloat("FarZ", &farZ, nearZ + 0.01f, 100.0f);
 
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         ImGui::End();
+    }
+
+    if (nearZ != Graphics::GetInstance()->GetNearZ()) {
+        Graphics::GetInstance()->SetNearZ(nearZ);
+    }
+    if (farZ != Graphics::GetInstance()->GetFarZ()) {
+        Graphics::GetInstance()->SetFarZ(farZ);
     }
 
     // 3. Show another simple window.

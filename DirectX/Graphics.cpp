@@ -225,3 +225,11 @@ float Graphics::GetNearZ() {
 float Graphics::GetFarZ() {
     return farZ;
 }
+
+void Graphics::SetNearZ(float nearZ) {
+    this->nearZ = nearZ;
+}
+
+void Graphics::SetFarZ(float farZ) {
+    this->farZ = farZ;
+}
