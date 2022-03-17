@@ -3,6 +3,7 @@
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
 #include "Graphics.h"
+#include "Clock.h"
 
 void Gui::Init(HWND hWnd) {
     instance = new Gui(hWnd);
@@ -16,7 +17,6 @@ Gui::Gui(HWND hWnd)
     :
     hWnd(hWnd),
     showDemoWindow(false),
-    showAnotherWindow(false),
     backgroundColor(ImVec4(0.3f, 0.1f, 1.0f, 1.0f)),
     nearZ(Graphics::GetInstance()->GetNearZ()),
     farZ(Graphics::GetInstance()->GetFarZ())
@@ -45,13 +45,10 @@ void Gui::Update() {
 
     // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
     {
-        static int counter = 0;
-
         ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
         ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
         ImGui::Checkbox("Demo Window", &showDemoWindow);      // Edit bools storing our window open/close state
-        ImGui::Checkbox("Another Window", &showAnotherWindow);
 
         ImGui::ColorEdit3("clear color", (float*)&backgroundColor);
 
@@ -59,6 +56,7 @@ void Gui::Update() {
         ImGui::SliderFloat("FarZ", &farZ, nearZ + 0.01f, 100.0f);
 
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        ImGui::Text("Application lifetime: %.1fs", Clock::GetSingleton().GetTimeSinceStart());
         ImGui::End();
     }
 
@@ -67,16 +65,6 @@ void Gui::Update() {
     }
     if (farZ != Graphics::GetInstance()->GetFarZ()) {
         Graphics::GetInstance()->SetFarZ(farZ);
-    }
-
-    // 3. Show another simple window.
-    if (showAnotherWindow)
-    {
-        ImGui::Begin("Another Window", &showAnotherWindow);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-        ImGui::Text("Hello from another window!");
-        if (ImGui::Button("Close Me"))
-            showAnotherWindow = false;
-        ImGui::End();
     }
 }
 

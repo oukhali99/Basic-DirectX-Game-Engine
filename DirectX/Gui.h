@@ -17,7 +17,6 @@ private:
 
 	HWND hWnd;
 	bool showDemoWindow;
-	bool showAnotherWindow;
 	ImVec4 backgroundColor;
 	float nearZ, farZ;
 };
