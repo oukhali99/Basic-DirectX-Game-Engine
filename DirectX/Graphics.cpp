@@ -5,6 +5,8 @@
 #include "GameObject.h"
 #include "Gui.h"
 
+using namespace std;
+
 void Graphics::Init(HWND hWnd, float nearZ, float farZ) {
     instance = new Graphics(hWnd, nearZ, farZ);
 }
@@ -33,6 +35,15 @@ Graphics::~Graphics() {
     pContext->Release();
     renderTargetView->Release();
     pDSView->Release();
+
+    // Release the shaders
+    for (pair<LPCWSTR, pair<ID3D11VertexShader*, ID3D11PixelShader*>> pair : compiledShaders) {
+        ID3D11VertexShader* vertexShader = pair.second.first;
+        ID3D11PixelShader* pixelShader = pair.second.second;
+        
+        vertexShader->Release();
+        pixelShader->Release();
+    }
 }
 
 // this function initializes and prepares Direct3D for use
