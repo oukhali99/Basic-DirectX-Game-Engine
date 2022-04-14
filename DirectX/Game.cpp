@@ -23,8 +23,16 @@ void Game::AddGameObject(GameObject* gameObject) {
 	gameObjects.push_back(gameObject);
 }
 
+void Game::SetMainCamera(Camera* camera) {
+	mainCamera = camera;
+}
+
 std::vector<GameObject*> Game::GetGameObjects() {
 	return gameObjects;
+}
+
+Camera* Game::GetMainCamera() {
+	return mainCamera;
 }
 
 float Game::GetLastUpdateTime() {

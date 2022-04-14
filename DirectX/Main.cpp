@@ -14,6 +14,7 @@
 #include "Keyboard.h"
 #include "Texture.h"
 #include "Gui.h"
+#include "Camera.h"
 
 int WINAPI WinMain(
     HINSTANCE hInstance,
@@ -40,12 +41,28 @@ int WINAPI WinMain(
                 { 1.0f, 1.0f, 0.0f, 1.0f },
         };
 
+        // Camera
         {
             btVector3 size(1, 1, 1);
 
             btTransform transform;
             transform.setIdentity();
-            transform.setOrigin(btVector3(0, 0, 5));
+            transform.setOrigin(btVector3(0, 0, 0));
+
+            GameObject* object = new GameObject(transform, size);
+
+            object->AddComponent<Camera>();
+            Camera* camera = object->GetComponent<Camera>();
+            Game::GetInstance()->SetMainCamera(camera);
+        }
+
+        // Ground
+        {
+            btVector3 size(1, 1, 1);
+
+            btTransform transform;
+            transform.setIdentity();
+            transform.setOrigin(btVector3(0, -2.1f, 5));
 
             GameObject* object = new GameObject(transform, size);
 
@@ -69,29 +86,24 @@ int WINAPI WinMain(
                     btScalar torqueMagnitude = 2.0f * deltaTime;
 
                     if (wParam == 'W') {
-                        unitTorque.setX(1);
-                    }
-                    else if (wParam == 'S') {
-                        unitTorque.setX(-1);
-                    }
-                    else if (wParam == 'D') {
-                        unitTorque.setY(-1);
-                    }
-                    else if (wParam == 'A') {
                         unitTorque.setY(1);
                     }
-                    else if (wParam == 'Q') {
-                        unitTorque.setZ(1);
+                    else if (wParam == 'S') {
+                        unitTorque.setY(-1);
                     }
-                    else if (wParam == 'E') {
-                        unitTorque.setZ(-1);
+                    else if (wParam == 'D') {
+                        unitTorque.setX(1);
+                    }
+                    else if (wParam == 'A') {
+                        unitTorque.setX(-1);
                     }
 
-                    rb->ApplyTorqueImpulse(unitTorque * torqueMagnitude);
+                    //rb->ApplyImpulse(unitTorque * torqueMagnitude);
                 }
                 });
         }
 
+        // Cube
         {
             btVector3 size(1, 1, 1);
 
@@ -133,7 +145,7 @@ int WINAPI WinMain(
                         unitTorque.setX(-1);
                     }
 
-                    rb->ApplyImpulse(unitTorque * torqueMagnitude);
+                    //rb->ApplyImpulse(unitTorque * torqueMagnitude);
                 }
                 });
         }

@@ -4,6 +4,7 @@
 #include "Graphics.h"
 #include "Physics.h"
 #include "GameObject.h"
+#include "Camera.h"
 
 class Game {
 public:
@@ -14,8 +15,10 @@ public:
 
 	void AddGameObject(GameObject* gameObject);
 	void Update();
+	void SetMainCamera(Camera* camera);
 
 	std::vector<GameObject*> GetGameObjects();
+	Camera* GetMainCamera();
 
 	Game(Game& game) = delete;
 private:
@@ -24,4 +27,5 @@ private:
 
 	std::vector<GameObject*> gameObjects;
 	float lastUpdateTime;
+	Camera* mainCamera;
 };

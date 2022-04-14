@@ -6,6 +6,8 @@ class Component {
 public:
 	Component(Component& component) = delete;
 
+	GameObject* GetGameObject();
+
 	virtual void Update() = 0;
 protected:
 	Component(GameObject* gameObject);

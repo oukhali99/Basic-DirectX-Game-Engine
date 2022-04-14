@@ -1,6 +1,7 @@
 #include "TransformBuffer.h"
 #include "Graphics.h"
 #include "Shape.h"
+#include "Game.h"
 
 TransformBuffer::TransformBuffer() {
     D3D11_BUFFER_DESC bd;
@@ -15,6 +16,7 @@ TransformBuffer::TransformBuffer() {
 void TransformBuffer::Bind(Shape* shape) {
     btTransform transform = shape->GetTransform();
     btVector3 size = shape->GetScale();
+    btTransform cameraTransform = Game::GetInstance()->GetMainCamera()->GetGameObject()->GetTransform();
 
     Graphics::GetInstance()->GetDeviceContext()->VSSetConstantBuffers(0, 1u, &pBuffer);
 
@@ -23,9 +25,15 @@ void TransformBuffer::Bind(Shape* shape) {
     dx::XMVECTOR quaternion = dx::XMLoadFloat4(&quaternionFloat);
     const ConstantBuffer cb = {
         dx::XMMatrixTranspose(
+            // Object transform
             dx::XMMatrixScaling(size.x(), size.y(), size.z()) *
             dx::XMMatrixRotationQuaternion(quaternion) *
             dx::XMMatrixTranslation(transform.getOrigin().x(), transform.getOrigin().y(), transform.getOrigin().z()) *
+
+            // Camera
+            dx::XMMatrixTranslation(-cameraTransform.getOrigin().x(), -cameraTransform.getOrigin().y(), -cameraTransform.getOrigin().z()) *
+
+            // Projection
             dx::XMMatrixPerspectiveLH(1.0f, squeeze, Graphics::GetInstance()->GetNearZ() , Graphics::GetInstance()->GetFarZ())
         )
     };
