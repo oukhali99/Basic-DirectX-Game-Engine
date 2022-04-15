@@ -44,6 +44,17 @@ Window::Window(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, in
 
     // display the window on the screen
     ShowWindow(hWnd, nCmdShow);
+
+    // Register the mouse for raw input
+    RAWINPUTDEVICE rid;
+    ZeroMemory(&rid, sizeof(rid));
+    rid.usUsagePage = 0x01;
+    rid.usUsage = 0x02;
+    rid.dwFlags = 0;
+    rid.hwndTarget = hWnd;
+    if (!RegisterRawInputDevices(&rid, 1, sizeof(rid))) {
+        throw new std::exception("Failed to create rawinput device");
+    }
 }
 
 // Forward declare message handler from imgui_impl_win32.cpp
@@ -59,9 +70,16 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     switch (message)
     {
     case WM_DESTROY:
+        ClipCursor(NULL);
+
         // close the application entirely
         PostQuitMessage(0);
         break;
+    case WM_ACTIVATE:
+        RECT clientRect;
+        GetClientRect(hWnd, &clientRect);
+        MapWindowPoints(hWnd, NULL, reinterpret_cast<POINT*>(&clientRect), 2);
+        ClipCursor(&clientRect);
     }
 
     // Handle any messages the switch statement didn't

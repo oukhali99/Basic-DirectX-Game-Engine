@@ -16,8 +16,6 @@
 #include "Gui.h"
 #include "Camera.h"
 
-float foo = 0;
-
 int WINAPI WinMain(
     HINSTANCE hInstance,
     HINSTANCE hPrevInstance,
@@ -33,6 +31,8 @@ int WINAPI WinMain(
         Physics::Init();
         Graphics::Init(hWnd, 0.5f, 50.0f);
         Gui::Init(hWnd);
+
+        Mouse::Init(hWnd);
 
         FaceColor faceColors[] = {
                 { 1.0f, 0.0f, 0.0f, 1.0f },
@@ -60,32 +60,31 @@ int WINAPI WinMain(
             object->AddComponent<Script>();
             Script* script = object->GetComponent<Script>();
             script->SetOnUpdate([](GameObject* gameObject) {
-                for (WPARAM wParam : *Keyboard::GetInstance()->GetPressedKeys()) {
-                    float deltaTime = Clock::GetSingleton().GetTimeSinceStart() - Game::GetInstance()->GetLastUpdateTime();
-                    btQuaternion unitTorque(0, 0, 0);
-                    btScalar torqueMagnitude = 2.0f * deltaTime;
-                    if (wParam == 'W') {
-                        unitTorque.setX(torqueMagnitude);
-                    }
-                    else if (wParam == 'S') {
-                        unitTorque.setX(-torqueMagnitude);
-                    }
-                    else if (wParam == 'D') {
-                        unitTorque.setY(-torqueMagnitude);
-                    }
-                    else if (wParam == 'A') {
-                        unitTorque.setY(torqueMagnitude);
-                    }
+                Mouse::RawInput mouseRawInput = Mouse::GetInstance()->GetRawInput();
+                float deltaTime = Clock::GetSingleton().GetTimeSinceStart() - Game::GetInstance()->GetLastUpdateTime();
+                btQuaternion unitTorque(0, 0, 0);
+                btScalar torqueMagnitude = 2.0f * deltaTime;
 
-                    btTransform oldTransform = gameObject->GetTransform();
-                    btTransform newTransform = oldTransform;
-
-                    btQuaternion newRotation = oldTransform.getRotation() * unitTorque;
-                    foo = newRotation.y();
-
-                    newTransform.setRotation(newRotation);
-                    gameObject->SetTransform(newTransform);
+                if (mouseRawInput.x > 0) {
+                    unitTorque.setY(-torqueMagnitude);
                 }
+                if (mouseRawInput.x < 0) {
+                    unitTorque.setY(torqueMagnitude);
+                }
+                if (mouseRawInput.y > 0) {
+                    unitTorque.setX(-torqueMagnitude);
+                }
+                if (mouseRawInput.y < 0) {
+                    unitTorque.setX(torqueMagnitude);
+                }
+
+                btTransform oldTransform = gameObject->GetTransform();
+                btTransform newTransform = oldTransform;
+
+                btQuaternion newRotation = oldTransform.getRotation() * unitTorque;
+
+                newTransform.setRotation(newRotation);
+                gameObject->SetTransform(newTransform);
             });
         }
 
@@ -231,18 +230,26 @@ int WINAPI WinMain(
         }
 
         MSG msg = { 0 };
+        std::vector<BYTE> rawBuffer;
         while (true)
         {
             Game::GetInstance()->Update();
+
+            // Reset the mouse rawinputstd::ostringstream oss;
+            std::ostringstream oss;
+            oss << "User moved mouse: ";
+            oss << 0 << ", " << 0 << std::endl;
+            Mouse::GetInstance()->SetRawInput({ 0, 0 });
+            SetWindowTextA(hWnd, oss.str().c_str());
 
             if (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE)) {
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);
 
-                if (msg.message == WM_QUIT) {
+                switch (msg.message) {
+                case WM_QUIT:
                     break;
-                }
-                else if (msg.message == WM_KEYDOWN) {
+                case WM_KEYDOWN:
                     /*
                     std::stringstream ss;
                     ss << "User pressed: ";
@@ -251,20 +258,59 @@ int WINAPI WinMain(
                     OutputDebugStringA(ss.str().c_str());
                     */
                     Keyboard::GetInstance()->InputStarted(msg.wParam);
-                }
-                else if (msg.message == WM_KEYUP) {
+                case WM_KEYUP:
                     Keyboard::GetInstance()->InputStopped(msg.wParam);
+                case WM_INPUT:
+                    UINT size = 0u;
+                    // first get the size of the input data
+                    if (GetRawInputData(
+                        reinterpret_cast<HRAWINPUT>(msg.lParam),
+                        RID_INPUT,
+                        nullptr,
+                        &size,
+                        sizeof(RAWINPUTHEADER)) == -1)
+                    {
+                        // bail msg processing if error
+                        break;
+                    }
+                    rawBuffer.resize(size);
+
+                    // read in the input data
+                    if (GetRawInputData(
+                        reinterpret_cast<HRAWINPUT>(msg.lParam),
+                        RID_INPUT,
+                        rawBuffer.data(),
+                        &size,
+                        sizeof(RAWINPUTHEADER)) != size)
+                    {
+                        // bail msg processing if error
+                        break;
+                    }
+
+                    auto& ri = reinterpret_cast<const RAWINPUT&>(*rawBuffer.data());
+                    if (ri.header.dwType == RIM_TYPEMOUSE) {
+                        Mouse::GetInstance()->SetRawInput({ ri.data.mouse.lLastX, ri.data.mouse.lLastY });
+
+                        std::ostringstream oss;
+                        oss << "User moved mouse: ";
+                        oss << Mouse::GetInstance()->GetRawInput().x << ", " << Mouse::GetInstance()->GetRawInput().y << std::endl;
+                        SetWindowTextA(hWnd, oss.str().c_str());
+                    }
+
+
+                    //std::ostringstream oss;
+                    //oss << "Time elapsed: " << std::fixed << t << "s";
+                    //oss << "Mouse Position: " << std::fixed << "(" << mp.x << ", " << mp.y << ")";
                 }
             }
             else {
                 const float t = Clock::GetSingleton().GetTimeSinceStart();
-                const Mouse::Position mp = Mouse::GetSingleton(hWnd).GetPosition();
+                const Mouse::Position mp = Mouse::GetInstance()->GetPosition();
 
-                std::ostringstream oss;
+                //std::ostringstream oss;
                 //oss << "Time elapsed: " << std::fixed << t << "s";
                 //oss << "Mouse Position: " << std::fixed << "(" << mp.x << ", " << mp.y << ")";
-                oss << foo;
-                SetWindowTextA(hWnd, oss.str().c_str());
+                //SetWindowTextA(hWnd, oss.str().c_str());
             }
         }
 

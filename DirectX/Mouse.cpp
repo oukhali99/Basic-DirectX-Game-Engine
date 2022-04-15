@@ -1,8 +1,11 @@
 #include "Mouse.h"
 
-Mouse Mouse::GetSingleton(HWND hWnd) {
-	static Mouse mouse(hWnd);
-	return mouse;
+Mouse* Mouse::GetInstance() {
+	return instance;
+}
+
+void Mouse::Init(HWND hWnd) {
+	instance = new Mouse(hWnd);
 }
 
 Mouse::Position Mouse::GetPosition() {
@@ -15,6 +18,14 @@ Mouse::Position Mouse::GetPosition() {
 		((float)p.x / SCREEN_WIDTH) - 0.5f,
 		-((float)p.y / SCREEN_HEIGHT) + 0.5f
 	};
+}
+
+Mouse::RawInput Mouse::GetRawInput() {
+	return rawInput;
+}
+
+void Mouse::SetRawInput(RawInput rawInput) {
+	this->rawInput = rawInput;
 }
 
 Mouse::Mouse(HWND hWnd)

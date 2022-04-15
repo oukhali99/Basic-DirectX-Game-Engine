@@ -8,10 +8,23 @@ public:
 		float x, y;
 	};
 
-	static Mouse GetSingleton(HWND hWnd);
+	struct RawInput {
+		int x, y;
+	};
+
+	static Mouse* GetInstance();
+	static void Init(HWND hWnd);
+
 	Position GetPosition();
+	RawInput GetRawInput();
+
+	void SetRawInput(RawInput rawInput);
 private:
 	Mouse(HWND hWnd);
+
+	inline static Mouse* instance;
+
 	HWND hWnd;
+	RawInput rawInput;
 };
 #endif
