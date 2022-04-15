@@ -14,24 +14,29 @@ TransformBuffer::TransformBuffer() {
 }
 
 void TransformBuffer::Bind(Shape* shape) {
-    btTransform transform = shape->GetTransform();
-    btVector3 size = shape->GetScale();
+    btTransform shapeTransform = shape->GetTransform();
+    btVector3 shapeSize = shape->GetScale();
     btTransform cameraTransform = Game::GetInstance()->GetMainCamera()->GetGameObject()->GetTransform();
 
     Graphics::GetInstance()->GetDeviceContext()->VSSetConstantBuffers(0, 1u, &pBuffer);
 
+    dx::XMFLOAT4 shapeQuaternionFloat((float)shapeTransform.getRotation().x(), (float)shapeTransform.getRotation().y(), (float)shapeTransform.getRotation().z(), (float)shapeTransform.getRotation().w());
+    dx::XMVECTOR shapeQuaternion = dx::XMLoadFloat4(&shapeQuaternionFloat);
+
+    dx::XMFLOAT4 cameraQuaternionFloat(cameraTransform.getRotation().x(), cameraTransform.getRotation().y(), cameraTransform.getRotation().z(), cameraTransform.getRotation().w());
+    dx::XMVECTOR cameraQuaternion = dx::XMLoadFloat4(&cameraQuaternionFloat);
+
     float squeeze = (float)SCREEN_HEIGHT / (float)SCREEN_WIDTH;
-    dx::XMFLOAT4 quaternionFloat((float)transform.getRotation().x(), (float)transform.getRotation().y(), (float)transform.getRotation().z(), (float)transform.getRotation().w());
-    dx::XMVECTOR quaternion = dx::XMLoadFloat4(&quaternionFloat);
     const ConstantBuffer cb = {
         dx::XMMatrixTranspose(
             // Object transform
-            dx::XMMatrixScaling(size.x(), size.y(), size.z()) *
-            dx::XMMatrixRotationQuaternion(quaternion) *
-            dx::XMMatrixTranslation(transform.getOrigin().x(), transform.getOrigin().y(), transform.getOrigin().z()) *
+            dx::XMMatrixScaling(shapeSize.x(), shapeSize.y(), shapeSize.z()) *
+            dx::XMMatrixRotationQuaternion(shapeQuaternion) *
+            dx::XMMatrixTranslation(shapeTransform.getOrigin().x(), shapeTransform.getOrigin().y(), shapeTransform.getOrigin().z()) *
 
             // Camera
             dx::XMMatrixTranslation(-cameraTransform.getOrigin().x(), -cameraTransform.getOrigin().y(), -cameraTransform.getOrigin().z()) *
+            dx::XMMatrixRotationQuaternion(cameraQuaternion) *
 
             // Projection
             dx::XMMatrixPerspectiveLH(1.0f, squeeze, Graphics::GetInstance()->GetNearZ() , Graphics::GetInstance()->GetFarZ())

@@ -56,8 +56,6 @@ void Gui::Update() {
         ImGui::SliderFloat("NearZ", &nearZ, 0.01f, farZ - 0.01f);
         ImGui::SliderFloat("FarZ", &farZ, nearZ + 0.01f, 100.0f);
 
-        ImGui::SliderFloat("CameraZ", &cameraZ, 0, 100);
-
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         ImGui::Text("Application lifetime: %.1fs", Clock::GetSingleton().GetTimeSinceStart());
         ImGui::End();
@@ -68,14 +66,6 @@ void Gui::Update() {
     }
     if (farZ != Graphics::GetInstance()->GetFarZ()) {
         Graphics::GetInstance()->SetFarZ(farZ);
-    }
-
-    btTransform currentCameraTransform = Game::GetInstance()->GetMainCamera()->GetGameObject()->GetTransform();
-    if (cameraZ != currentCameraTransform.getOrigin().z()) {
-        btVector3 newPos = currentCameraTransform.getOrigin();
-        newPos.setZ(cameraZ);
-        currentCameraTransform.setOrigin(newPos);
-        Game::GetInstance()->GetMainCamera()->GetGameObject()->SetTransform(currentCameraTransform);
     }
 }
 

@@ -19,5 +19,4 @@ private:
 	bool showDemoWindow;
 	ImVec4 backgroundColor;
 	float nearZ, farZ;
-	float cameraZ;
 };
