@@ -66,7 +66,18 @@ int WINAPI WinMain(
                 // Hide cursor
                 ShowCursor(false);
 
+                // Rotation
+                Mouse::RawInput mouseRawInput = Mouse::GetInstance()->GetRawInput();
+                btScalar torqueMagnitude = 2.0f * deltaTime;
+
+                yaw += torqueMagnitude * mouseRawInput.x;
+                pitch += torqueMagnitude * mouseRawInput.y;
+
+                btQuaternion newRotation(yaw, pitch, 0);
+                newTransform.setRotation(newRotation);
+
                 // Translation
+                btVector3 lookVector(0, 0, 1);
                 btVector3 translation(0, 0, 0);
                 btScalar translationMagnitude = 2.0f * deltaTime;
 
@@ -83,16 +94,6 @@ int WINAPI WinMain(
 
                 btVector3 newOrigin = oldTransform.getOrigin() + translation;
                 newTransform.setOrigin(newOrigin);
-
-                // Rotation
-                Mouse::RawInput mouseRawInput = Mouse::GetInstance()->GetRawInput();
-                btScalar torqueMagnitude = 2.0f * deltaTime;
-
-                yaw += torqueMagnitude * mouseRawInput.x;
-                pitch += torqueMagnitude * mouseRawInput.y;
-
-                btQuaternion newRotation(yaw, pitch, 0);
-                newTransform.setRotation(newRotation);
 
                 gameObject->SetTransform(newTransform);
             });
@@ -255,21 +256,20 @@ int WINAPI WinMain(
             if (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE)) {
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);
+                std::stringstream ss;
 
                 switch (msg.message) {
                 case WM_QUIT:
                     goto mainLoopExit;
                     break;
                 case WM_KEYDOWN:
-                    /*
-                    std::stringstream ss;
-                    ss << "User pressed: ";
-                    ss << (char)msg.wParam << std::endl;
+                    //ss << "User pressed: ";
+                    //ss << ((HIWORD(msg.lParam) & KF_REPEAT) == KF_REPEAT) << std::endl;
+                    //OutputDebugStringA(ss.str().c_str());
 
-                    OutputDebugStringA(ss.str().c_str());
-                    */
-
-                    Keyboard::GetInstance()->InputStarted(msg.wParam);
+                    if ((HIWORD(msg.lParam) & KF_REPEAT) != KF_REPEAT) {
+                        Keyboard::GetInstance()->InputStarted(msg.wParam);
+                    }
                     break;
                 case WM_KEYUP:
                     Keyboard::GetInstance()->InputStopped(msg.wParam);
