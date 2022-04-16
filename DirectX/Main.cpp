@@ -77,20 +77,45 @@ int WINAPI WinMain(
                 newTransform.setRotation(newRotation);
 
                 // Translation
-                btVector3 lookVector(0, 0, 1);
                 btVector3 translation(0, 0, 0);
-                btScalar translationMagnitude = 2.0f * deltaTime;
+                btScalar translationMagnitude = 30 * deltaTime;
 
                 for (char key : *Keyboard::GetInstance()->GetPressedKeys()) {
                     switch (key) {
                     case 'W':
-                        translation.setZ(translationMagnitude);
+                        translation.setZ(1);
                         break;
                     case 'S':
-                        translation.setZ(-translationMagnitude);
+                        translation.setZ(-1);
+                        break;
+                    case 'D':
+                        translation.setX(1);
+                        break;
+                    case 'A':
+                        translation.setX(-1);
+                        break;
+                    case 'E':
+                        translation.setY(1);
+                        break;
+                    case 'Q':
+                        translation.setY(-1);
                         break;
                     }
                 }
+
+                // Make into unit
+                if (!translation.isZero()) {
+                    translation = translation.normalize();
+                }
+
+                // Adjust for rotation
+                translation = translation.rotate(
+                    newRotation.getAxis(),
+                    newRotation.getAngle()
+                );
+
+                // Set magnitude
+                translation *= translationMagnitude;
 
                 btVector3 newOrigin = oldTransform.getOrigin() + translation;
                 newTransform.setOrigin(newOrigin);

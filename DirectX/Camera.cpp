@@ -22,10 +22,9 @@ dx::XMMATRIX Camera::GetMatrix() {
 		transform.getRotation().w()
 	);
 
-	dx::XMVECTOR lookVector = dx::XMVectorSet(0, 0, 1, 0);
+	dx::XMVECTOR lookVector = dx::XMVectorSet(0, 0, 0.1f, 0);
 	lookVector = dx::XMVector3Transform(
 		lookVector,
-		dx::XMMatrixTranslationFromVector(cameraPosition) *
 		dx::XMMatrixRotationQuaternion(cameraRotation)
 	);
 
