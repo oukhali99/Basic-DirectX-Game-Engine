@@ -2,6 +2,7 @@
 #include "Graphics.h"
 #include "Shape.h"
 #include "Game.h"
+#include "Window.h"
 
 TransformBuffer::TransformBuffer() {
     D3D11_BUFFER_DESC bd;
@@ -22,8 +23,8 @@ void TransformBuffer::Bind(Shape* shape) {
     dx::XMVECTOR shapeQuaternion = dx::XMVectorSet((float)shapeTransform.getRotation().x(), (float)shapeTransform.getRotation().y(), (float)shapeTransform.getRotation().z(), (float)shapeTransform.getRotation().w());
 
     RECT clientRect;
-    GetClientRect(NULL, &clientRect);
-    float squeeze = (float)SCREEN_HEIGHT / (float)SCREEN_WIDTH;
+    GetClientRect(Window::GetInstance()->GetHandle(), &clientRect);
+    float squeeze = (float)clientRect.bottom / (float)clientRect.right;
 
     const ConstantBuffer cb = {
         dx::XMMatrixTranspose(
