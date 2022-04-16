@@ -23,10 +23,9 @@ int WINAPI WinMain(
     int nCmdShow
 ) {
     try {
-        HWND hWnd;
-        ZeroMemory(&hWnd, sizeof(hWnd));
-        Window window(hInstance, hPrevInstance, lpCmdLine, nCmdShow, hWnd);
-
+        Window::Init(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+        HWND hWnd = Window::GetInstance()->GetHandle();
+        
         Game::Init(hWnd);
         Physics::Init();
         Graphics::Init(hWnd, 0.5f, 50.0f);

@@ -6,7 +6,19 @@
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-Window::Window(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, HWND& hWnd) {
+void Window::Init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+    instance = new Window(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+}
+
+Window* Window::GetInstance() {
+    return instance;
+}
+
+HWND Window::GetHandle() {
+    return hWnd;
+}
+
+Window::Window(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     WNDCLASSEX wc;
     ZeroMemory(&wc, sizeof(WNDCLASSEX));
     wc.cbSize = sizeof(WNDCLASSEX);
@@ -24,6 +36,7 @@ Window::Window(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, in
     //AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);    // adjust the size
 
     // create the window and use the result as the handle
+    ZeroMemory(&hWnd, sizeof(hWnd));
     hWnd = CreateWindowEx(
         NULL,
         L"WindowClass1",    // name of the window class
