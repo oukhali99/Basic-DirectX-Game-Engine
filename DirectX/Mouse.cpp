@@ -20,15 +20,22 @@ Mouse::Position Mouse::GetPosition() {
 	};
 }
 
-Mouse::RawInput Mouse::GetRawInput() {
+Mouse::RawInput* Mouse::GetRawInput() {
 	return rawInput;
 }
 
-void Mouse::SetRawInput(RawInput rawInput) {
-	this->rawInput = rawInput;
+void Mouse::OnRawInput(float x, float y) {
+	this->rawInput->x += x;
+	this->rawInput->y += y;
+}
+
+void Mouse::SetRawInput(float x, float y) {
+	this->rawInput->x = x;
+	this->rawInput->y = y;
 }
 
 Mouse::Mouse(HWND hWnd)
 	:
-	hWnd(hWnd)
+	hWnd(hWnd),
+	rawInput(new RawInput({ 0, 0 }))
 {}

@@ -16,15 +16,16 @@ public:
 	static void Init(HWND hWnd);
 
 	Position GetPosition();
-	RawInput GetRawInput();
+	RawInput* GetRawInput();
 
-	void SetRawInput(RawInput rawInput);
+	void OnRawInput(float x, float y);
+	void SetRawInput(float x, float y);
 private:
 	Mouse(HWND hWnd);
 
 	inline static Mouse* instance;
 
 	HWND hWnd;
-	RawInput rawInput;
+	RawInput* rawInput;
 };
 #endif
