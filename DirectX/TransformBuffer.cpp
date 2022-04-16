@@ -16,17 +16,15 @@ TransformBuffer::TransformBuffer() {
 void TransformBuffer::Bind(Shape* shape) {
     btTransform shapeTransform = shape->GetTransform();
     btVector3 shapeSize = shape->GetScale();
-    btTransform cameraTransform = Game::GetInstance()->GetMainCamera()->GetGameObject()->GetTransform();
 
     Graphics::GetInstance()->GetDeviceContext()->VSSetConstantBuffers(0, 1u, &pBuffer);
 
-    dx::XMFLOAT4 shapeQuaternionFloat((float)shapeTransform.getRotation().x(), (float)shapeTransform.getRotation().y(), (float)shapeTransform.getRotation().z(), (float)shapeTransform.getRotation().w());
-    dx::XMVECTOR shapeQuaternion = dx::XMLoadFloat4(&shapeQuaternionFloat);
+    dx::XMVECTOR shapeQuaternion = dx::XMVectorSet((float)shapeTransform.getRotation().x(), (float)shapeTransform.getRotation().y(), (float)shapeTransform.getRotation().z(), (float)shapeTransform.getRotation().w());
 
-    dx::XMFLOAT4 cameraQuaternionFloat(cameraTransform.getRotation().x(), cameraTransform.getRotation().y(), cameraTransform.getRotation().z(), cameraTransform.getRotation().w());
-    dx::XMVECTOR cameraQuaternion = dx::XMLoadFloat4(&cameraQuaternionFloat);
-
+    RECT clientRect;
+    GetClientRect(NULL, &clientRect);
     float squeeze = (float)SCREEN_HEIGHT / (float)SCREEN_WIDTH;
+
     const ConstantBuffer cb = {
         dx::XMMatrixTranspose(
             // Object transform
@@ -35,8 +33,7 @@ void TransformBuffer::Bind(Shape* shape) {
             dx::XMMatrixTranslation(shapeTransform.getOrigin().x(), shapeTransform.getOrigin().y(), shapeTransform.getOrigin().z()) *
 
             // Camera
-            dx::XMMatrixTranslation(-cameraTransform.getOrigin().x(), -cameraTransform.getOrigin().y(), -cameraTransform.getOrigin().z()) *
-            dx::XMMatrixRotationQuaternion(cameraQuaternion) *
+            Game::GetInstance()->GetMainCamera()->GetMatrix() *
 
             // Projection
             dx::XMMatrixPerspectiveLH(1.0f, squeeze, Graphics::GetInstance()->GetNearZ() , Graphics::GetInstance()->GetFarZ())

@@ -55,6 +55,9 @@ Window::Window(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, in
     if (!RegisterRawInputDevices(&rid, 1, sizeof(rid))) {
         throw new std::exception("Failed to create rawinput device");
     }
+
+    // Hide cursor
+    ShowCursor(false);
 }
 
 // Forward declare message handler from imgui_impl_win32.cpp

@@ -66,16 +66,16 @@ int WINAPI WinMain(
                 btScalar torqueMagnitude = 2.0f * deltaTime;
 
                 if (mouseRawInput.x > 0) {
-                    unitTorque.setY(-torqueMagnitude);
+                    unitTorque.setY(torqueMagnitude * mouseRawInput.x);
                 }
                 if (mouseRawInput.x < 0) {
-                    unitTorque.setY(torqueMagnitude);
+                    unitTorque.setY(torqueMagnitude * mouseRawInput.x);
                 }
                 if (mouseRawInput.y > 0) {
-                    unitTorque.setX(-torqueMagnitude);
+                    unitTorque.setX(torqueMagnitude * mouseRawInput.y);
                 }
                 if (mouseRawInput.y < 0) {
-                    unitTorque.setX(torqueMagnitude);
+                    unitTorque.setX(torqueMagnitude * mouseRawInput.y);
                 }
 
                 btTransform oldTransform = gameObject->GetTransform();
@@ -248,7 +248,7 @@ int WINAPI WinMain(
 
                 switch (msg.message) {
                 case WM_QUIT:
-                    break;
+                    goto mainLoopExit;
                 case WM_KEYDOWN:
                     /*
                     std::stringstream ss;
@@ -268,8 +268,8 @@ int WINAPI WinMain(
                         RID_INPUT,
                         nullptr,
                         &size,
-                        sizeof(RAWINPUTHEADER)) == -1)
-                    {
+                        sizeof(RAWINPUTHEADER)) == -1
+                    ) {
                         // bail msg processing if error
                         break;
                     }
@@ -281,8 +281,8 @@ int WINAPI WinMain(
                         RID_INPUT,
                         rawBuffer.data(),
                         &size,
-                        sizeof(RAWINPUTHEADER)) != size)
-                    {
+                        sizeof(RAWINPUTHEADER)) != size
+                    )  {
                         // bail msg processing if error
                         break;
                     }
@@ -314,6 +314,7 @@ int WINAPI WinMain(
             }
         }
 
+        mainLoopExit:
         if (msg.wParam < 0) {
             throw new std::exception((const char*)GetLastError());
         }
