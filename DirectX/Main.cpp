@@ -25,7 +25,6 @@ int WINAPI WinMain(
     try {
         Window::Init(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
         HWND hWnd = Window::GetInstance()->GetHandle();
-        
         Game::Init(hWnd);
         Physics::Init();
         Graphics::Init(hWnd, 0.5f, 50.0f);
@@ -58,31 +57,43 @@ int WINAPI WinMain(
 
             object->AddComponent<Script>();
             Script* script = object->GetComponent<Script>();
-            script->SetOnUpdate([](GameObject* gameObject) {
-                Mouse::RawInput mouseRawInput = Mouse::GetInstance()->GetRawInput();
+            btScalar yaw = 0, pitch = 0;
+            script->SetOnUpdate([&yaw, &pitch](GameObject* gameObject) {
                 float deltaTime = Clock::GetSingleton().GetTimeSinceStart() - Game::GetInstance()->GetLastUpdateTime();
-                btQuaternion unitTorque(0, 0, 0);
-                btScalar torqueMagnitude = 2.0f * deltaTime;
-
-                if (mouseRawInput.x > 0) {
-                    unitTorque.setY(torqueMagnitude * mouseRawInput.x);
-                }
-                if (mouseRawInput.x < 0) {
-                    unitTorque.setY(torqueMagnitude * mouseRawInput.x);
-                }
-                if (mouseRawInput.y > 0) {
-                    unitTorque.setX(torqueMagnitude * mouseRawInput.y);
-                }
-                if (mouseRawInput.y < 0) {
-                    unitTorque.setX(torqueMagnitude * mouseRawInput.y);
-                }
-
                 btTransform oldTransform = gameObject->GetTransform();
                 btTransform newTransform = oldTransform;
 
-                btQuaternion newRotation = oldTransform.getRotation() * unitTorque;
+                // Hide cursor
+                ShowCursor(false);
 
+                // Translation
+                btVector3 translation(0, 0, 0);
+                btScalar translationMagnitude = 2.0f * deltaTime;
+
+                for (char key : *Keyboard::GetInstance()->GetPressedKeys()) {
+                    switch (key) {
+                    case 'W':
+                        translation.setZ(translationMagnitude);
+                        break;
+                    case 'S':
+                        translation.setZ(-translationMagnitude);
+                        break;
+                    }
+                }
+
+                btVector3 newOrigin = oldTransform.getOrigin() + translation;
+                newTransform.setOrigin(newOrigin);
+
+                // Rotation
+                Mouse::RawInput mouseRawInput = Mouse::GetInstance()->GetRawInput();
+                btScalar torqueMagnitude = 2.0f * deltaTime;
+
+                yaw += torqueMagnitude * mouseRawInput.x;
+                pitch += torqueMagnitude * mouseRawInput.y;
+
+                btQuaternion newRotation(yaw, pitch, 0);
                 newTransform.setRotation(newRotation);
+
                 gameObject->SetTransform(newTransform);
             });
         }
@@ -248,6 +259,7 @@ int WINAPI WinMain(
                 switch (msg.message) {
                 case WM_QUIT:
                     goto mainLoopExit;
+                    break;
                 case WM_KEYDOWN:
                     /*
                     std::stringstream ss;
@@ -256,9 +268,12 @@ int WINAPI WinMain(
 
                     OutputDebugStringA(ss.str().c_str());
                     */
+
                     Keyboard::GetInstance()->InputStarted(msg.wParam);
+                    break;
                 case WM_KEYUP:
                     Keyboard::GetInstance()->InputStopped(msg.wParam);
+                    break;
                 case WM_INPUT:
                     UINT size = 0u;
                     // first get the size of the input data
@@ -300,6 +315,8 @@ int WINAPI WinMain(
                     //std::ostringstream oss;
                     //oss << "Time elapsed: " << std::fixed << t << "s";
                     //oss << "Mouse Position: " << std::fixed << "(" << mp.x << ", " << mp.y << ")";
+
+                    break;
                 }
             }
             else {

@@ -68,9 +68,6 @@ Window::Window(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, in
     if (!RegisterRawInputDevices(&rid, 1, sizeof(rid))) {
         throw new std::exception("Failed to create rawinput device");
     }
-
-    // Hide cursor
-    ShowCursor(false);
 }
 
 // Forward declare message handler from imgui_impl_win32.cpp
@@ -96,6 +93,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
         GetClientRect(hWnd, &clientRect);
         MapWindowPoints(hWnd, NULL, reinterpret_cast<POINT*>(&clientRect), 2);
         ClipCursor(&clientRect);
+        break;
     }
 
     // Handle any messages the switch statement didn't
