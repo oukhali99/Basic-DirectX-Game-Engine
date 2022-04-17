@@ -13,6 +13,7 @@ class Gui;
 
 struct VERTEX {
     float position[3];
+    float normal[3];
     float texCoords[2];
 };
 

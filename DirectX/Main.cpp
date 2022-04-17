@@ -126,7 +126,7 @@ int WINAPI WinMain(
 
         // Ground
         {
-            btVector3 size(1, 1, 1);
+            btVector3 size(2, 1, 1);
 
             btTransform transform;
             transform.setIdentity();

@@ -6,7 +6,7 @@ struct VS_Out {
     float3 texcoords : TEXCOORDS;
 };
 
-VS_Out VShader(float4 position : POSITION, float3 texcoords : TEXCOORDS)
+VS_Out VShader(float4 position : POSITION, float4 normal : NORMAL, float3 texcoords : TEXCOORDS)
 {
     VS_Out output;
     output.position = mul(position, transform);

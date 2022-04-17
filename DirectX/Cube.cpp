@@ -5,111 +5,64 @@
 
 Cube::Cube(GameObject* gameObject)
     :
-    ShapeBase(gameObject, 14)
+    ShapeBase(gameObject, 24)
 {
+    float sizeX = gameObject->GetScale().x();
+    float sizeY = gameObject->GetScale().y();
+    float sizeZ = gameObject->GetScale().z();
+
     // Create a resource for the vertices
     VERTEX OurVertices[] = {
-        // 0
-        {
-            { 1, 1, -1 },
-            { 2.0f, 1.0f }
-        },
+        { { -1.0f, 1.0f, -1.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f * sizeX, 0.0f * sizeZ } }, // +Y (top face)
+        { { 1.0f, 1.0f, -1.0f }, { 0.0f, 1.0f, 0.0f }, { 1.0f * sizeX, 0.0f * sizeZ } },
+        { { 1.0f, 1.0f,  1.0f }, { 0.0f, 1.0f, 0.0f }, { 1.0f * sizeX, 1.0f * sizeZ } },
+        { { -1.0f, 1.0f,  1.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f * sizeX, 1.0f * sizeZ } },
 
-        // 1
-        {
-            { 1, -1, -1 },
-            { 2.0f, 2.0f }
-        },
+        { { -1.0f, -1.0f,  1.0f }, { 0.0f, -1.0f, 0.0f }, { 0.0f * sizeX, 0.0f * sizeZ } }, // -Y (bottom face)
+        { { 1.0f, -1.0f,  1.0f }, { 0.0f, -1.0f, 0.0f }, { 1.0f * sizeX, 0.0f * sizeZ } },
+        { { 1.0f, -1.0f, -1.0f }, { 0.0f, -1.0f, 0.0f }, { 1.0f * sizeX, 1.0f * sizeZ } },
+        { { -1.0f, -1.0f, -1.0f }, { 0.0f, -1.0f, 0.0f }, { 0.0f * sizeX, 1.0f * sizeZ } },
 
-        // 2
-        {
-            { -1, -1, -1 },
-            { 1.0f, 2.0 }
-        },
+        { { 1.0f,  1.0f,  1.0f }, { 1.0f, 0.0f, 0.0f }, { 0.0f * sizeZ, 0.0f * sizeY } }, // +X (right face)
+        { { 1.0f,  1.0f, -1.0f }, { 1.0f, 0.0f, 0.0f }, { 1.0f * sizeZ, 0.0f * sizeY } },
+        { { 1.0f, -1.0f, -1.0f }, { 1.0f, 0.0f, 0.0f }, { 1.0f * sizeZ, 1.0f * sizeY } },
+        { { 1.0f, -1.0f,  1.0f }, { 1.0f, 0.0f, 0.0f }, { 0.0f * sizeZ, 1.0f * sizeY } },
 
-        // 3
-        {
-            { -1, 1, -1 },
-            { 1.0f, 1.0f }
-        },
+        { { -1.0f,  1.0f, -1.0f }, { -1.0f, 0.0f, 0.0f }, { 0.0f * sizeZ, 0.0f * sizeY } }, // -X (left face)
+        { { -1.0f,  1.0f,  1.0f }, { -1.0f, 0.0f, 0.0f }, { 1.0f * sizeZ, 0.0f * sizeY } },
+        { { -1.0f, -1.0f,  1.0f }, { -1.0f, 0.0f, 0.0f }, { 1.0f * sizeZ, 1.0f * sizeY } },
+        { { -1.0f, -1.0f, -1.0f }, { -1.0f, 0.0f, 0.0f }, { 0.0f * sizeZ, 1.0f * sizeY } },
 
-        // 4
-        {
-            { 1, 1, 1 },
-            { 2.0f, 4.0f }
-        },
+        { { -1.0f,  1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f * sizeX, 0.0f * sizeY } }, // +Z (front face)
+        { { 1.0f,  1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f }, { 1.0f * sizeX, 0.0f * sizeY } },
+        { { 1.0f, -1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f }, { 1.0f * sizeX, 1.0f * sizeY } },
+        { { -1.0f, -1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f * sizeX, 1.0f * sizeY } },
 
-
-        // 5
-        {
-             { 1, -1, 1 },
-             { 2.0f, 3.0f }
-        },
-
-
-        // 6
-        {
-            { -1, -1, 1 },
-            { 1.0f, 3.0f }
-        },
-
-        // 7
-        {
-            { -1, 1, 1 },
-            { 1.0f, 4.0f }
-        },
-
-        // 8
-        {
-            { -1, 1, 1 },
-            { 1.0f, 0.0f }
-        },
-
-        //9
-        {
-            { 1, 1, 1 },
-            { 2.0f, 0.0f }
-        },
-
-        // 10
-        {
-            { -1, 1, 1 },
-            { 0.0f, 1.0f }
-        },
-
-        // 11
-        {
-            { -1, -1, 1 },
-            { 0.0f, 2.0f }
-        },
-
-        // 12
-        {
-            { 1, 1, 1 },
-            { 3.0f, 1.0f }
-        },
-
-        // 13
-        {
-            { 1, -1, 1 },
-            { 3.0f, 2.0f }
-        },
+        { { 1.0f,  1.0f, -1.0f }, { 0.0f, 0.0f, -1.0f }, { 0.0f * sizeX, 0.0f * sizeY } }, // -Z (back face)
+        { { -1.0f,  1.0f, -1.0f }, { 0.0f, 0.0f, -1.0f }, { 1.0f * sizeX, 0.0f * sizeY } },
+        { { -1.0f, -1.0f, -1.0f }, { 0.0f, 0.0f, -1.0f }, { 1.0f * sizeX, 1.0f * sizeY } },
+        { { 1.0f, -1.0f, -1.0f }, { 0.0f, 0.0f, -1.0f }, { 0.0f * sizeX, 1.0f * sizeY } },
     };
     memcpy(vertices, OurVertices, vertexCount * sizeof(VERTEX));
 
     unsigned short indices[] = {
-        // +x
-        0, 12, 1, 1, 12, 13,
-        // -x
-        3, 11, 10, 3, 2, 11,
-        // +y
-        3, 8, 0, 0, 8, 9,
-        // -y
-        2, 5, 6, 1, 5, 2,
-        // +z
-        4, 6, 5, 6, 4, 7,
-        // -z
-        0, 1, 2, 3, 0, 2,
+        0, 2, 1,
+        0, 3, 2,
+
+        4, 6, 5,
+        4, 7, 6,
+
+        8, 10, 9,
+        8, 11, 10,
+
+        12, 14, 13,
+        12, 15, 14,
+
+        16, 18, 17,
+        16, 19, 18,
+
+        20, 22, 21,
+        20, 23, 22
     };
 
     if (bindables.size() == 0) {
