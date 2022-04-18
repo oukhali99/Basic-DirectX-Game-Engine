@@ -191,6 +191,7 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Gui.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
+    <ClCompile Include="PositionConstraint.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Gui.h" />
     <ClInclude Include="IndexBuffer.h" />
+    <ClInclude Include="PositionConstraint.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Main.h" />
