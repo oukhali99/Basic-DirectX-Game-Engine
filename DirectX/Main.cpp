@@ -82,7 +82,7 @@ int WINAPI WinMain(
 
             // Player body
             {
-                btVector3 size(1, 1, 1);
+                btVector3 size(0.1f, 1, 0.1f);
 
                 btTransform transform;
                 transform.setIdentity();
@@ -93,6 +93,8 @@ int WINAPI WinMain(
                 player->AddComponent<Rigidbody>();
                 Rigidbody* rb = player->GetComponent<Rigidbody>();
                 rb->SetMass(1);
+                rb->SetIsKinematic(false);
+                rb->SetAngularFactor(btVector3(0, 1, 0));
 
                 // Add constraint to camera
                 camera->AddComponent<PositionConstraint>();
@@ -150,7 +152,9 @@ int WINAPI WinMain(
                     btVector3 newOrigin = oldTransform.getOrigin() + translation;
                     newTransform.setOrigin(newOrigin);
 
-                    rb->ApplyImpulse(translation);
+                    if (rb->GetLinearVelocity().norm() < 4) {
+                        rb->ApplyImpulse(translation);
+                    }
                     });
             }
         }

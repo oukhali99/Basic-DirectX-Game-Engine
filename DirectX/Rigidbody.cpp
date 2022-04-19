@@ -19,6 +19,10 @@ Rigidbody::Rigidbody(GameObject* gameObject)
 	Physics::GetInstance()->AddRigidbody(rigidbody);
 }
 
+btVector3 Rigidbody::GetLinearVelocity() {
+	return rigidbody->getLinearVelocity();
+}
+
 void Rigidbody::SetIsKinematic(bool isKinematic) {
 	this->isKinematic = isKinematic;
 
@@ -79,4 +83,12 @@ void Rigidbody::ApplyTorqueImpulse(btVector3 torque) {
 
 void Rigidbody::SetGravity(btVector3 gravity) {
 	rigidbody->setGravity(gravity);
+}
+
+void Rigidbody::SetFriction(btScalar friction) {
+	rigidbody->setFriction(friction);
+}
+
+void Rigidbody::SetAngularFactor(btVector3 factor) {
+	rigidbody->setAngularFactor(factor);
 }
