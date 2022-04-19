@@ -9,7 +9,9 @@ PositionConstraint::PositionConstraint(GameObject* gameObject)
 
 void PositionConstraint::Update() {
 	if (constrainer) {
-		gameObject->GetTransform().setOrigin(constrainer->GetTransform().getOrigin() + distance);
+		btTransform newTransform = gameObject->GetTransform();
+		newTransform.setOrigin(constrainer->GetTransform().getOrigin() + distance);
+		gameObject->SetTransform(newTransform);
 	}
 }
 

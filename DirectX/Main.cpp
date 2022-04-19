@@ -15,6 +15,7 @@
 #include "Texture.h"
 #include "Gui.h"
 #include "Camera.h"
+#include "PositionConstraint.h"
 
 int WINAPI WinMain(
     HINSTANCE hInstance,
@@ -49,14 +50,14 @@ int WINAPI WinMain(
             transform.setIdentity();
             transform.setOrigin(btVector3(0, 0, 0));
 
-            GameObject* object = new GameObject(transform, size);
+            GameObject* camera = new GameObject(transform, size);
 
-            object->AddComponent<Camera>();
-            Camera* camera = object->GetComponent<Camera>();
-            Game::GetInstance()->SetMainCamera(camera);
+            camera->AddComponent<Camera>();
+            Camera* cameraComponent = camera->GetComponent<Camera>();
+            Game::GetInstance()->SetMainCamera(cameraComponent);
 
-            object->AddComponent<Script>();
-            Script* script = object->GetComponent<Script>();
+            camera->AddComponent<Script>();
+            Script* script = camera->GetComponent<Script>();
             btScalar yaw = 0, pitch = 0;
             script->SetOnUpdate([&yaw, &pitch](GameObject* gameObject) {
                 float deltaTime = Clock::GetSingleton().GetTimeSinceStart() - Game::GetInstance()->GetLastUpdateTime();
@@ -74,63 +75,93 @@ int WINAPI WinMain(
                 pitch += torqueMagnitude * mouseRawInput->y;
 
                 btQuaternion newRotation(yaw, pitch, 0);
-                newTransform.setRotation(newRotation);
-
-                // Translation
-                btVector3 translation(0, 0, 0);
-                btScalar translationMagnitude = 30 * deltaTime;
-
-                for (char key : *Keyboard::GetInstance()->GetPressedKeys()) {
-                    switch (key) {
-                    case 'W':
-                        translation.setZ(1);
-                        break;
-                    case 'S':
-                        translation.setZ(-1);
-                        break;
-                    case 'D':
-                        translation.setX(1);
-                        break;
-                    case 'A':
-                        translation.setX(-1);
-                        break;
-                    case 'E':
-                        translation.setY(1);
-                        break;
-                    case 'Q':
-                        translation.setY(-1);
-                        break;
-                    }
-                }
-
-                // Make into unit
-                if (!translation.isZero()) {
-                    translation = translation.normalize();
-                }
-
-                // Adjust for rotation
-                translation = translation.rotate(
-                    newRotation.getAxis(),
-                    newRotation.getAngle()
-                );
-
-                // Set magnitude
-                translation *= translationMagnitude;
-
-                btVector3 newOrigin = oldTransform.getOrigin() + translation;
-                newTransform.setOrigin(newOrigin);
+                newTransform.setRotation(newRotation);                
 
                 gameObject->SetTransform(newTransform);
             });
+
+            // Player body
+            {
+                btVector3 size(1, 1, 1);
+
+                btTransform transform;
+                transform.setIdentity();
+                transform.setOrigin(btVector3(0, 0, 0));
+
+                GameObject* player = new GameObject(transform, size);
+
+                player->AddComponent<Rigidbody>();
+                Rigidbody* rb = player->GetComponent<Rigidbody>();
+                rb->SetMass(1);
+
+                // Add constraint to camera
+                camera->AddComponent<PositionConstraint>();
+                PositionConstraint* positionConstraint = camera->GetComponent<PositionConstraint>();
+                positionConstraint->SetConstrainer(player);
+
+                player->AddComponent<Script>();
+                player->GetComponent<Script>()->SetOnUpdate([rb, &yaw, &pitch](GameObject* gameObject) {
+                    float deltaTime = Clock::GetSingleton().GetTimeSinceStart() - Game::GetInstance()->GetLastUpdateTime();
+                    btTransform oldTransform = gameObject->GetTransform();
+                    btTransform newTransform = oldTransform;
+
+                    // Translation
+                    btVector3 translation(0, 0, 0);
+                    btScalar translationMagnitude = 30 * deltaTime;
+
+                    for (char key : *Keyboard::GetInstance()->GetPressedKeys()) {
+                        switch (key) {
+                        case 'W':
+                            translation.setZ(1);
+                            break;
+                        case 'S':
+                            translation.setZ(-1);
+                            break;
+                        case 'D':
+                            translation.setX(1);
+                            break;
+                        case 'A':
+                            translation.setX(-1);
+                            break;
+                        case 'E':
+                            translation.setY(1);
+                            break;
+                        case 'Q':
+                            translation.setY(-1);
+                            break;
+                        }
+                    }
+
+                    // Make into unit
+                    if (!translation.isZero()) {
+                        translation = translation.normalize();
+                    }
+
+                    // Adjust for rotation
+                    btQuaternion newRotation(yaw, pitch, 0);
+                    translation = translation.rotate(
+                        newRotation.getAxis(),
+                        newRotation.getAngle()
+                    );
+
+                    // Set magnitude
+                    translation *= translationMagnitude;
+
+                    btVector3 newOrigin = oldTransform.getOrigin() + translation;
+                    newTransform.setOrigin(newOrigin);
+
+                    rb->ApplyImpulse(translation);
+                    });
+            }
         }
 
         // Ground
         {
-            btVector3 size(2, 1, 1);
+            btVector3 size(10, 1, 10);
 
             btTransform transform;
             transform.setIdentity();
-            transform.setOrigin(btVector3(0, -2.1f, 5));
+            transform.setOrigin(btVector3(0, -2, 0));
 
             GameObject* object = new GameObject(transform, size);
 
