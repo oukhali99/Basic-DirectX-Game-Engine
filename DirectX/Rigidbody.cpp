@@ -43,8 +43,8 @@ void Rigidbody::Update() {
 }
 
 void Rigidbody::SetMass(btScalar mass) {
-	if (isKinematic) {
-		return;
+	if (isKinematic && mass > 0) {
+		Main::HandleError(0, __FILE__, __LINE__, "Tried to set mass on Kinematic Object");
 	}
 
 	Physics::GetInstance()->RemoveRigidbody(rigidbody);
