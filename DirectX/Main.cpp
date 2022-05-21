@@ -105,11 +105,10 @@ int WINAPI WinMain(
                 player->GetComponent<Script>()->SetOnUpdate([rb, &yaw, &pitch](GameObject* gameObject) {
                     float deltaTime = Clock::GetSingleton().GetTimeSinceStart() - Game::GetInstance()->GetLastUpdateTime();
                     btTransform oldTransform = gameObject->GetTransform();
-                    btTransform newTransform = oldTransform;
 
                     // Translation
                     btVector3 translation(0, 0, 0);
-                    btScalar translationMagnitude = 30 * deltaTime;
+                    btScalar translationMagnitude = 1000 * deltaTime;
 
                     for (char key : *Keyboard::GetInstance()->GetPressedKeys()) {
                         switch (key) {
@@ -140,7 +139,7 @@ int WINAPI WinMain(
                     }
 
                     // Adjust for rotation
-                    btQuaternion newRotation(yaw, pitch, 0);
+                    btQuaternion newRotation(yaw, 0, 0);
                     translation = translation.rotate(
                         newRotation.getAxis(),
                         newRotation.getAngle()
@@ -149,13 +148,14 @@ int WINAPI WinMain(
                     // Set magnitude
                     translation *= translationMagnitude;
 
-                    btVector3 newOrigin = oldTransform.getOrigin() + translation;
-                    newTransform.setOrigin(newOrigin);
+                    // Friction
+                    translation += -0.3f * rb->GetLinearVelocity();
 
+                    // Set speed cap
                     if (rb->GetLinearVelocity().norm() < 4) {
                         rb->ApplyImpulse(translation);
                     }
-                    });
+                });
             }
         }
 
