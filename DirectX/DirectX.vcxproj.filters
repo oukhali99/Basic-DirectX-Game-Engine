@@ -147,6 +147,9 @@
     <ClCompile Include="PositionConstraint.cpp">
       <Filter>Source Files\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Wedge.cpp">
+      <Filter>Source Files\Component\Shape</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyException.h">
@@ -250,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="PositionConstraint.h">
       <Filter>Header Files\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Wedge.h">
+      <Filter>Header Files\Component\Shape</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

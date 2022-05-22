@@ -16,6 +16,7 @@
 #include "Gui.h"
 #include "Camera.h"
 #include "PositionConstraint.h"
+#include "Wedge.h"
 
 int WINAPI WinMain(
     HINSTANCE hInstance,
@@ -208,7 +209,7 @@ int WINAPI WinMain(
                 });
         }
 
-        // Cube
+        // Wedge
         {
             btVector3 size(1, 1, 1);
 
@@ -218,7 +219,7 @@ int WINAPI WinMain(
 
             GameObject* object = new GameObject(transform, size);
 
-            object->AddComponent<Cube>();
+            object->AddComponent<Wedge>();
             Shape* shape = object->GetComponent<Shape>();
 
             Texture* texture = new Texture("brick.jpg");
@@ -226,8 +227,8 @@ int WINAPI WinMain(
 
             object->AddComponent<Rigidbody>();
             Rigidbody* rb = object->GetComponent<Rigidbody>();
-            rb->SetMass(0);
-            rb->SetIsKinematic(true);
+            rb->SetMass(1);
+            rb->SetIsKinematic(false);
 
             object->AddComponent<Script>();
             Script* script = object->GetComponent<Script>();
