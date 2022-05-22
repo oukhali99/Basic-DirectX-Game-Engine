@@ -149,7 +149,9 @@ int WINAPI WinMain(
                     translation *= translationMagnitude;
 
                     // Friction
-                    translation += -0.3f * rb->GetLinearVelocity();
+                    btVector3 friction = -0.3f * rb->GetLinearVelocity();
+                    friction.setY(0);
+                    translation += friction;
 
                     // Set speed cap
                     if (rb->GetLinearVelocity().norm() < 4) {
