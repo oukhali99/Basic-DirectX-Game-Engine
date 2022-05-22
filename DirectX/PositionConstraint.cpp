@@ -16,6 +16,6 @@ void PositionConstraint::Update() {
 }
 
 void PositionConstraint::SetConstrainer(GameObject* constrainer) {
-	btVector3 distance = gameObject->GetTransform().getOrigin() - constrainer->GetTransform().getOrigin();
+	distance = gameObject->GetTransform().getOrigin() - constrainer->GetTransform().getOrigin();
 	this->constrainer = constrainer;
 }

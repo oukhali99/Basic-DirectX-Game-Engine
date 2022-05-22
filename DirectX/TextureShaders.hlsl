@@ -20,6 +20,6 @@ SamplerState my_sampler;
 
 float4 PShader(VS_Out input, uint tid: SV_PrimitiveID) : SV_TARGET
 {
-    float3 texCoords = { input.texcoords.x, input.texcoords.y, tid / 2 };
+    float3 texCoords = { input.texcoords.x, input.texcoords.y, 0 };
     return my_texture.Sample(my_sampler, texCoords, 0);
 }

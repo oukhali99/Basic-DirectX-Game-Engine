@@ -49,7 +49,7 @@ int WINAPI WinMain(
 
             btTransform transform;
             transform.setIdentity();
-            transform.setOrigin(btVector3(0, 0, 0));
+            transform.setOrigin(btVector3(0, 0.5f, 0));
 
             GameObject* camera = new GameObject(transform, size);
 
@@ -83,7 +83,7 @@ int WINAPI WinMain(
 
             // Player body
             {
-                btVector3 size(0.1f, 1, 0.1f);
+                btVector3 size(0.8f, 1, 0.8f);
 
                 btTransform transform;
                 transform.setIdentity();
@@ -149,15 +149,15 @@ int WINAPI WinMain(
                     // Set magnitude
                     translation *= translationMagnitude;
 
-                    // Friction
-                    btVector3 friction = -0.3f * rb->GetLinearVelocity();
-                    friction.setY(0);
-                    translation += friction;
-
                     // Set speed cap
                     if (rb->GetLinearVelocity().norm() < 4) {
                         rb->ApplyImpulse(translation);
                     }
+
+                    // Friction
+                    btVector3 friction = -0.3f * rb->GetLinearVelocity();
+                    friction.setY(0);
+                    rb->ApplyImpulse(friction);
                 });
             }
         }
@@ -175,7 +175,7 @@ int WINAPI WinMain(
             object->AddComponent<Cube>();
             Shape* shape = object->GetComponent<Shape>();
 
-            Texture* texture = new Texture("brick.jpg");
+            Texture* texture = new Texture("grass.jpg");
             shape->SetTexture(texture);
 
             object->AddComponent<Rigidbody>();

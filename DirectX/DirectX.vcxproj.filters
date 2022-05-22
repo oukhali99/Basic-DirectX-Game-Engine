@@ -273,5 +273,8 @@
     <Image Include="dog.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="grass.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

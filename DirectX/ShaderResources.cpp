@@ -97,7 +97,7 @@ void ShaderResources::Bind(Shape* shape) {
         int imageRowPitch = texture->image->width * texture->image->channelCount;
 
         // Modify the texture copy
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 1; i++) {
             D3D11_MAPPED_SUBRESOURCE msr = {};
             Graphics::GetInstance()->GetDeviceContext()->Map(imageTextureCopy, i, D3D11_MAP_WRITE, 0u, &msr);
             BYTE* mappedData = reinterpret_cast<BYTE*>(msr.pData);
