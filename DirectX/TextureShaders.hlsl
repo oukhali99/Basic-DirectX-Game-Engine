@@ -26,8 +26,8 @@ SamplerState my_sampler;
 static const float3 lightPos = { 0, 0, 0 };
 static const float3 ambient = { 0.15f, 0.15f, 0.15f };
 static const float3 diffuseColor = { 0.8f, 0.8f, 0 };
-static const float diffuseIntensity = 0.1f;
-static const float attConst = 0;
+static const float diffuseIntensity = 1;
+static const float attConst = 1;
 static const float attLin = 1;
 static const float attQuad = 1;
 
@@ -36,7 +36,7 @@ float4 PShader(VS_Out input, uint tid: SV_PrimitiveID) : SV_TARGET
     const float3 vToL = lightPos - input.worldPosition;
     const float distToL = length(vToL);
     const float3 dirToL = vToL / distToL;
-    const float att = attConst + attLin * distToL + attQuad * (distToL * distToL);
+    const float att = 1 / ( attConst + attLin * distToL + attQuad * (distToL * distToL) );
     const float3 diffuse = diffuseColor * diffuseIntensity * att * max(0, dot(dirToL, input.normal));
 
     float3 texCoords = { input.texcoords.x, input.texcoords.y, 0 };
