@@ -24,12 +24,12 @@ Texture2DArray my_texture;
 SamplerState my_sampler;
 
 static const float3 lightPos = { 0, 0, 0 };
-static const float3 ambient = { 0.15f, 0.15f, 0.15f };
-static const float3 diffuseColor = { 0.8f, 0.8f, 0 };
+static const float3 ambient = { 0.05f, 0.05f, 0.05f };
+static const float3 diffuseColor = { 1, 1, 1 };
 static const float diffuseIntensity = 1;
 static const float attConst = 1;
-static const float attLin = 1;
-static const float attQuad = 1;
+static const float attLin = 0.045f;
+static const float attQuad = 0.0075f;
 
 float4 PShader(VS_Out input, uint tid: SV_PrimitiveID) : SV_TARGET
 {
@@ -41,5 +41,5 @@ float4 PShader(VS_Out input, uint tid: SV_PrimitiveID) : SV_TARGET
 
     float3 texCoords = { input.texcoords.x, input.texcoords.y, 0 };
     float3 textureColor = (float3)my_texture.Sample(my_sampler, texCoords, 0);
-    return float4(saturate(diffuse + ambient + textureColor), 1);
+    return float4( saturate((diffuse + ambient) * textureColor ), 1);
 }
