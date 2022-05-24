@@ -17,10 +17,6 @@ struct VERTEX {
     float texCoords[2];
 };
 
-struct ConstantBuffer {
-    dx::XMMATRIX transformation;
-};
-
 struct FaceColor {
     float r, g, b, a;
 };

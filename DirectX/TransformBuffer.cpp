@@ -26,19 +26,25 @@ void TransformBuffer::Bind(Shape* shape) {
     GetClientRect(Window::GetInstance()->GetHandle(), &clientRect);
     float squeeze = (float)clientRect.bottom / (float)clientRect.right;
 
-    const ConstantBuffer cb = {
-        dx::XMMatrixTranspose(
-            // Object transform
-            dx::XMMatrixScaling(shapeSize.x(), shapeSize.y(), shapeSize.z()) *
-            dx::XMMatrixRotationQuaternion(shapeQuaternion) *
-            dx::XMMatrixTranslation(shapeTransform.getOrigin().x(), shapeTransform.getOrigin().y(), shapeTransform.getOrigin().z()) *
+    dx::XMMATRIX worldTransformation =
+        dx::XMMatrixScaling(shapeSize.x(), shapeSize.y(), shapeSize.z()) *
+        dx::XMMatrixRotationQuaternion(shapeQuaternion) *
+        dx::XMMatrixTranslation(shapeTransform.getOrigin().x(), shapeTransform.getOrigin().y(), shapeTransform.getOrigin().z())
+        ;
 
-            // Camera
-            Game::GetInstance()->GetMainCamera()->GetMatrix() *
+    dx::XMMATRIX viewTransformation =
+        worldTransformation *
+        Game::GetInstance()->GetMainCamera()->GetMatrix() *
+        dx::XMMatrixPerspectiveLH(1.0f, squeeze, Graphics::GetInstance()->GetNearZ(), Graphics::GetInstance()->GetFarZ())
+        ;
 
-            // Projection
-            dx::XMMatrixPerspectiveLH(1.0f, squeeze, Graphics::GetInstance()->GetNearZ() , Graphics::GetInstance()->GetFarZ())
-        )
+    worldTransformation = dx::XMMatrixTranspose(worldTransformation);
+    viewTransformation = dx::XMMatrixTranspose(viewTransformation);
+
+    ConstantBuffer buffer = {
+        // Object transform
+        worldTransformation,
+        viewTransformation
     };
 
     // Map the constant buffer onto our mapped constant buffer
@@ -47,7 +53,7 @@ void TransformBuffer::Bind(Shape* shape) {
     Graphics::GetInstance()->GetDeviceContext()->Map(pBuffer, 0u, D3D11_MAP_WRITE_DISCARD, 0u, &mCBuffer);
 
     // Copy the data onto the map
-    memcpy(mCBuffer.pData, &cb, sizeof(cb));
+    memcpy(mCBuffer.pData, &buffer, sizeof(buffer));
 
     // Unmap from the resources
     Graphics::GetInstance()->GetDeviceContext()->Unmap(pBuffer, 0u);

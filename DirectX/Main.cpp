@@ -109,7 +109,7 @@ int WINAPI WinMain(
 
                     // Translation
                     btVector3 translation(0, 0, 0);
-                    btScalar translationMagnitude = 1000 * deltaTime;
+                    btScalar translationMagnitude = 10000 * deltaTime;
 
                     for (char key : *Keyboard::GetInstance()->GetPressedKeys()) {
                         switch (key) {
