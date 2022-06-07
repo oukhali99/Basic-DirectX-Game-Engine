@@ -7,7 +7,7 @@
 template<class T>
 class ShapeBase : public Shape {
 public:
-	void ShapeBase<T>::Update() override {
+	void Update() override {
         for (Bindable* bindable : bindables) {
             bindable->Bind(this);
         }

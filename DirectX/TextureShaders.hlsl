@@ -1,7 +1,16 @@
-cbuffer CBuf {
+cbuffer CBuf : register(b0) {
     matrix worldTransformation;
     matrix viewTransformation;
 };
+
+cbuffer CBuf : register(b1) {
+    float4 faceColors[5];
+};
+
+Texture2DArray my_texture : register(t0);
+SamplerState my_sampler : register(s0);
+
+
 struct VS_Out {
     float4 position : SV_POSITION;
     float2 texcoords : TEXCOORDS;
@@ -20,8 +29,6 @@ VS_Out VShader(float3 position : POSITION, float3 normal : NORMAL, float2 texcoo
     return output;
 }
 
-Texture2DArray my_texture;
-SamplerState my_sampler;
 
 static const float3 lightPos = { 0, 0, 0 };
 static const float3 ambient = { 0.05f, 0.05f, 0.05f };
@@ -41,5 +48,5 @@ float4 PShader(VS_Out input, uint tid: SV_PrimitiveID) : SV_TARGET
 
     float3 texCoords = { input.texcoords.x, input.texcoords.y, 0 };
     float3 textureColor = (float3)my_texture.Sample(my_sampler, texCoords, 0);
-    return float4( saturate((diffuse + ambient) * textureColor ), 1);
+    return float4(saturate((diffuse + ambient + (float3) faceColors[tid / 2]) * textureColor), 1);
 }

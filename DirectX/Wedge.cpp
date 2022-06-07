@@ -59,15 +59,15 @@ Wedge::Wedge(GameObject* gameObject)
     if (bindables.size() == 0) {
         VertexBuffer* vertexBuffer = new VertexBuffer(vertexCount);
         TransformBuffer* transformBuffer = new TransformBuffer();
-        ColorBuffer* colorBuffer = new ColorBuffer(6);
+        ColorBuffer* colorBuffer = new ColorBuffer(5);
         IndexBuffer* indexBuffer = new IndexBuffer(indices, sizeof(indices));
         ShaderResources* shaderResources = new ShaderResources(256, 256);
 
         // ORDER OF LOADING MATTERS
-        bindables.push_back(shaderResources);    // THIS MUST BE LOADED FIRST
         bindables.push_back(vertexBuffer);
         bindables.push_back(transformBuffer);
         bindables.push_back(colorBuffer);
+        bindables.push_back(shaderResources);
         bindables.push_back(indexBuffer);
     }
 }

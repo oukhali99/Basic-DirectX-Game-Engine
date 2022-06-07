@@ -12,7 +12,7 @@ public:
 
 	Bindable();
 
-	virtual void Bind(Shape* transform) = 0;
+	virtual void Bind(Shape* shape) = 0;
 protected:
 	HRESULT hr;
 	ID3D11Buffer* pBuffer;

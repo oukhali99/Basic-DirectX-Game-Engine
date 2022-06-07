@@ -38,5 +38,6 @@ void ColorBuffer::Bind(Shape* shape) {
 
     UINT stride = sizeof(VERTEX);
     UINT offset = 0u;
-    Graphics::GetInstance()->GetDeviceContext()->PSSetConstantBuffers(0, 1u, &bufferToUse);
+    //Graphics::GetInstance()->GetDeviceContext()->VSSetConstantBuffers(1, 1u, &bufferToUse);
+    Graphics::GetInstance()->GetDeviceContext()->PSSetConstantBuffers(1, 1u, &bufferToUse);
 }

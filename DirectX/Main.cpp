@@ -38,7 +38,7 @@ int WINAPI WinMain(
                 { 1.0f, 0.0f, 0.0f, 1.0f },
                 { 0.0f, 1.0f, 0.0f, 1.0f },
                 { 0.0f, 0.0f, 1.0f, 1.0f },
-                { 0.0f, 0.0f, 1.0f, 1.0f },
+                { 1.0f, 0.0f, 0.0f, 1.0f },
                 { 1.0f, 0.0f, 1.0f, 1.0f },
                 { 1.0f, 1.0f, 0.0f, 1.0f },
         };
@@ -221,6 +221,7 @@ int WINAPI WinMain(
 
             object->AddComponent<Wedge>();
             Shape* shape = object->GetComponent<Shape>();
+            shape->SetFaceColors(faceColors);
 
             Texture* texture = new Texture("brick.jpg");
             shape->SetTexture(texture);
