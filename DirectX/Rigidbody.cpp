@@ -59,6 +59,7 @@ void Rigidbody::SetMass(btScalar mass) {
 
 void Rigidbody::ApplyImpulse(btVector3 force) {
 	if (rigidbody->getMass() > 0) {
+		rigidbody->activate();
 		rigidbody->applyCentralImpulse(force);
 	}
 	else if (isKinematic) {
