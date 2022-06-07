@@ -150,8 +150,8 @@
     <ClCompile Include="Wedge.cpp">
       <Filter>Source Files\Component\Shape</Filter>
     </ClCompile>
-    <ClCompile Include="LightBuffer.cpp">
-      <Filter>Source Files\Bindable</Filter>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -260,8 +260,8 @@
     <ClInclude Include="Wedge.h">
       <Filter>Header Files\Component\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="LightBuffer.h">
-      <Filter>Header Files\Bindable</Filter>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

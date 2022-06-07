@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Gui.h"
+#include "Light.h"
 
 using namespace std;
 
@@ -24,6 +25,7 @@ Graphics::Graphics(HWND hWnd, float nearZ, float farZ)
     InitD3D();
     InitPipeline();
     InitGraphics();
+    InitLightingBuffer();
 }
 
 Graphics::~Graphics() {
@@ -201,6 +203,18 @@ void Graphics::InitGraphics() {
     pContext->OMSetRenderTargets(1u, &renderTargetView, pDSView);
 }
 
+void Graphics::InitLightingBuffer() {
+    D3D11_BUFFER_DESC bd;
+    
+    ZeroMemory(&bd, sizeof(bd));
+    bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    bd.Usage = D3D11_USAGE_DYNAMIC;
+    bd.ByteWidth = sizeof(Light::LightData);
+    bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+    GFX_THROW_INFO(GetDevice()->CreateBuffer(&bd, NULL, &lightingBuffer));
+}
+
 ID3D11Device* Graphics::GetDevice() {
     return pDevice;
 }
@@ -244,4 +258,24 @@ void Graphics::SetNearZ(float nearZ) {
 
 void Graphics::SetFarZ(float farZ) {
     this->farZ = farZ;
+}
+
+void Graphics::BindLightingBuffer() {
+    D3D11_MAPPED_SUBRESOURCE msr = {};
+    GFX_THROW_INFO(Graphics::GetInstance()->GetDeviceContext()->Map(
+        lightingBuffer,
+        0u,
+        D3D11_MAP_WRITE_DISCARD,
+        0u,
+        &msr
+    ));
+
+    memcpy(msr.pData, &lightDataVector[0], sizeof(Light::LightData));
+    Graphics::GetInstance()->GetDeviceContext()->Unmap(lightingBuffer, 0u);
+
+    Graphics::GetInstance()->GetDeviceContext()->PSSetConstantBuffers(2, 1u, &lightingBuffer);
+}
+
+void Graphics::AddLight(Light* light) {
+    lightDataVector.push_back(light->lightData);
 }

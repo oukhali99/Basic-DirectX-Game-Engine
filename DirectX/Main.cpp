@@ -17,6 +17,7 @@
 #include "Camera.h"
 #include "PositionConstraint.h"
 #include "Wedge.h"
+#include "Light.h"
 
 int WINAPI WinMain(
     HINSTANCE hInstance,
@@ -277,6 +278,8 @@ int WINAPI WinMain(
             Rigidbody* rb = object->GetComponent<Rigidbody>();
             rb->SetMass(0);
             rb->SetIsKinematic(true);
+
+            object->AddComponent<Light>();
 
             object->AddComponent<Script>();
             Script* script = object->GetComponent<Script>();

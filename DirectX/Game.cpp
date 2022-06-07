@@ -43,6 +43,7 @@ void Game::Update() {
 	Physics::GetInstance()->Update();
 
 	Graphics::GetInstance()->ClearFrame();
+	Graphics::GetInstance()->BindLightingBuffer();
 	for (GameObject* gameObject : gameObjects) {
 		gameObject->Update();
 	}

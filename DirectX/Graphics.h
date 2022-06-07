@@ -5,6 +5,7 @@
 #include "Main.h"
 #include "Shape.h"
 #include "Bindable.h"
+#include "Light.h"
 
 #define SHADER_FILE_NAME_DEFAULT L"DefaultShaders.hlsl"
 #define SHADER_FILE_NAME_TEXTURE L"TextureShaders.hlsl"
@@ -36,6 +37,8 @@ public:
     void SetShaders(LPCWSTR shaderFileName);
     void SetNearZ(float nearZ);
     void SetFarZ(float farZ);
+    void BindLightingBuffer();
+    void AddLight(Light* light);
 private:
     Graphics(HWND hWnd, float nearZ, float farZ);
     ~Graphics();
@@ -51,9 +54,12 @@ private:
     ID3D11DepthStencilView* pDSView;
     float nearZ, farZ;
     std::map<LPCWSTR, std::pair<ID3D11VertexShader*, ID3D11PixelShader*>> compiledShaders;
+    ID3D11Buffer* lightingBuffer;
+    std::vector<Light::LightData> lightDataVector;
 
     void InitD3D();
     void InitPipeline();
     void InitGraphics();
+    void InitLightingBuffer();
 };
 #endif
