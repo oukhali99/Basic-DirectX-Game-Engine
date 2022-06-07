@@ -260,6 +260,9 @@ int WINAPI WinMain(
                     //rb->ApplyImpulse(unitTorque * torqueMagnitude);
                 }
                 });
+
+
+            object->AddComponent<Light>();
         }
 
         // Cube

@@ -6,6 +6,8 @@
 #include "Gui.h"
 #include "Light.h"
 
+#define MAX_LIGHT_COUNT 12
+
 using namespace std;
 
 void Graphics::Init(HWND hWnd, float nearZ, float farZ) {
@@ -209,7 +211,7 @@ void Graphics::InitLightingBuffer() {
     ZeroMemory(&bd, sizeof(bd));
     bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     bd.Usage = D3D11_USAGE_DYNAMIC;
-    bd.ByteWidth = sizeof(Light::LightData) * 2;
+    bd.ByteWidth = sizeof(Light::LightData) * MAX_LIGHT_COUNT;
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
     GFX_THROW_INFO(GetDevice()->CreateBuffer(&bd, NULL, &lightingBuffer));
@@ -271,8 +273,9 @@ void Graphics::BindLightingBuffer() {
     ));
 
     BYTE* mappedData = reinterpret_cast<BYTE*>(msr.pData);
-    memcpy(mappedData, lightDataVector[0], sizeof(Light::LightData));
-    memcpy(mappedData + sizeof(Light::LightData), lightDataVector[1], sizeof(Light::LightData));
+    for (int i = 0; i < lightDataVector.size(); i++) {
+        memcpy(mappedData + sizeof(Light::LightData) * i, lightDataVector[i], sizeof(Light::LightData));
+    }
     Graphics::GetInstance()->GetDeviceContext()->Unmap(lightingBuffer, 0u);
 
     Graphics::GetInstance()->GetDeviceContext()->PSSetConstantBuffers(2, 1u, &lightingBuffer);

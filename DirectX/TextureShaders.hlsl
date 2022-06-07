@@ -1,3 +1,5 @@
+#define LIGHT_COUNT 12
+
 cbuffer CBuf : register(b0) {
     matrix worldTransformation;
     matrix viewTransformation;
@@ -19,7 +21,7 @@ cbuffer CBuf : register(b2)
         float attConst;
         float attLin;
         float attQuad;
-    } lights[2];
+    } lights[LIGHT_COUNT];
 };
 
 Texture2DArray my_texture : register(t0);
@@ -49,8 +51,13 @@ float4 PShader(VS_Out input, uint tid: SV_PrimitiveID) : SV_TARGET
 {
     float3 sum = { 0, 0, 0 };
     
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < LIGHT_COUNT; i++)
     {
+        if (lights[i].diffuseIntensity == 0)
+        {
+            continue;
+        }
+        
         const float3 lightPos = (float3) lights[i].lightPos;
         const float3 ambient = (float3) lights[i].ambient;
         const float3 diffuseColor = (float3) lights[i].diffuseColor;
