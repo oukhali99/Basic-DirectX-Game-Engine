@@ -59,7 +59,9 @@ int WINAPI WinMain(
             Game::GetInstance()->SetMainCamera(cameraComponent);
 
             camera->AddComponent<Light>();
-
+            Light* light = camera->GetComponent<Light>();
+            light->lightData.SetDiffuseIntensity(1);
+            
             camera->AddComponent<Script>();
             Script* script = camera->GetComponent<Script>();
             btScalar yaw = 0, pitch = 0;
@@ -224,7 +226,7 @@ int WINAPI WinMain(
 
             object->AddComponent<Wedge>();
             Shape* shape = object->GetComponent<Shape>();
-            shape->SetFaceColors(faceColors);
+            //shape->SetFaceColors(faceColors);
 
             Texture* texture = new Texture("brick.jpg");
             shape->SetTexture(texture);
@@ -262,7 +264,7 @@ int WINAPI WinMain(
 
         // Cube
         {
-            btVector3 size(1, 1, 1);
+            btVector3 size(0.1f, 0.1f, 0.1f);
 
             btTransform transform;
             transform.setIdentity();
@@ -280,6 +282,8 @@ int WINAPI WinMain(
             Rigidbody* rb = object->GetComponent<Rigidbody>();
             rb->SetMass(0);
             rb->SetIsKinematic(true);
+
+            object->AddComponent<Light>();
 
             object->AddComponent<Script>();
             Script* script = object->GetComponent<Script>();

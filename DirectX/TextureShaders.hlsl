@@ -10,7 +10,7 @@ cbuffer CBuf : register(b1)
 
 cbuffer CBuf : register(b2)
 {
-    struct foo
+    struct LightData
     {
         float4 lightPos;
         float4 ambient;
@@ -19,7 +19,7 @@ cbuffer CBuf : register(b2)
         float attConst;
         float attLin;
         float attQuad;
-    } asd[1];
+    } lights[2];
 };
 
 Texture2DArray my_texture : register(t0);
@@ -47,17 +47,25 @@ VS_Out VShader(float3 position : POSITION, float3 normal : NORMAL, float2 texcoo
 
 float4 PShader(VS_Out input, uint tid: SV_PrimitiveID) : SV_TARGET
 {
-    const float3 lightPos = (float3) asd[0].lightPos;
-    const float3 ambient = (float3) asd[0].ambient;
-    const float3 diffuseColor = (float3) asd[0].diffuseColor;
+    float3 sum = { 0, 0, 0 };
     
-    const float3 vToL = lightPos - input.worldPosition;
-    const float distToL = length(vToL);
-    const float3 dirToL = vToL / distToL;
-    const float att = 1 / (asd[0].attConst + asd[0].attLin * distToL + asd[0].attQuad * (distToL * distToL));
-    const float3 diffuse = diffuseColor * asd[0].diffuseIntensity * att * max(0, dot(dirToL, input.normal));
+    for (int i = 0; i < 2; i++)
+    {
+        const float3 lightPos = (float3) lights[i].lightPos;
+        const float3 ambient = (float3) lights[i].ambient;
+        const float3 diffuseColor = (float3) lights[i].diffuseColor;
+    
+        const float3 vToL = lightPos - input.worldPosition;
+        const float distToL = length(vToL);
+        const float3 dirToL = vToL / distToL;
+        const float att = 1 / (lights[i].attConst + lights[i].attLin * distToL + lights[i].attQuad * (distToL * distToL));
+        const float3 diffuse = diffuseColor * lights[i].diffuseIntensity * att * max(0, dot(dirToL, input.normal));
+        
+        sum = sum + (diffuse + ambient + (float3) faceColors[tid / 2]);
+    }
 
     float3 texCoords = { input.texcoords.x, input.texcoords.y, 0 };
-    float3 textureColor = (float3)my_texture.Sample(my_sampler, texCoords, 0);
-    return float4(saturate((diffuse + ambient + (float3) faceColors[tid / 2]) * textureColor), 1);
+    float3 textureColor = (float3) my_texture.Sample(my_sampler, texCoords, 0);
+    
+    return float4(saturate(sum * textureColor), 1);
 }

@@ -209,7 +209,7 @@ void Graphics::InitLightingBuffer() {
     ZeroMemory(&bd, sizeof(bd));
     bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     bd.Usage = D3D11_USAGE_DYNAMIC;
-    bd.ByteWidth = sizeof(Light::LightData);
+    bd.ByteWidth = sizeof(Light::LightData) * 2;
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
     GFX_THROW_INFO(GetDevice()->CreateBuffer(&bd, NULL, &lightingBuffer));
@@ -270,7 +270,9 @@ void Graphics::BindLightingBuffer() {
         &msr
     ));
 
-    memcpy(msr.pData, lightDataVector.at(0), sizeof(Light::LightData));
+    BYTE* mappedData = reinterpret_cast<BYTE*>(msr.pData);
+    memcpy(mappedData, lightDataVector[0], sizeof(Light::LightData));
+    memcpy(mappedData + sizeof(Light::LightData), lightDataVector[1], sizeof(Light::LightData));
     Graphics::GetInstance()->GetDeviceContext()->Unmap(lightingBuffer, 0u);
 
     Graphics::GetInstance()->GetDeviceContext()->PSSetConstantBuffers(2, 1u, &lightingBuffer);

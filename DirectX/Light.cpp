@@ -22,3 +22,14 @@ void Light::LightData::SetPosition(float newPosition[4]) {
 	lightPos[2] = newPosition[2];
 	lightPos[3] = newPosition[3];
 }
+
+void Light::LightData::SetDiffuseColor(float diffuseColor[4]) {
+	this->diffuseColor[0] = diffuseColor[0];
+	this->diffuseColor[1] = diffuseColor[1];
+	this->diffuseColor[2] = diffuseColor[2];
+	this->diffuseColor[3] = diffuseColor[3];
+}
+
+void Light::LightData::SetDiffuseIntensity(float diffuseIntensity) {
+	this->diffuseIntensity = diffuseIntensity;
+}
