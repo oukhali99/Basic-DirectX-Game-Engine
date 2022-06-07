@@ -314,6 +314,94 @@ int WINAPI WinMain(
                 });
         }
 
+        // Wall S
+        {
+            btVector3 size(10, 3, 1);
+
+            btTransform transform;
+            transform.setIdentity();
+            transform.setOrigin(btVector3(0, 0, -10));
+
+            GameObject* object = new GameObject(transform, size);
+
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+
+            Texture* texture = new Texture("brick.jpg");
+            shape->SetTexture(texture);
+
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(0);
+            rb->SetIsKinematic(true);
+        }
+
+        // Wall N
+        {
+            btVector3 size(10, 3, 1);
+
+            btTransform transform;
+            transform.setIdentity();
+            transform.setOrigin(btVector3(0, 0, 10));
+
+            GameObject* object = new GameObject(transform, size);
+
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+
+            Texture* texture = new Texture("brick.jpg");
+            shape->SetTexture(texture);
+
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(0);
+            rb->SetIsKinematic(true);
+        }
+
+        // Wall E
+        {
+            btVector3 size(1, 3, 10);
+
+            btTransform transform;
+            transform.setIdentity();
+            transform.setOrigin(btVector3(10, 0, 0));
+
+            GameObject* object = new GameObject(transform, size);
+
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+
+            Texture* texture = new Texture("brick.jpg");
+            shape->SetTexture(texture);
+
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(0);
+            rb->SetIsKinematic(true);
+        }
+
+        // Wall W
+        {
+            btVector3 size(1, 3, 10);
+
+            btTransform transform;
+            transform.setIdentity();
+            transform.setOrigin(btVector3(-10, 0, 0));
+
+            GameObject* object = new GameObject(transform, size);
+
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+
+            Texture* texture = new Texture("brick.jpg");
+            shape->SetTexture(texture);
+
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(0);
+            rb->SetIsKinematic(true);
+        }
+
         MSG msg = { 0 };
         std::vector<BYTE> rawBuffer;
         while (true)
