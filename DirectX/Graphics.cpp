@@ -270,12 +270,12 @@ void Graphics::BindLightingBuffer() {
         &msr
     ));
 
-    memcpy(msr.pData, &lightDataVector[0], sizeof(Light::LightData));
+    memcpy(msr.pData, lightDataVector.at(0), sizeof(Light::LightData));
     Graphics::GetInstance()->GetDeviceContext()->Unmap(lightingBuffer, 0u);
 
     Graphics::GetInstance()->GetDeviceContext()->PSSetConstantBuffers(2, 1u, &lightingBuffer);
 }
 
 void Graphics::AddLight(Light* light) {
-    lightDataVector.push_back(light->lightData);
+    lightDataVector.push_back(&light->lightData);
 }

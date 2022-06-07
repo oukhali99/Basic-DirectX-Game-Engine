@@ -58,6 +58,8 @@ int WINAPI WinMain(
             Camera* cameraComponent = camera->GetComponent<Camera>();
             Game::GetInstance()->SetMainCamera(cameraComponent);
 
+            camera->AddComponent<Light>();
+
             camera->AddComponent<Script>();
             Script* script = camera->GetComponent<Script>();
             btScalar yaw = 0, pitch = 0;
@@ -278,8 +280,6 @@ int WINAPI WinMain(
             Rigidbody* rb = object->GetComponent<Rigidbody>();
             rb->SetMass(0);
             rb->SetIsKinematic(true);
-
-            object->AddComponent<Light>();
 
             object->AddComponent<Script>();
             Script* script = object->GetComponent<Script>();

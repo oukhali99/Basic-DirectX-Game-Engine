@@ -55,7 +55,7 @@ private:
     float nearZ, farZ;
     std::map<LPCWSTR, std::pair<ID3D11VertexShader*, ID3D11PixelShader*>> compiledShaders;
     ID3D11Buffer* lightingBuffer;
-    std::vector<Light::LightData> lightDataVector;
+    std::vector<Light::LightData*> lightDataVector;
 
     void InitD3D();
     void InitPipeline();
