@@ -145,9 +145,6 @@ void Graphics::InitPipeline() {
         compiledShaders[shaderFile] = shaderPair;
     }
 
-    // set the shader objects
-    SetShaders(L"DefaultShaders.shaders");
-
     // Create the shader layout (input)
     D3D11_INPUT_ELEMENT_DESC ied[] = {
         { "POSITION", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, 0u, D3D11_INPUT_PER_VERTEX_DATA, 0u },
@@ -164,6 +161,8 @@ void Graphics::InitPipeline() {
 
     PS->Release();
     VS->Release();
+
+    SetShaders(SHADER_FILE_NAME_DEFAULT);
 }
 
 void Graphics::InitGraphics() {

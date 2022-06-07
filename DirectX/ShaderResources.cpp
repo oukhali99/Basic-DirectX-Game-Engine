@@ -117,13 +117,6 @@ void ShaderResources::Bind(Shape* shape) {
         // Set the shader
         currentShader = SHADER_FILE_NAME_TEXTURE;
     }
-    else {
-        currentShader = SHADER_FILE_NAME_DEFAULT;
-    }
-
-
-    // set the shader objects
-    Graphics::GetInstance()->SetShaders(currentShader);
 
     Graphics::GetInstance()->GetDeviceContext()->PSSetShaderResources(0, 1, &shaderResourceView);
     Graphics::GetInstance()->GetDeviceContext()->PSSetSamplers(0, 1, &samplerState);
