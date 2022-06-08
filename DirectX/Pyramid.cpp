@@ -27,11 +27,11 @@ Pyramid::Pyramid(GameObject* gameObject)
 		VertexBuffer* vb = new VertexBuffer(vertexCount);
 		bindables.push_back(vb);
 
-		ConstantBuffer* tcb = new ConstantBuffer(0u, sizeof(ConstantBuffer::Transform));
-		bindables.push_back(tcb);
+		//ConstantBuffer* tcb = new ConstantBuffer(0u, sizeof(ConstantBuffer::Transform));
+		//bindables.push_back(tcb);
 
-		ConstantBuffer* ccb = new ConstantBuffer(1u, sizeof(FaceColor));
-		bindables.push_back(ccb);
+		//ConstantBuffer* ccb = new ConstantBuffer(1u, sizeof(FaceColor));
+		//bindables.push_back(ccb);
 
 		IndexBuffer* ib = new IndexBuffer(indices, sizeof(indices));
 		bindables.push_back(ib);

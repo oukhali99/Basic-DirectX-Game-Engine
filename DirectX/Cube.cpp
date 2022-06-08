@@ -1,7 +1,7 @@
 #include "Cube.h"
 #include "btBulletDynamicsCommon.h"
 #include "ShaderResources.h"
-#include "ConstantBuffer.h"
+#include "TransformConstantBuffer.h"
 #include "GameObject.h"
 
 Cube::Cube(GameObject* gameObject)
@@ -68,8 +68,8 @@ Cube::Cube(GameObject* gameObject)
 
     if (bindables.size() == 0) {
         VertexBuffer* vertexBuffer = new VertexBuffer(vertexCount);
-        ConstantBuffer* transformBuffer = new ConstantBuffer(0u, sizeof(ConstantBuffer::Transform));
-        ConstantBuffer* colorBuffer = new ConstantBuffer(1u, sizeof(FaceColor) * 6);
+        TransformConstantBuffer* transformBuffer = new TransformConstantBuffer();
+        //ConstantBuffer* colorBuffer = new ConstantBuffer(1u, sizeof(FaceColor) * 6);
         IndexBuffer* indexBuffer = new IndexBuffer(indices, sizeof(indices));
         ShaderResources* shaderResources = new ShaderResources(256, 256);
 
@@ -77,7 +77,7 @@ Cube::Cube(GameObject* gameObject)
         bindables.push_back(shaderResources);    // THIS MUST BE LOADED FIRST
         bindables.push_back(vertexBuffer);
         bindables.push_back(transformBuffer);
-        bindables.push_back(colorBuffer);
+        //bindables.push_back(colorBuffer);
         bindables.push_back(indexBuffer);
     }
 }

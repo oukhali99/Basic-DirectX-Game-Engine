@@ -43,6 +43,12 @@
     <Filter Include="imgui\backends">
       <UniqueIdentifier>{3b79026a-a4fe-4de5-bf3f-69077f213482}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Bindable\ConstantBuffer">
+      <UniqueIdentifier>{a91a4e1f-c8c7-4e79-8b64-2e6dd833bd31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Bindable\ConstantBuffer">
+      <UniqueIdentifier>{7235b46c-1917-4273-8bff-ff1388a07dff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -148,7 +154,10 @@
       <Filter>Source Files\Component</Filter>
     </ClCompile>
     <ClCompile Include="ConstantBuffer.cpp">
-      <Filter>Source Files\Bindable</Filter>
+      <Filter>Source Files\Bindable\ConstantBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformConstantBuffer.cpp">
+      <Filter>Source Files\Bindable\ConstantBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -255,7 +264,10 @@
       <Filter>Header Files\Component</Filter>
     </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
-      <Filter>Header Files\Bindable</Filter>
+      <Filter>Header Files\Bindable\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformConstantBuffer.h">
+      <Filter>Header Files\Bindable\ConstantBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

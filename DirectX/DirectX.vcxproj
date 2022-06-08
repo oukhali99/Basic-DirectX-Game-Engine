@@ -205,6 +205,7 @@
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="ShapeBase.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TransformConstantBuffer.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="Wedge.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -242,6 +243,7 @@
     <ClInclude Include="Shape.h" />
     <ClInclude Include="ShapeBase.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TransformConstantBuffer.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="Wedge.h" />
     <ClInclude Include="Window.h" />

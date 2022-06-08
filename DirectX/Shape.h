@@ -22,7 +22,6 @@ public:
 	FaceColor* GetFaceColors();
 	VERTEX* GetVertices();
 	int GetVertexCount();
-	virtual const void* GetConstantBufferData(UINT slotNumber);
 
 	void SetTexture(Texture* texture);
 	void SetFaceColors(FaceColor* pFaceColors);

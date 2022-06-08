@@ -2,15 +2,10 @@
 
 class ConstantBuffer : public Bindable {
 public:
-	ConstantBuffer(UINT slotNumber, size_t size);
-
 	void Bind(Shape* shape) override;
-
-	struct Transform {
-		dx::XMMATRIX worldTransformation;
-		dx::XMMATRIX viewTransformation;
-	};
-private:
-	UINT slotNumber;
-	size_t size;
+protected:
+	ConstantBuffer(size_t bufferSize);
+	virtual UINT GetSlotNumber() = 0;
+	virtual size_t GetBufferSize() = 0;
+	virtual const void* GetBufferData(Shape* shape) = 0;
 };
