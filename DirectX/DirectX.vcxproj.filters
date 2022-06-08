@@ -66,12 +66,6 @@
     <ClCompile Include="VertexBuffer.cpp">
       <Filter>Source Files\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="TransformBuffer.cpp">
-      <Filter>Source Files\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="ColorBuffer.cpp">
-      <Filter>Source Files\Bindable</Filter>
-    </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
       <Filter>Source Files\Bindable</Filter>
     </ClCompile>
@@ -177,12 +171,6 @@
       <Filter>Header Files\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">
-      <Filter>Header Files\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformBuffer.h">
-      <Filter>Header Files\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="ColorBuffer.h">
       <Filter>Header Files\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">

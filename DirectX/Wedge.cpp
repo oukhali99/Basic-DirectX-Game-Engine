@@ -1,10 +1,9 @@
 #include "Wedge.h"
 #include "GameObject.h"
 #include "VertexBuffer.h"
-#include "TransformBuffer.h"
-#include "ColorBuffer.h"
 #include "IndexBuffer.h"
 #include "ShaderResources.h"
+#include "ConstantBuffer.h"
 
 Wedge::Wedge(GameObject* gameObject) 
 	:
@@ -58,8 +57,8 @@ Wedge::Wedge(GameObject* gameObject)
 
     if (bindables.size() == 0) {
         VertexBuffer* vertexBuffer = new VertexBuffer(vertexCount);
-        TransformBuffer* transformBuffer = new TransformBuffer();
-        ColorBuffer* colorBuffer = new ColorBuffer(5);
+        ConstantBuffer* transformBuffer = new ConstantBuffer(0u, sizeof(ConstantBuffer::Transform));
+        ConstantBuffer* colorBuffer = new ConstantBuffer(1u, sizeof(FaceColor));
         IndexBuffer* indexBuffer = new IndexBuffer(indices, sizeof(indices));
         ShaderResources* shaderResources = new ShaderResources(256, 256);
 

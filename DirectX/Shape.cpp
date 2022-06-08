@@ -4,6 +4,9 @@
 #include "Component.h"
 #include "GameObject.h"
 #include "Texture.h"
+#include "Window.h"
+#include "TransformBuffer.h"
+#include "Game.h"
 
 Shape::Shape(GameObject* gameObject, int vertexCount)
 	:
@@ -45,6 +48,45 @@ int Shape::GetVertexCount() {
 }
 
 const void* Shape::GetConstantBufferData(UINT slotNumber) {
+    switch (slotNumber) {
+        case 0u: {
+            btTransform shapeTransform = GetTransform();
+            btVector3 shapeSize = GetScale();
+
+            dx::XMVECTOR shapeQuaternion = dx::XMVectorSet((float)shapeTransform.getRotation().x(), (float)shapeTransform.getRotation().y(), (float)shapeTransform.getRotation().z(), (float)shapeTransform.getRotation().w());
+
+            RECT clientRect;
+            GetClientRect(Window::GetInstance()->GetHandle(), &clientRect);
+            float squeeze = (float)clientRect.bottom / (float)clientRect.right;
+
+            dx::XMMATRIX worldTransformation =
+                dx::XMMatrixScaling(shapeSize.x(), shapeSize.y(), shapeSize.z()) *
+                dx::XMMatrixRotationQuaternion(shapeQuaternion) *
+                dx::XMMatrixTranslation(shapeTransform.getOrigin().x(), shapeTransform.getOrigin().y(), shapeTransform.getOrigin().z())
+                ;
+
+            dx::XMMATRIX viewTransformation =
+                worldTransformation *
+                Game::GetInstance()->GetMainCamera()->GetMatrix() *
+                dx::XMMatrixPerspectiveLH(1.0f, squeeze, Graphics::GetInstance()->GetNearZ(), Graphics::GetInstance()->GetFarZ())
+                ;
+
+            worldTransformation = dx::XMMatrixTranspose(worldTransformation);
+            viewTransformation = dx::XMMatrixTranspose(viewTransformation);
+
+            TransformBuffer::ConstantBuffer buffer = {
+                // Object transform
+                worldTransformation,
+                viewTransformation
+            };
+
+            return &buffer;
+        }
+        case 1u: {
+            return faceColors;
+        }
+    }
+
     return 0;
 }
 

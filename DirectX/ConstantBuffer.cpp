@@ -34,5 +34,6 @@ void ConstantBuffer::Bind(Shape* shape) {
     }
     Graphics::GetInstance()->GetDeviceContext()->Unmap(pBuffer, 0u);
 
+    Graphics::GetInstance()->GetDeviceContext()->VSSetConstantBuffers(slotNumber, 1u, &pBuffer);
     Graphics::GetInstance()->GetDeviceContext()->PSSetConstantBuffers(slotNumber, 1u, &pBuffer);
 }
