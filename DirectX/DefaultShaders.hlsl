@@ -51,7 +51,7 @@ VS_Out VShader(float3 position : POSITION, float3 normal : NORMAL, float2 texcoo
 
 float4 PShader(VS_Out input, uint tid : SV_PrimitiveID) : SV_TARGET
 {
-    float3 sum = { 0, 0, 0 };
+    float3 lightingSum = { 0, 0, 0 };
     
     for (int i = 0; i < LIGHT_COUNT; i++)
     {
@@ -70,11 +70,11 @@ float4 PShader(VS_Out input, uint tid : SV_PrimitiveID) : SV_TARGET
         const float att = 1 / (lights[i].attConst + lights[i].attLin * distToL + lights[i].attQuad * (distToL * distToL));
         const float3 diffuse = diffuseColor * lights[i].diffuseIntensity * att * max(0, dot(dirToL, input.normal));
         
-        sum = sum + (diffuse + ambient + (float3) faceColors[tid / 2]);
+        lightingSum = lightingSum + diffuse + ambient;
     }
 
     float3 texCoords = { input.texcoords.x, input.texcoords.y, 0 };
-    float3 textureColor = (float3) my_texture.Sample(my_sampler, texCoords, 0);
+    float3 surfaceColor = (float3) my_texture.Sample(my_sampler, texCoords, 0) + (float3) faceColors[tid / 2];
     
-    return float4(saturate(sum * textureColor), 1);
+    return float4(saturate(lightingSum * surfaceColor), 1);
 }

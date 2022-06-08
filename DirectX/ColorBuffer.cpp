@@ -2,7 +2,7 @@
 #include "Shape.h"
 #include "Graphics.h"
 
-ColorBuffer::ColorBuffer(unsigned short faceCount) 
+ColorBuffer::ColorBuffer(unsigned short faceCount)
     :
     faceCount(faceCount)
 {

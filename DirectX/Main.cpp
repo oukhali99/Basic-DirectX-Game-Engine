@@ -226,7 +226,7 @@ int WINAPI WinMain(
 
             object->AddComponent<Wedge>();
             Shape* shape = object->GetComponent<Shape>();
-            //shape->SetFaceColors(faceColors);
+            shape->SetFaceColors(faceColors);
 
             Texture* texture = new Texture("brick.jpg");
             shape->SetTexture(texture);
@@ -329,6 +329,7 @@ int WINAPI WinMain(
 
             Texture* texture = new Texture("brick.jpg");
             shape->SetTexture(texture);
+            shape->SetFaceColors(faceColors);
 
             object->AddComponent<Rigidbody>();
             Rigidbody* rb = object->GetComponent<Rigidbody>();

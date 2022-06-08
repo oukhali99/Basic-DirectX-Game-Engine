@@ -44,6 +44,10 @@ int Shape::GetVertexCount() {
     return vertexCount;
 }
 
+const void* Shape::GetConstantBufferData(UINT slotNumber) {
+    return 0;
+}
+
 void Shape::SetTexture(Texture* texture) {
     this->texture = texture;
 }

@@ -10,4 +10,6 @@
 class Cube : public ShapeBase<Cube> {
 public:
 	Cube(GameObject* gameObject);
+
+	const void* GetConstantBufferData(UINT slotNumber) override;
 };
