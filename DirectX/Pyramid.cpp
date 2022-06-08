@@ -3,7 +3,8 @@
 #include "IndexBuffer.h"
 #include "Clock.h"
 #include "Game.h"
-#include "ConstantBuffer.h"
+#include "TransformConstantBuffer.h"
+#include "ColorConstantBuffer.h"
 
 Pyramid::Pyramid(GameObject* gameObject)
 	:
@@ -27,11 +28,11 @@ Pyramid::Pyramid(GameObject* gameObject)
 		VertexBuffer* vb = new VertexBuffer(vertexCount);
 		bindables.push_back(vb);
 
-		//ConstantBuffer* tcb = new ConstantBuffer(0u, sizeof(ConstantBuffer::Transform));
-		//bindables.push_back(tcb);
+		TransformConstantBuffer* tcb = new TransformConstantBuffer();
+		bindables.push_back(tcb);
 
-		//ConstantBuffer* ccb = new ConstantBuffer(1u, sizeof(FaceColor));
-		//bindables.push_back(ccb);
+		ColorConstantBuffer* ccb = new ColorConstantBuffer(4);
+		bindables.push_back(ccb);
 
 		IndexBuffer* ib = new IndexBuffer(indices, sizeof(indices));
 		bindables.push_back(ib);

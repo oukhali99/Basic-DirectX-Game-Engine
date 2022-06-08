@@ -3,6 +3,7 @@
 #include "ShaderResources.h"
 #include "TransformConstantBuffer.h"
 #include "GameObject.h"
+#include "ColorConstantBuffer.h"
 
 Cube::Cube(GameObject* gameObject)
     :
@@ -69,7 +70,7 @@ Cube::Cube(GameObject* gameObject)
     if (bindables.size() == 0) {
         VertexBuffer* vertexBuffer = new VertexBuffer(vertexCount);
         TransformConstantBuffer* transformBuffer = new TransformConstantBuffer();
-        //ConstantBuffer* colorBuffer = new ConstantBuffer(1u, sizeof(FaceColor) * 6);
+        ColorConstantBuffer* colorBuffer = new ColorConstantBuffer(6);
         IndexBuffer* indexBuffer = new IndexBuffer(indices, sizeof(indices));
         ShaderResources* shaderResources = new ShaderResources(256, 256);
 
@@ -77,7 +78,7 @@ Cube::Cube(GameObject* gameObject)
         bindables.push_back(shaderResources);    // THIS MUST BE LOADED FIRST
         bindables.push_back(vertexBuffer);
         bindables.push_back(transformBuffer);
-        //bindables.push_back(colorBuffer);
+        bindables.push_back(colorBuffer);
         bindables.push_back(indexBuffer);
     }
 }

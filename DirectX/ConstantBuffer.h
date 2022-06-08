@@ -1,3 +1,5 @@
+#ifndef CONSTANT_BUFFER_H
+#define CONSTANT_BUFFER_H
 #include "Bindable.h"
 
 class ConstantBuffer : public Bindable {
@@ -9,3 +11,4 @@ protected:
 	virtual size_t GetBufferSize() = 0;
 	virtual const void* GetBufferData(Shape* shape) = 0;
 };
+#endif

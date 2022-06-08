@@ -58,9 +58,9 @@ int WINAPI WinMain(
             Camera* cameraComponent = camera->GetComponent<Camera>();
             Game::GetInstance()->SetMainCamera(cameraComponent);
 
-            camera->AddComponent<Light>();
-            Light* light = camera->GetComponent<Light>();
-            light->lightData.SetDiffuseIntensity(1);
+            //camera->AddComponent<Light>();
+            //Light* light = camera->GetComponent<Light>();
+            //light->lightData.SetDiffuseIntensity(1);
             
             camera->AddComponent<Script>();
             Script* script = camera->GetComponent<Script>();

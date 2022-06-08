@@ -159,6 +159,9 @@
     <ClCompile Include="TransformConstantBuffer.cpp">
       <Filter>Source Files\Bindable\ConstantBuffer</Filter>
     </ClCompile>
+    <ClCompile Include="ColorConstantBuffer.cpp">
+      <Filter>Source Files\Bindable\ConstantBuffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyException.h">
@@ -267,6 +270,9 @@
       <Filter>Header Files\Bindable\ConstantBuffer</Filter>
     </ClInclude>
     <ClInclude Include="TransformConstantBuffer.h">
+      <Filter>Header Files\Bindable\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorConstantBuffer.h">
       <Filter>Header Files\Bindable\ConstantBuffer</Filter>
     </ClInclude>
   </ItemGroup>
