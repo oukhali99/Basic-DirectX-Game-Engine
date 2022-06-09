@@ -9,30 +9,16 @@
 
 Wedge::Wedge(GameObject* gameObject) 
 	:
-	ShapeBase(gameObject, 18)
+	ShapeBase(gameObject, 18, 24)
 {
     SetupVertices();
-
-    unsigned short indices[] = {
-        0, 2, 1,
-        0, 3, 2,
-
-        4, 6, 5,
-
-        7, 9, 8,
-
-        10, 12, 11,
-        10, 13, 12,
-
-        14, 16, 15,
-        14, 17, 16
-    };
+    SetupIndices();
 
     if (bindables.size() == 0) {
         VertexBuffer* vertexBuffer = new VertexBuffer(vertexCount);
         TransformConstantBuffer* transformBuffer = new TransformConstantBuffer();
         ColorConstantBuffer* colorBuffer = new ColorConstantBuffer(5);
-        IndexBuffer* indexBuffer = new IndexBuffer(indices, sizeof(indices));
+        IndexBuffer* indexBuffer = new IndexBuffer(indices, indexCount);
         ShaderResources* shaderResources = new ShaderResources(256, 256);
 
         // ORDER OF LOADING MATTERS
@@ -75,4 +61,22 @@ void Wedge::SetupVertices() {
         { { 1.0f, -1.0f, -1.0f }, { 0.0f, 0.0f, -1.0f }, { 0.0f * sizeX, 1.0f * sizeY } },
     };
     memcpy(vertices, OurVertices, vertexCount * sizeof(VERTEX));
+}
+
+void Wedge::SetupIndices() {
+    unsigned short indices[] = {
+        0, 2, 1,
+        0, 3, 2,
+
+        4, 6, 5,
+
+        7, 9, 8,
+
+        10, 12, 11,
+        10, 13, 12,
+
+        14, 16, 15,
+        14, 17, 16
+    };
+    memcpy(this->indices, indices, sizeof(indices));
 }

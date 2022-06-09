@@ -6,9 +6,8 @@ class Shape;
 
 class IndexBuffer : public Bindable {
 public:
-	IndexBuffer(unsigned short indices[], UINT sizeOfIndices);
+	IndexBuffer(unsigned short* indices, int indexCount);
 	void Bind(Shape* shape) override;
 private:
-	unsigned short* indices; 
-	UINT sizeOfIndices;
+	int indexCount;
 };

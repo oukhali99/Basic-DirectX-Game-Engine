@@ -10,4 +10,5 @@ public:
 	Cube(GameObject* gameObject);
 protected:
 	void SetupVertices() override;
+	void SetupIndices() override;
 };

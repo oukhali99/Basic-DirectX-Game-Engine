@@ -22,11 +22,12 @@ public:
 	FaceColor* GetFaceColors();
 	VERTEX* GetVertices();
 	int GetVertexCount();
+	unsigned short* GetIndices();
 
 	void SetTexture(Texture* texture);
 	void SetFaceColors(FaceColor* pFaceColors);
 protected:
-	Shape(GameObject* gameObject, int vertexCount);
+	Shape(GameObject* gameObject, int vertexCount, int indexCount);
 	~Shape();
 
 	HRESULT hr;
@@ -34,8 +35,11 @@ protected:
 	FaceColor* faceColors;
 	VERTEX* vertices;
 	int vertexCount;
+	unsigned short* indices;
+	int indexCount;
 
 	virtual void SetupVertices() = 0;
+	virtual void SetupIndices() = 0;
 };
 
 #endif

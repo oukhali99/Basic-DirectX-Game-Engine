@@ -8,7 +8,7 @@
 
 Pyramid::Pyramid(GameObject* gameObject)
 	:
-	ShapeBase<Pyramid>(gameObject, 4)
+	ShapeBase<Pyramid>(gameObject, 4, 12)
 {
 	VERTEX vertices[] = {
 		{ 0.0f, 0.0f, -1.0f },
@@ -34,7 +34,7 @@ Pyramid::Pyramid(GameObject* gameObject)
 		ColorConstantBuffer* ccb = new ColorConstantBuffer(4);
 		bindables.push_back(ccb);
 
-		IndexBuffer* ib = new IndexBuffer(indices, sizeof(indices));
+		IndexBuffer* ib = new IndexBuffer(indices, indexCount);
 		bindables.push_back(ib);
 	}
 }

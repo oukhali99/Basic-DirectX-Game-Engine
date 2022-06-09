@@ -7,35 +7,16 @@
 
 Cube::Cube(GameObject* gameObject)
     :
-    ShapeBase(gameObject, 24)
+    ShapeBase(gameObject, 24, 36)
 {
     SetupVertices();
-
-    unsigned short indices[] = {
-        0, 2, 1,
-        0, 3, 2,
-
-        4, 6, 5,
-        4, 7, 6,
-
-        8, 10, 9,
-        8, 11, 10,
-
-        12, 14, 13,
-        12, 15, 14,
-
-        16, 18, 17,
-        16, 19, 18,
-
-        20, 22, 21,
-        20, 23, 22
-    };
+    SetupIndices();
 
     if (bindables.size() == 0) {
         VertexBuffer* vertexBuffer = new VertexBuffer(vertexCount);
         TransformConstantBuffer* transformBuffer = new TransformConstantBuffer();
         ColorConstantBuffer* colorBuffer = new ColorConstantBuffer(6);
-        IndexBuffer* indexBuffer = new IndexBuffer(indices, sizeof(indices));
+        IndexBuffer* indexBuffer = new IndexBuffer(indices, indexCount);
         ShaderResources* shaderResources = new ShaderResources(256, 256);
 
         // ORDER OF LOADING MATTERS
@@ -84,5 +65,28 @@ void Cube::SetupVertices() {
         { { -1.0f, -1.0f, -1.0f }, { 0.0f, 0.0f, -1.0f }, { 1.0f * sizeX, 1.0f * sizeY } },
         { { 1.0f, -1.0f, -1.0f }, { 0.0f, 0.0f, -1.0f }, { 0.0f * sizeX, 1.0f * sizeY } },
     };
-    memcpy(vertices, OurVertices, vertexCount * sizeof(VERTEX));
+    memcpy(vertices, OurVertices, sizeof(OurVertices));
+}
+
+void Cube::SetupIndices() {
+    unsigned short indices[] = {
+        0, 2, 1,
+        0, 3, 2,
+
+        4, 6, 5,
+        4, 7, 6,
+
+        8, 10, 9,
+        8, 11, 10,
+
+        12, 14, 13,
+        12, 15, 14,
+
+        16, 18, 17,
+        16, 19, 18,
+
+        20, 22, 21,
+        20, 23, 22
+    };
+    memcpy(this->indices, indices, sizeof(indices));
 }
