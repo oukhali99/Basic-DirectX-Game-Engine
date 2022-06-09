@@ -35,6 +35,6 @@ Pyramid::Pyramid(GameObject* gameObject)
 		bindables.push_back(ccb);
 
 		IndexBuffer* ib = new IndexBuffer(indices, indexCount);
-		bindables.push_back(ib);
+		this->indexBuffer = ib;
 	}
 }

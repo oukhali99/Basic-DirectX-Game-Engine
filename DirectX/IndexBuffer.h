@@ -1,3 +1,6 @@
+#ifndef INDEX_BUFFER_H
+#define INDEX_BUFFER_H
+
 #include "Main.h"
 #include "Bindable.h"
 #include "btBulletDynamicsCommon.h"
@@ -11,3 +14,5 @@ public:
 private:
 	int indexCount;
 };
+
+#endif

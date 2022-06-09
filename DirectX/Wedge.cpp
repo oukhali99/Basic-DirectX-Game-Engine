@@ -26,7 +26,8 @@ Wedge::Wedge(GameObject* gameObject)
         bindables.push_back(transformBuffer);
         bindables.push_back(colorBuffer);
         bindables.push_back(shaderResources);
-        bindables.push_back(indexBuffer);
+
+        this->indexBuffer = indexBuffer;
     }
 }
 
