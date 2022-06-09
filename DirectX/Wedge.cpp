@@ -11,36 +11,7 @@ Wedge::Wedge(GameObject* gameObject)
 	:
 	ShapeBase(gameObject, 18)
 {
-    float sizeX = gameObject->GetScale().x();
-    float sizeY = gameObject->GetScale().y();
-    float sizeZ = gameObject->GetScale().z();
-
-    // Create a resource for the vertices
-    VERTEX OurVertices[] = {
-        { { -1.0f, -1.0f,  1.0f }, { 0.0f, -1.0f, 0.0f }, { 0.0f * sizeX, 0.0f * sizeZ } }, // -Y (bottom face)
-        { { 1.0f, -1.0f,  1.0f }, { 0.0f, -1.0f, 0.0f }, { 1.0f * sizeX, 0.0f * sizeZ } },
-        { { 1.0f, -1.0f, -1.0f }, { 0.0f, -1.0f, 0.0f }, { 1.0f * sizeX, 1.0f * sizeZ } },
-        { { -1.0f, -1.0f, -1.0f }, { 0.0f, -1.0f, 0.0f }, { 0.0f * sizeX, 1.0f * sizeZ } },
-
-        { { 1.0f,  1.0f,  1.0f }, { 1.0f, 0.0f, 0.0f }, { 0.0f * sizeZ, 0.0f * sizeY } }, // +X (right face)
-        { { 1.0f, -1.0f, -1.0f }, { 1.0f, 0.0f, 0.0f }, { 1.0f * sizeZ, 1.0f * sizeY } },
-        { { 1.0f, -1.0f,  1.0f }, { 1.0f, 0.0f, 0.0f }, { 0.0f * sizeZ, 1.0f * sizeY } },
-
-        { { -1.0f,  1.0f,  1.0f }, { -1.0f, 0.0f, 0.0f }, { 1.0f * sizeZ, 0.0f * sizeY } }, // -X (left face)
-        { { -1.0f, -1.0f,  1.0f }, { -1.0f, 0.0f, 0.0f }, { 1.0f * sizeZ, 1.0f * sizeY } },
-        { { -1.0f, -1.0f, -1.0f }, { -1.0f, 0.0f, 0.0f }, { 0.0f * sizeZ, 1.0f * sizeY } },
-
-        { { -1.0f,  1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f * sizeX, 0.0f * sizeY } }, // +Z (front face)
-        { { 1.0f,  1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f }, { 1.0f * sizeX, 0.0f * sizeY } },
-        { { 1.0f, -1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f }, { 1.0f * sizeX, 1.0f * sizeY } },
-        { { -1.0f, -1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f * sizeX, 1.0f * sizeY } },
-
-        { { 1.0f,  1.0f, 1.0f }, { 0.0f, 0.0f, -1.0f }, { 0.0f * sizeX, 0.0f * sizeY } }, // -Z (back face)
-        { { -1.0f,  1.0f, 1.0f }, { 0.0f, 0.0f, -1.0f }, { 1.0f * sizeX, 0.0f * sizeY } },
-        { { -1.0f, -1.0f, -1.0f }, { 0.0f, 0.0f, -1.0f }, { 1.0f * sizeX, 1.0f * sizeY } },
-        { { 1.0f, -1.0f, -1.0f }, { 0.0f, 0.0f, -1.0f }, { 0.0f * sizeX, 1.0f * sizeY } },
-    };
-    memcpy(vertices, OurVertices, vertexCount * sizeof(VERTEX));
+    SetupVertices();
 
     unsigned short indices[] = {
         0, 2, 1,
@@ -71,4 +42,37 @@ Wedge::Wedge(GameObject* gameObject)
         bindables.push_back(shaderResources);
         bindables.push_back(indexBuffer);
     }
+}
+
+void Wedge::SetupVertices() {
+    float sizeX = gameObject->GetScale().x();
+    float sizeY = gameObject->GetScale().y();
+    float sizeZ = gameObject->GetScale().z();
+
+    // Create a resource for the vertices
+    VERTEX OurVertices[] = {
+        { { -1.0f, -1.0f,  1.0f }, { 0.0f, -1.0f, 0.0f }, { 0.0f * sizeX, 0.0f * sizeZ } }, // -Y (bottom face)
+        { { 1.0f, -1.0f,  1.0f }, { 0.0f, -1.0f, 0.0f }, { 1.0f * sizeX, 0.0f * sizeZ } },
+        { { 1.0f, -1.0f, -1.0f }, { 0.0f, -1.0f, 0.0f }, { 1.0f * sizeX, 1.0f * sizeZ } },
+        { { -1.0f, -1.0f, -1.0f }, { 0.0f, -1.0f, 0.0f }, { 0.0f * sizeX, 1.0f * sizeZ } },
+
+        { { 1.0f,  1.0f,  1.0f }, { 1.0f, 0.0f, 0.0f }, { 0.0f * sizeZ, 0.0f * sizeY } }, // +X (right face)
+        { { 1.0f, -1.0f, -1.0f }, { 1.0f, 0.0f, 0.0f }, { 1.0f * sizeZ, 1.0f * sizeY } },
+        { { 1.0f, -1.0f,  1.0f }, { 1.0f, 0.0f, 0.0f }, { 0.0f * sizeZ, 1.0f * sizeY } },
+
+        { { -1.0f,  1.0f,  1.0f }, { -1.0f, 0.0f, 0.0f }, { 1.0f * sizeZ, 0.0f * sizeY } }, // -X (left face)
+        { { -1.0f, -1.0f,  1.0f }, { -1.0f, 0.0f, 0.0f }, { 1.0f * sizeZ, 1.0f * sizeY } },
+        { { -1.0f, -1.0f, -1.0f }, { -1.0f, 0.0f, 0.0f }, { 0.0f * sizeZ, 1.0f * sizeY } },
+
+        { { -1.0f,  1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f * sizeX, 0.0f * sizeY } }, // +Z (front face)
+        { { 1.0f,  1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f }, { 1.0f * sizeX, 0.0f * sizeY } },
+        { { 1.0f, -1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f }, { 1.0f * sizeX, 1.0f * sizeY } },
+        { { -1.0f, -1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f * sizeX, 1.0f * sizeY } },
+
+        { { 1.0f,  1.0f, 1.0f }, { 0.0f, 0.0f, -1.0f }, { 0.0f * sizeX, 0.0f * sizeY } }, // -Z (back face)
+        { { -1.0f,  1.0f, 1.0f }, { 0.0f, 0.0f, -1.0f }, { 1.0f * sizeX, 0.0f * sizeY } },
+        { { -1.0f, -1.0f, -1.0f }, { 0.0f, 0.0f, -1.0f }, { 1.0f * sizeX, 1.0f * sizeY } },
+        { { 1.0f, -1.0f, -1.0f }, { 0.0f, 0.0f, -1.0f }, { 0.0f * sizeX, 1.0f * sizeY } },
+    };
+    memcpy(vertices, OurVertices, vertexCount * sizeof(VERTEX));
 }

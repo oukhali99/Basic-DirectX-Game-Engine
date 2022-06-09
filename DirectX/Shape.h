@@ -34,6 +34,8 @@ protected:
 	FaceColor* faceColors;
 	VERTEX* vertices;
 	int vertexCount;
+
+	virtual void SetupVertices() = 0;
 };
 
 #endif

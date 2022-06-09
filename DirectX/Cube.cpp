@@ -9,6 +9,45 @@ Cube::Cube(GameObject* gameObject)
     :
     ShapeBase(gameObject, 24)
 {
+    SetupVertices();
+
+    unsigned short indices[] = {
+        0, 2, 1,
+        0, 3, 2,
+
+        4, 6, 5,
+        4, 7, 6,
+
+        8, 10, 9,
+        8, 11, 10,
+
+        12, 14, 13,
+        12, 15, 14,
+
+        16, 18, 17,
+        16, 19, 18,
+
+        20, 22, 21,
+        20, 23, 22
+    };
+
+    if (bindables.size() == 0) {
+        VertexBuffer* vertexBuffer = new VertexBuffer(vertexCount);
+        TransformConstantBuffer* transformBuffer = new TransformConstantBuffer();
+        ColorConstantBuffer* colorBuffer = new ColorConstantBuffer(6);
+        IndexBuffer* indexBuffer = new IndexBuffer(indices, sizeof(indices));
+        ShaderResources* shaderResources = new ShaderResources(256, 256);
+
+        // ORDER OF LOADING MATTERS
+        bindables.push_back(shaderResources);    // THIS MUST BE LOADED FIRST
+        bindables.push_back(vertexBuffer);
+        bindables.push_back(transformBuffer);
+        bindables.push_back(colorBuffer);
+        bindables.push_back(indexBuffer);
+    }
+}
+
+void Cube::SetupVertices() {
     float sizeX = gameObject->GetScale().x();
     float sizeY = gameObject->GetScale().y();
     float sizeZ = gameObject->GetScale().z();
@@ -46,39 +85,4 @@ Cube::Cube(GameObject* gameObject)
         { { 1.0f, -1.0f, -1.0f }, { 0.0f, 0.0f, -1.0f }, { 0.0f * sizeX, 1.0f * sizeY } },
     };
     memcpy(vertices, OurVertices, vertexCount * sizeof(VERTEX));
-
-    unsigned short indices[] = {
-        0, 2, 1,
-        0, 3, 2,
-
-        4, 6, 5,
-        4, 7, 6,
-
-        8, 10, 9,
-        8, 11, 10,
-
-        12, 14, 13,
-        12, 15, 14,
-
-        16, 18, 17,
-        16, 19, 18,
-
-        20, 22, 21,
-        20, 23, 22
-    };
-
-    if (bindables.size() == 0) {
-        VertexBuffer* vertexBuffer = new VertexBuffer(vertexCount);
-        TransformConstantBuffer* transformBuffer = new TransformConstantBuffer();
-        ColorConstantBuffer* colorBuffer = new ColorConstantBuffer(6);
-        IndexBuffer* indexBuffer = new IndexBuffer(indices, sizeof(indices));
-        ShaderResources* shaderResources = new ShaderResources(256, 256);
-
-        // ORDER OF LOADING MATTERS
-        bindables.push_back(shaderResources);    // THIS MUST BE LOADED FIRST
-        bindables.push_back(vertexBuffer);
-        bindables.push_back(transformBuffer);
-        bindables.push_back(colorBuffer);
-        bindables.push_back(indexBuffer);
-    }
 }

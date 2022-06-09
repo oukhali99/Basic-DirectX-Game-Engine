@@ -8,4 +8,6 @@
 class Cube : public ShapeBase<Cube> {
 public:
 	Cube(GameObject* gameObject);
+protected:
+	void SetupVertices() override;
 };

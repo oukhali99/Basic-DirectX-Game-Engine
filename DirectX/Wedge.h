@@ -3,4 +3,6 @@
 class Wedge : public ShapeBase<Wedge> {
 public:
 	Wedge(GameObject* gameObject);
+protected:
+	void SetupVertices() override;
 };
