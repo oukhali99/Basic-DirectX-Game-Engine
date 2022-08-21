@@ -4,6 +4,7 @@ cbuffer CBuf : register(b0)
 {
     matrix worldTransformation;
     matrix viewTransformation;
+    matrix projectionTransformation;
 };
 
 cbuffer CBuf : register(b1)
@@ -40,10 +41,17 @@ struct VS_Out
 VS_Out VShader(float3 position : POSITION, float3 normal : NORMAL, float2 texcoords : TEXCOORDS)
 {
     VS_Out output;
-    output.position = mul(float4(position, 1), viewTransformation);
+    output.position = float4(position, 1);
+    output.position = mul(output.position, worldTransformation);
+    output.position = mul(output.position, viewTransformation);
+    output.position = mul(output.position, projectionTransformation);
+    
     output.texcoords = texcoords;
+    
     output.worldPosition = (float3) mul(float4(position, 1), worldTransformation);
+    
     output.normal = (float3) mul(normal, (float3x3) worldTransformation);
+    output.normal = normalize(output.normal);
 
     return output;
 }

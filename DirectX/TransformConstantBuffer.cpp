@@ -34,18 +34,23 @@ const void* TransformConstantBuffer::GetBufferData(Shape* shape) {
         ;
 
     dx::XMMATRIX viewTransformation =
-        worldTransformation *
-        Game::GetInstance()->GetMainCamera()->GetMatrix() *
+        Game::GetInstance()->GetMainCamera()->GetMatrix()
+        ;
+
+    dx::XMMATRIX projectionTransformation =
         dx::XMMatrixPerspectiveLH(1.0f, squeeze, Graphics::GetInstance()->GetNearZ(), Graphics::GetInstance()->GetFarZ())
         ;
 
+
     worldTransformation = dx::XMMatrixTranspose(worldTransformation);
     viewTransformation = dx::XMMatrixTranspose(viewTransformation);
+    projectionTransformation = dx::XMMatrixTranspose(projectionTransformation);
 
     Data data = {
         // Object transform
         worldTransformation,
-        viewTransformation
+        viewTransformation,
+        projectionTransformation
     };
 
     return &data;

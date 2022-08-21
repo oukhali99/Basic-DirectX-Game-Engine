@@ -7,6 +7,7 @@ public:
 	struct Data {
 		dx::XMMATRIX worldTransformation;
 		dx::XMMATRIX viewTransformation;
+		dx::XMMATRIX projectionTransformation;
 	};
 protected:
 	UINT GetSlotNumber() override;
