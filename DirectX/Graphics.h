@@ -9,6 +9,7 @@
 
 #define SHADER_FILE_NAME_DEFAULT L"DefaultShaders.hlsl"
 #define SHADER_FILE_NAME_TEXTURE L"TextureShaders.hlsl"
+#define SHADER_FILE_NAME_SHADOW_MAP L"ShadowMapShaders.hlsl"
 
 class Gui;
 

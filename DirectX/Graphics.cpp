@@ -113,7 +113,7 @@ void Graphics::InitD3D()
 }
 
 void Graphics::InitPipeline() {
-    LPCWSTR shaderFiles[] = { SHADER_FILE_NAME_DEFAULT, SHADER_FILE_NAME_TEXTURE };
+    LPCWSTR shaderFiles[] = { SHADER_FILE_NAME_DEFAULT, SHADER_FILE_NAME_TEXTURE, SHADER_FILE_NAME_SHADOW_MAP };
 
     ID3DBlob* VS = NULL;
     ID3DBlob* PS = NULL;
