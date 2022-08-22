@@ -44,6 +44,8 @@ void Game::Update() {
 
 	Graphics::GetInstance()->ClearFrame();
 	Graphics::GetInstance()->BindLightingBuffer();
+	Graphics::GetInstance()->GenerateShadowMap();
+
 	for (GameObject* gameObject : gameObjects) {
 		gameObject->Update();
 	}

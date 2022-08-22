@@ -28,6 +28,7 @@ Graphics::Graphics(HWND hWnd, float nearZ, float farZ)
     InitPipeline();
     InitGraphics();
     InitLightingBuffer();
+    InitShadowMapResources();
 }
 
 Graphics::~Graphics() {
@@ -282,4 +283,76 @@ void Graphics::BindLightingBuffer() {
 
 void Graphics::AddLight(Light* light) {
     lightDataVector.push_back(&light->lightData);
+}
+
+void Graphics::InitShadowMapResources() {
+    RECT clientRect;
+    GetClientRect(hWnd, &clientRect);
+
+
+    D3D11_TEXTURE2D_DESC texDesc;
+    ZeroMemory(&texDesc, sizeof(texDesc));
+    texDesc.Width = clientRect.right;
+    texDesc.Height = clientRect.bottom;
+    texDesc.MipLevels = 1u;
+    texDesc.ArraySize = 1u;
+    texDesc.Format = DXGI_FORMAT_R32_TYPELESS;
+    texDesc.SampleDesc.Count = 4u;
+    texDesc.SampleDesc.Quality = 0;
+    texDesc.Usage = D3D11_USAGE_DEFAULT;
+    texDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+    texDesc.CPUAccessFlags = 0;
+    texDesc.MiscFlags = 0;
+
+    // Create the depth stencil view desc
+    D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+    ZeroMemory(&descDSV, sizeof(descDSV));
+    descDSV.Format = DXGI_FORMAT_D32_FLOAT;
+    descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
+    descDSV.Texture2D.MipSlice = 0;
+
+    //create shader resource view desc
+    D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+    ZeroMemory(&srvDesc, sizeof(srvDesc));
+    srvDesc.Format = DXGI_FORMAT_R32_FLOAT;
+    srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
+    srvDesc.Texture2D.MipLevels = texDesc.MipLevels;
+    srvDesc.Texture2D.MostDetailedMip = 0;
+
+    //create texture and depth/resource views
+    GFX_THROW_INFO(pDevice->CreateTexture2D(&texDesc, NULL, &pShadowMap));
+    GFX_THROW_INFO(pDevice->CreateDepthStencilView(pShadowMap, &descDSV, &pShadowMapDepthView));
+    GFX_THROW_INFO(pDevice->CreateShaderResourceView(pShadowMap, &srvDesc, &pShadowMapSRView));
+
+}
+
+void Graphics::GenerateShadowMap() {
+    // Set the shadow mapping shader
+    SetShaders(SHADER_FILE_NAME_SHADOW_MAP);
+
+    // Clear pShadowMapDepthView
+    void* clear = 0;
+    pContext->PSSetShaderResources(1u, 1u, (ID3D11ShaderResourceView**)&clear);
+    pContext->ClearDepthStencilView(pShadowMapDepthView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+
+    // Fill pShadowMapDepthView
+    pContext->OMSetRenderTargets(1u, &renderTargetView, pShadowMapDepthView);
+
+    // Render the scene
+    for (GameObject* gameObject : Game::GetInstance()->GetGameObjects()) {
+        Shape* shape = gameObject->GetComponent<Shape>();
+        if (shape) {
+            shape->Update();
+        }
+    }
+
+    // Clear renderTargetView
+    ClearFrame();
+
+
+    // Set the rendering shader
+    SetShaders(SHADER_FILE_NAME_DEFAULT);
+
+    pContext->OMSetRenderTargets(1u, &renderTargetView, pDSView);
+    pContext->PSSetShaderResources(1u, 1u, &pShadowMapSRView);
 }

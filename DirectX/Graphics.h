@@ -40,6 +40,7 @@ public:
     void SetFarZ(float farZ);
     void BindLightingBuffer();
     void AddLight(Light* light);
+    void GenerateShadowMap();
 private:
     Graphics(HWND hWnd, float nearZ, float farZ);
     ~Graphics();
@@ -58,9 +59,15 @@ private:
     ID3D11Buffer* lightingBuffer;
     std::vector<Light::LightData*> lightDataVector;
 
+    // Shadow mapping
+    ID3D11Texture2D* pShadowMap;
+    ID3D11DepthStencilView* pShadowMapDepthView;
+    ID3D11ShaderResourceView* pShadowMapSRView;
+
     void InitD3D();
     void InitPipeline();
     void InitGraphics();
     void InitLightingBuffer();
+    void InitShadowMapResources();
 };
 #endif
