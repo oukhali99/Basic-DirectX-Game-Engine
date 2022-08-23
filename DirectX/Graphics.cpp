@@ -297,7 +297,7 @@ void Graphics::InitShadowMapResources() {
     texDesc.MipLevels = 1u;
     texDesc.ArraySize = 1u;
     texDesc.Format = DXGI_FORMAT_R32_TYPELESS;
-    texDesc.SampleDesc.Count = 4u;
+    texDesc.SampleDesc.Count = 1u;
     texDesc.SampleDesc.Quality = 0;
     texDesc.Usage = D3D11_USAGE_DEFAULT;
     texDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
@@ -308,22 +308,39 @@ void Graphics::InitShadowMapResources() {
     D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
     ZeroMemory(&descDSV, sizeof(descDSV));
     descDSV.Format = DXGI_FORMAT_D32_FLOAT;
-    descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
+    descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
     descDSV.Texture2D.MipSlice = 0;
 
     //create shader resource view desc
     D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
     ZeroMemory(&srvDesc, sizeof(srvDesc));
     srvDesc.Format = DXGI_FORMAT_R32_FLOAT;
-    srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
+    srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
     srvDesc.Texture2D.MipLevels = texDesc.MipLevels;
     srvDesc.Texture2D.MostDetailedMip = 0;
+
+    // Create the sampler
+    D3D11_SAMPLER_DESC samplerDesc;
+    ZeroMemory(&samplerDesc, sizeof(samplerDesc));
+    samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.MipLODBias = 0.0f;
+    samplerDesc.MaxAnisotropy = 1;
+    samplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+    samplerDesc.BorderColor[0] = 1.0f;
+    samplerDesc.BorderColor[1] = 1.0f;
+    samplerDesc.BorderColor[2] = 1.0f;
+    samplerDesc.BorderColor[3] = 1.0f;
+    samplerDesc.MinLOD = -FLT_MAX;
+    samplerDesc.MaxLOD = FLT_MAX;
 
     //create texture and depth/resource views
     GFX_THROW_INFO(pDevice->CreateTexture2D(&texDesc, NULL, &pShadowMap));
     GFX_THROW_INFO(pDevice->CreateDepthStencilView(pShadowMap, &descDSV, &pShadowMapDepthView));
     GFX_THROW_INFO(pDevice->CreateShaderResourceView(pShadowMap, &srvDesc, &pShadowMapSRView));
-
+    GFX_THROW_INFO(pDevice->CreateSamplerState(&samplerDesc, &pShadowMapSamplerState));
 }
 
 void Graphics::GenerateShadowMap() {
@@ -336,7 +353,7 @@ void Graphics::GenerateShadowMap() {
     pContext->ClearDepthStencilView(pShadowMapDepthView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
     // Fill pShadowMapDepthView
-    pContext->OMSetRenderTargets(1u, &renderTargetView, pShadowMapDepthView);
+    pContext->OMSetRenderTargets(0u, 0, pShadowMapDepthView);
 
     // Render the scene
     for (GameObject* gameObject : Game::GetInstance()->GetGameObjects()) {
@@ -355,4 +372,5 @@ void Graphics::GenerateShadowMap() {
 
     pContext->OMSetRenderTargets(1u, &renderTargetView, pDSView);
     pContext->PSSetShaderResources(1u, 1u, &pShadowMapSRView);
+    pContext->PSSetSamplers(1u, 1u, &pShadowMapSamplerState);
 }

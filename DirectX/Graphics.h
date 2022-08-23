@@ -63,6 +63,7 @@ private:
     ID3D11Texture2D* pShadowMap;
     ID3D11DepthStencilView* pShadowMapDepthView;
     ID3D11ShaderResourceView* pShadowMapSRView;
+    ID3D11SamplerState* pShadowMapSamplerState;
 
     void InitD3D();
     void InitPipeline();
