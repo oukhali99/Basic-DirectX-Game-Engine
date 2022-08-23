@@ -107,7 +107,7 @@ float4 PShader(VS_Out input, uint tid : SV_PrimitiveID) : SV_TARGET
     input.lpos.y = input.lpos.y / -2 + 0.5;
  
     //sample shadow map - point sampler
-    float shadowMapDepth = shadowMap.Sample(pointSampler, input.lpos.xy).r;
+    float shadowMapDepth = shadowMap.Sample(pointSampler, input.lpos.xy).r + 0.001f;
  
     //if clip space z value greater than shadow map value then pixel is in shadow
     if (shadowMapDepth < input.lpos.z)
