@@ -91,7 +91,6 @@ float4 PShader(VS_Out input, uint tid : SV_PrimitiveID) : SV_TARGET
     
     float4 beforeShadowMappingColor = float4(saturate(lightingSum * surfaceColor), 1);
     
-    
     //re-homogenize position after interpolation
     input.lpos.xyz /= input.lpos.w;
  
@@ -100,7 +99,7 @@ float4 PShader(VS_Out input, uint tid : SV_PrimitiveID) : SV_TARGET
     if (input.lpos.x < -1.0f || input.lpos.x > 1.0f ||
         input.lpos.y < -1.0f || input.lpos.y > 1.0f ||
         input.lpos.z < 0.0f || input.lpos.z > 1.0f)
-        return float4(0, 0, 0, 0);
+        return float4(0, 0, 0, 0) + beforeShadowMappingColor;
  
     //transform clip space coords to texture space coords (-1:1 to 0:1)
     input.lpos.x = input.lpos.x / 2 + 0.5;
@@ -111,10 +110,10 @@ float4 PShader(VS_Out input, uint tid : SV_PrimitiveID) : SV_TARGET
  
     //if clip space z value greater than shadow map value then pixel is in shadow
     if (shadowMapDepth < input.lpos.z)
-        return float4(0, 0, 0, 0);
+        return float4(0, 0, 0, 0) + beforeShadowMappingColor;
  
     //otherwise calculate ilumination at fragment
     float3 L = normalize(input.lpos.xyz - input.worldPosition.xyz);
     float ndotl = dot(normalize(input.normal), L);
-    return float4(1, 1, 1, 1) * ndotl;
+    return float4(1, 1, 1, 1) * 0.2f * ndotl + beforeShadowMappingColor;
 }
