@@ -1,0 +1,8 @@
+{
+  "name": "direct-x",
+  "version-string": "1.0",
+  "dependencies": [
+    "imgui",
+    "bullet3"
+  ]
+}

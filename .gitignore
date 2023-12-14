@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 
 DirectX/imgui.ini
+
+vcpkg_installed
