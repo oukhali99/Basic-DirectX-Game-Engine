@@ -62,7 +62,6 @@ int WINAPI WinMain(
             //Light* light = camera->GetComponent<Light>();
             //light->lightData.SetDiffuseIntensity(1);
             
-            /*
             camera->AddComponent<Script>();
             Script* script = camera->GetComponent<Script>();
             btScalar yaw = 0, pitch = 0;
@@ -156,17 +155,16 @@ int WINAPI WinMain(
                     translation *= translationMagnitude;
 
                     // Set speed cap
-                    if (rb->GetLinearVelocity().norm() < 4) {
+                    if (!translation.isZero() && rb->GetLinearVelocity().norm() < 4) {
                         rb->ApplyImpulse(translation);
                     }
 
                     // Friction
                     btVector3 friction = -0.3f * rb->GetLinearVelocity();
                     friction.setY(0);
-                    rb->ApplyImpulse(friction);
+                    //rb->ApplyImpulse(friction);
                 });
             }
-            */
         }
 
         // Ground

@@ -7,7 +7,13 @@
 TransformConstantBuffer::TransformConstantBuffer()
 	:
 	ConstantBuffer(GetBufferSize())
-{}
+{
+    this->data = new Data();
+}
+
+TransformConstantBuffer::~TransformConstantBuffer() {
+    delete this->data;
+}
 
 UINT TransformConstantBuffer::GetSlotNumber() {
 	return 0u;
@@ -46,12 +52,18 @@ const void* TransformConstantBuffer::GetBufferData(Shape* shape) {
     viewTransformation = dx::XMMatrixTranspose(viewTransformation);
     projectionTransformation = dx::XMMatrixTranspose(projectionTransformation);
 
+    /*
     Data data = {
         // Object transform
         worldTransformation,
         viewTransformation,
         projectionTransformation
     };
+    */
 
-    return &data;
+    data->worldTransformation = worldTransformation;
+    data->viewTransformation = viewTransformation;
+    data->projectionTransformation = projectionTransformation;
+
+    return data;
 }

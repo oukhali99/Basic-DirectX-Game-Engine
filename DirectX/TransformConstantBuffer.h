@@ -3,6 +3,7 @@
 class TransformConstantBuffer : public ConstantBuffer {
 public:
 	TransformConstantBuffer();
+	~TransformConstantBuffer();
 
 	struct Data {
 		dx::XMMATRIX worldTransformation;
@@ -13,4 +14,6 @@ protected:
 	UINT GetSlotNumber() override;
 	size_t GetBufferSize() override;
 	const void* GetBufferData(Shape* shape) override;
+
+	Data* data;
 };
