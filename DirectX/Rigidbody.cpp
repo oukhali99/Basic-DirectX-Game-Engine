@@ -1,5 +1,5 @@
 #include "Rigidbody.h"
-#include "btBulletDynamicsCommon.h"
+#include <bullet/btBulletDynamicsCommon.h>
 #include "Component.h"
 #include "GameObject.h"
 #include "Physics.h"
@@ -16,6 +16,7 @@ Rigidbody::Rigidbody(GameObject* gameObject)
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(gameObject->GetTransform());
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape, localInertia);
 	rigidbody = new btRigidBody(rbInfo);
+	rigidbody->setMotionState(myMotionState);
 	Physics::GetInstance()->AddRigidbody(rigidbody);
 }
 
@@ -54,6 +55,7 @@ void Rigidbody::SetMass(btScalar mass) {
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(gameObject->GetTransform());
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape, localInertia);
 	rigidbody = new btRigidBody(rbInfo);
+	rigidbody->setMotionState(myMotionState);
 	Physics::GetInstance()->AddRigidbody(rigidbody);
 }
 

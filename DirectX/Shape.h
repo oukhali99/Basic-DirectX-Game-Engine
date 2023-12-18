@@ -5,7 +5,7 @@
 #include "Main.h"
 #include "Mouse.h"
 #include "Bindable.h"
-#include "btBulletDynamicsCommon.h"
+#include <bullet/btBulletDynamicsCommon.h>
 #include "Component.h"
 
 class Graphics;

@@ -1,6 +1,6 @@
 #include "Main.h"
 #include "Bindable.h"
-#include "btBulletDynamicsCommon.h"
+#include <bullet/btBulletDynamicsCommon.h>
 #include "Graphics.h"
 
 class Shape;

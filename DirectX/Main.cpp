@@ -3,7 +3,7 @@
 #include "Clock.h"
 #include "Mouse.h"
 #include "Pyramid.h"
-#include "btBulletDynamicsCommon.h"
+#include <bullet/btBulletDynamicsCommon.h>
 #include "Window.h"
 #include "Physics.h"
 #include "GameObject.h"
@@ -62,6 +62,7 @@ int WINAPI WinMain(
             //Light* light = camera->GetComponent<Light>();
             //light->lightData.SetDiffuseIntensity(1);
             
+            /*
             camera->AddComponent<Script>();
             Script* script = camera->GetComponent<Script>();
             btScalar yaw = 0, pitch = 0;
@@ -165,6 +166,7 @@ int WINAPI WinMain(
                     rb->ApplyImpulse(friction);
                 });
             }
+            */
         }
 
         // Ground
@@ -183,6 +185,7 @@ int WINAPI WinMain(
             Texture* texture = new Texture("grass.jpg");
             shape->SetTexture(texture);
 
+            /*
             object->AddComponent<Rigidbody>();
             Rigidbody* rb = object->GetComponent<Rigidbody>();
             rb->SetMass(0);
@@ -212,6 +215,7 @@ int WINAPI WinMain(
                     //rb->ApplyImpulse(unitTorque * torqueMagnitude);
                 }
                 });
+            */
         }
 
         // Wedge

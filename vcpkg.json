@@ -2,7 +2,15 @@
   "name": "direct-x",
   "version-string": "1.0",
   "dependencies": [
-    "imgui",
-    "bullet3"
+    {
+      "name": "imgui",
+      "features": [ "win32-binding", "dx11-binding" ]
+    },
+    {
+      "name": "bullet3"
+    },
+    {
+      "name": "stb"
+    }
   ]
 }
