@@ -85,6 +85,12 @@
   <PropertyGroup Label="Vcpkg">
     <VcpkgEnableManifest>true</VcpkgEnableManifest>
   </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -121,12 +127,15 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>..\..\bullet3\src</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
+      <AdditionalDependencies>..\..\bullet3\bin\BulletExampleBrowserLib_vs2010_x64_debug.lib;..\..\bullet3\bin\gwen_vs2010_x64_debug.lib;..\..\bullet3\bin\OpenGL_Window_vs2010_x64_debug.lib;..\..\bullet3\bin\BulletSoftBody_vs2010_x64_debug.lib;..\..\bullet3\bin\BulletInverseDynamicsUtils_vs2010_x64_debug.lib;..\..\bullet3\bin\BulletInverseDynamics_vs2010_x64_debug.lib;..\..\bullet3\bin\BulletDynamics_vs2010_x64_debug.lib;..\..\bullet3\bin\BulletCollision_vs2010_x64_debug.lib;..\..\bullet3\bin\LinearMath_vs2010_x64_debug.lib;..\..\bullet3\bin\BussIK_vs2010_x64_debug.lib;..\..\bullet3\bin\Bullet3Common_vs2010_x64_debug.lib;..\..\bullet3\bin\Bullet3OpenCL_clew_vs2010_x64_debug.lib;..\..\bullet3\bin\Bullet3Dynamics_vs2010_x64_debug.lib;..\..\bullet3\bin\Bullet3Collision_vs2010_x64_debug.lib;..\..\bullet3\bin\Bullet3Geometry_vs2010_x64_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
@@ -147,6 +156,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

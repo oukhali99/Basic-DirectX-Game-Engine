@@ -1,5 +1,5 @@
 #include "IndexBuffer.h"
-#include <bullet/btBulletDynamicsCommon.h>
+#include <btBulletDynamicsCommon.h>
 #include "Graphics.h"
 #include "Shape.h"
 

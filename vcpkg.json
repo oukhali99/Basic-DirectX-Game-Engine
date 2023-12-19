@@ -7,9 +7,6 @@
       "features": [ "win32-binding", "dx11-binding" ]
     },
     {
-      "name": "bullet3"
-    },
-    {
       "name": "stb"
     }
   ]

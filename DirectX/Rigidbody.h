@@ -1,5 +1,5 @@
 #include "Component.h"
-#include <bullet/btBulletDynamicsCommon.h>
+#include <btBulletDynamicsCommon.h>
 
 class GameObject;
 

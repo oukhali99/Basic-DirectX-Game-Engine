@@ -3,7 +3,7 @@
 #include "Clock.h"
 #include "Mouse.h"
 #include "Pyramid.h"
-#include <bullet/btBulletDynamicsCommon.h>
+#include <btBulletDynamicsCommon.h>
 #include "Window.h"
 #include "Physics.h"
 #include "GameObject.h"
@@ -50,7 +50,7 @@ int WINAPI WinMain(
 
             btTransform transform;
             transform.setIdentity();
-            transform.setOrigin(btVector3(0, 0.5f, 0));
+            transform.setOrigin(btVector3(0, 2, 0));
 
             GameObject* camera = new GameObject(transform, size);
 
@@ -88,13 +88,17 @@ int WINAPI WinMain(
 
             // Player body
             {
-                btVector3 size(0.8f, 1, 0.8f);
+                btVector3 size(1, 1, 1);
 
                 btTransform transform;
                 transform.setIdentity();
                 transform.setOrigin(btVector3(0, 0, 0));
 
                 GameObject* player = new GameObject(transform, size);
+
+                player->AddComponent<Cube>();
+                Cube* cube = player->GetComponent<Cube>();
+                cube->SetFaceColors(faceColors);
 
                 player->AddComponent<Rigidbody>();
                 Rigidbody* rb = player->GetComponent<Rigidbody>();
@@ -162,7 +166,7 @@ int WINAPI WinMain(
                     // Friction
                     btVector3 friction = -0.3f * rb->GetLinearVelocity();
                     friction.setY(0);
-                    //rb->ApplyImpulse(friction);
+                    rb->ApplyImpulse(friction);
                 });
             }
         }
@@ -182,6 +186,11 @@ int WINAPI WinMain(
 
             Texture* texture = new Texture("grass.jpg");
             shape->SetTexture(texture);
+
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(0);
+            rb->SetIsKinematic(true);
 
             /*
             object->AddComponent<Rigidbody>();

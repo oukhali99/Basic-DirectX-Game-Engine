@@ -1,6 +1,6 @@
 #ifndef H_PHYSICS
 #define H_PHYSICS
-#include <bullet/btBulletDynamicsCommon.h>
+#include <btBulletDynamicsCommon.h>
 
 class Physics {
 public:

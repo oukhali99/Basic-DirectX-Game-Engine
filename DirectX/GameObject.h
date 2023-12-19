@@ -3,7 +3,7 @@
 #include <vector>
 #include <type_traits>
 #include "Shape.h"
-#include <bullet/btBulletDynamicsCommon.h>
+#include <btBulletDynamicsCommon.h>
 
 class Component;
 class Script;

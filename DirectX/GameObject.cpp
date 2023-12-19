@@ -1,6 +1,6 @@
 #include "GameObject.h"
 #include "Game.h"
-#include <bullet/btBulletDynamicsCommon.h>
+#include <btBulletDynamicsCommon.h>
 #include "Component.h"
 #include "Rigidbody.h"
 #include "Script.h"
