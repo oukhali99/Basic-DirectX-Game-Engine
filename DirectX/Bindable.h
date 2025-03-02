@@ -1,7 +1,7 @@
 #ifndef H_BINDABLE
 #define H_BINDABLE
 #include "Main.h"
-#include "btBulletDynamicsCommon.h"
+#include "bullet/btBulletDynamicsCommon.h"
 
 class Graphics;
 class Shape;

@@ -2,7 +2,7 @@
 //
 
 #include <iostream>
-#include "btBulletDynamicsCommon.h"
+#include "bullet/btBulletDynamicsCommon.h"
 
 int main()
 {

@@ -7,7 +7,7 @@ Texture::Texture(string texturePath)
 	image(0),
     texturePath(texturePath)
 {
-    if (textureCache.contains(texturePath)) {
+    if (textureCache[texturePath]) {
         image = textureCache[texturePath];
     }
     else {

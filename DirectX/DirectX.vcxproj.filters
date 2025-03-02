@@ -37,17 +37,20 @@
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{5ca9538e-67e1-41a2-b9ea-be5edd34f818}</UniqueIdentifier>
     </Filter>
-    <Filter Include="imgui">
-      <UniqueIdentifier>{2e639504-71e3-4e2a-8bc8-cb34dbf7e92d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="imgui\backends">
-      <UniqueIdentifier>{3b79026a-a4fe-4de5-bf3f-69077f213482}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Bindable\ConstantBuffer">
       <UniqueIdentifier>{a91a4e1f-c8c7-4e79-8b64-2e6dd833bd31}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Bindable\ConstantBuffer">
       <UniqueIdentifier>{7235b46c-1917-4273-8bff-ff1388a07dff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libraries">
+      <UniqueIdentifier>{85cb6c07-0d42-44a5-9754-8c29e2c0f743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libraries\imgui">
+      <UniqueIdentifier>{8c84252f-fc2c-46af-98b3-da0f0a8bf09c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libraries\imgui\backends">
+      <UniqueIdentifier>{6464bc7d-9c8a-46fc-9ab7-e3b30c09b674}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -117,27 +120,6 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\imgui\imgui_tables.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\imgui\imgui_widgets.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\imgui\imgui.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\imgui\imgui_demo.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\imgui\imgui_draw.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\imgui\backends\imgui_impl_win32.cpp">
-      <Filter>imgui\backends</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\imgui\backends\imgui_impl_dx11.cpp">
-      <Filter>imgui\backends</Filter>
-    </ClCompile>
     <ClCompile Include="Gui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -161,6 +143,27 @@
     </ClCompile>
     <ClCompile Include="ColorConstantBuffer.cpp">
       <Filter>Source Files\Bindable\ConstantBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libraries\imgui\imgui_draw.cpp">
+      <Filter>libraries\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libraries\imgui\imgui_tables.cpp">
+      <Filter>libraries\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libraries\imgui\imgui_widgets.cpp">
+      <Filter>libraries\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libraries\imgui\imgui.cpp">
+      <Filter>libraries\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libraries\imgui\imgui_demo.cpp">
+      <Filter>libraries\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libraries\imgui\backends\imgui_impl_win32.cpp">
+      <Filter>libraries\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libraries\imgui\backends\imgui_impl_dx11.cpp">
+      <Filter>libraries\imgui\backends</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,27 +233,6 @@
     <ClInclude Include="Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\imgui\imstb_rectpack.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\imgui\imstb_textedit.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\imgui\imstb_truetype.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\imgui\imgui.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\imgui\imgui_internal.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\imgui\backends\imgui_impl_dx11.h">
-      <Filter>imgui\backends</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\imgui\backends\imgui_impl_win32.h">
-      <Filter>imgui\backends</Filter>
-    </ClInclude>
     <ClInclude Include="Gui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -275,6 +257,24 @@
     <ClInclude Include="ColorConstantBuffer.h">
       <Filter>Header Files\Bindable\ConstantBuffer</Filter>
     </ClInclude>
+    <ClInclude Include="..\libraries\imgui\imgui_internal.h">
+      <Filter>libraries\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libraries\imgui\imstb_rectpack.h">
+      <Filter>libraries\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libraries\imgui\imstb_textedit.h">
+      <Filter>libraries\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libraries\imgui\imgui.h">
+      <Filter>libraries\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libraries\imgui\backends\imgui_impl_dx11.h">
+      <Filter>libraries\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libraries\imgui\backends\imgui_impl_win32.h">
+      <Filter>libraries\imgui\backends</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="TextureShaders.hlsl">
@@ -297,5 +297,8 @@
     <Image Include="grass.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="vcpkg.json" />
   </ItemGroup>
 </Project>

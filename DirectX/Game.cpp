@@ -1,5 +1,6 @@
+#include <bullet/btBulletDynamicsCommon.h>
+
 #include "Game.h"
-#include "btBulletDynamicsCommon.h"
 #include "Clock.h"
 #include "imgui.h"
 #include "imgui_impl_win32.h"

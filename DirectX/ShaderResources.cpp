@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include "Graphics.h"
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
-#include "stb_image_resize.h"
+#include "stb_image_resize2.h"
 
 ShaderResources::ShaderResources(int width, int height)
     :
@@ -74,6 +74,7 @@ void ShaderResources::Bind(Shape* shape) {
     if (texture && texture->image->data) {
         if (texture->image->width != width || texture->image->height != height) {
             unsigned char* resizedImageData = (unsigned char*)malloc(width * height * texture->image->channelCount);
+            /*
             stbir_resize_uint8(
                 texture->image->data,
                 texture->image->width,
@@ -85,6 +86,7 @@ void ShaderResources::Bind(Shape* shape) {
                 0,
                 texture->image->channelCount
             );
+            */
 
             free(texture->image->data);
 

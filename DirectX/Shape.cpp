@@ -1,6 +1,6 @@
 #include "Shape.h"
 #include "Graphics.h"
-#include "btBulletDynamicsCommon.h"
+#include "bullet/btBulletDynamicsCommon.h"
 #include "Component.h"
 #include "GameObject.h"
 #include "Texture.h"

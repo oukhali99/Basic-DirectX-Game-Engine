@@ -3,7 +3,7 @@
 #include "Clock.h"
 #include "Mouse.h"
 #include "Pyramid.h"
-#include "btBulletDynamicsCommon.h"
+#include "bullet/btBulletDynamicsCommon.h"
 #include "Window.h"
 #include "Physics.h"
 #include "GameObject.h"

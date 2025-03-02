@@ -1,5 +1,5 @@
 #include "Cube.h"
-#include "btBulletDynamicsCommon.h"
+#include "bullet/btBulletDynamicsCommon.h"
 #include "ShaderResources.h"
 #include "TransformConstantBuffer.h"
 #include "GameObject.h"

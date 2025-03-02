@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include "btBulletDynamicsCommon.h"
+#include "bullet/btBulletDynamicsCommon.h"
 #include "GameObject.h"
 
 Camera::Camera(GameObject* gameObject)
