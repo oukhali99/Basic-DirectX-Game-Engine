@@ -28,7 +28,7 @@ dx::XMMATRIX Camera::GetMatrix() {
 		dx::XMMatrixRotationQuaternion(cameraRotation)
 	);
 
-	return dx::XMMatrixLookAtLH(cameraPosition, cameraPosition + lookVector, XMVectorSet(0, 1, 0, 0));
+	return dx::XMMatrixLookAtLH(cameraPosition, dx::XMVectorAdd(cameraPosition, lookVector), XMVectorSet(0, 1, 0, 0));
 }
 
 void Camera::Update() {}
