@@ -114,7 +114,7 @@ int WINAPI WinMain(
 
                     // Translation
                     btVector3 translation(0, 0, 0);
-                    btScalar translationMagnitude = 10000 * deltaTime;
+                    btScalar translationMagnitude = 1000 * deltaTime;
 
                     for (char key : *Keyboard::GetInstance()->GetPressedKeys()) {
                         switch (key) {
@@ -213,6 +213,29 @@ int WINAPI WinMain(
                 }
                 });
         }
+
+        // Ceiling
+        {
+            btVector3 size(10, 1, 10);
+
+            btTransform transform;
+            transform.setIdentity();
+            transform.setOrigin(btVector3(0, 4, 0));
+
+            GameObject* object = new GameObject(transform, size);
+
+            object->AddComponent<Cube>();
+            Shape* shape = object->GetComponent<Shape>();
+
+            Texture* texture = new Texture("brick.jpg");
+            shape->SetTexture(texture);
+
+            object->AddComponent<Rigidbody>();
+            Rigidbody* rb = object->GetComponent<Rigidbody>();
+            rb->SetMass(0);
+            rb->SetIsKinematic(true);
+        }
+
 
         // Wedge
         {
