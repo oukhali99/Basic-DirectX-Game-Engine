@@ -11,3 +11,4 @@ to pull the libraries
 Then, open and run the solution.
 
 ## Demo
+![alt text](https://github.com/oukhali99/Basic-DirectX-Game-Engine/blob/master/Basic-DirectX-Demo.gif?raw=true)
